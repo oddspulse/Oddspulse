@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import Link from 'next/link';
+import Navigation from '@/components/Navigation';
 import OperatorCard from '@/components/OperatorCard';
 import FilterBar from '@/components/FilterBar';
 import { Operator } from '@/lib/types';
@@ -70,37 +70,11 @@ export default function HomePage() {
   return (
     <div className="min-h-screen bg-gradient-casino">
       {/* Header */}
-      <header className="sticky top-0 z-50 bg-casinoBlack/95 backdrop-blur-sm border-b-2 border-casinoGold/20 shadow-2xl">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
-            <div className="text-center sm:text-left">
-              <div className="flex items-center gap-3 justify-center sm:justify-start">
-                <span className="text-4xl">🎰</span>
-                <h1 className="text-3xl md:text-5xl font-heading font-bold bg-gradient-to-r from-casinoGold via-yellow-300 to-casinoGold bg-clip-text text-transparent animate-glow-gold">
-                  BetRadar Hub
-                </h1>
-              </div>
-              <p className="text-textSecondary mt-2 font-body">
-                Premium Sportsbook & Casino Comparison
-              </p>
-            </div>
-            <div className="flex gap-3">
-              <Link
-                href="/rtp-slots"
-                className="bg-gradient-casino-reverse border-2 border-casinoGreen/40 text-casinoGreen px-6 py-3 rounded-lg font-heading font-semibold hover:bg-casinoGreen hover:text-white hover:shadow-glow-green transition-all duration-300 uppercase tracking-wide text-sm"
-              >
-                🎰 RTP Slots
-              </Link>
-              <Link
-                href="/admin"
-                className="bg-gradient-casino-reverse border-2 border-casinoGold/40 text-casinoGold px-6 py-3 rounded-lg font-heading font-semibold hover:bg-casinoGold hover:text-casinoBlack hover:shadow-glow-gold transition-all duration-300 uppercase tracking-wide text-sm"
-              >
-                ⚙️ Admin
-              </Link>
-            </div>
-          </div>
-        </div>
-      </header>
+      <Navigation
+        title="BetRadar Hub"
+        subtitle="Premium Sportsbook & Casino Comparison"
+        emoji="🎰"
+      />
 
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">

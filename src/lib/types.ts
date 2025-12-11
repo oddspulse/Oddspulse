@@ -53,3 +53,56 @@ export type ProviderInfo = {
   color: string; // Badge color
   logoUrl?: string;
 };
+
+// Live Odds Types
+
+export type BookmakerMapping = {
+  operatorId: string; // internal operator ID (e.g., "fanduel")
+  apiBookmakerKey: string; // bookmaker key from odds API (e.g., "fanduel")
+  displayName: string;
+};
+
+export type MarketType = "moneyline" | "spread" | "total";
+
+export type MarketOutcome = {
+  label: string; // "Home", "Away", "Over 225.5", etc.
+  operatorId: string;
+  operatorName: string;
+  odds: number; // American odds (e.g., -110, +150)
+  price?: number; // Decimal odds (e.g., 1.91, 2.50)
+  point?: number; // Spread point or total (e.g., -3.5, 225.5)
+  affiliateUrl: string;
+};
+
+export type LiveMarket = {
+  type: MarketType;
+  outcomes: MarketOutcome[];
+};
+
+export type LiveEvent = {
+  id: string;
+  sport: string;
+  sportKey: string;
+  league: string;
+  homeTeam: string;
+  awayTeam: string;
+  startTime: string;  // ISO
+  isLive: boolean;
+  markets: LiveMarket[];
+};
+
+export type Sport = {
+  key: string;
+  group: string;
+  title: string;
+  description: string;
+  active: boolean;
+  hasOutrights: boolean;
+};
+
+export type OddsFilters = {
+  sport: string;
+  market: MarketType;
+  region?: string;
+  oddsFormat?: 'american' | 'decimal';
+};

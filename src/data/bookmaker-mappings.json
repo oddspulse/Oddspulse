@@ -1,0 +1,67 @@
+[
+  {
+    "operatorId": "fanduel",
+    "apiBookmakerKey": "fanduel",
+    "displayName": "FanDuel"
+  },
+  {
+    "operatorId": "draftkings",
+    "apiBookmakerKey": "draftkings",
+    "displayName": "DraftKings"
+  },
+  {
+    "operatorId": "betmgm",
+    "apiBookmakerKey": "betmgm",
+    "displayName": "BetMGM"
+  },
+  {
+    "operatorId": "caesars",
+    "apiBookmakerKey": "williamhill_us",
+    "displayName": "Caesars"
+  },
+  {
+    "operatorId": "bet365",
+    "apiBookmakerKey": "bet365",
+    "displayName": "bet365"
+  },
+  {
+    "operatorId": "fanatics",
+    "apiBookmakerKey": "fanatics",
+    "displayName": "Fanatics"
+  },
+  {
+    "operatorId": "pointsbet",
+    "apiBookmakerKey": "pointsbetus",
+    "displayName": "PointsBet"
+  },
+  {
+    "operatorId": "unibet",
+    "apiBookmakerKey": "unibet_us",
+    "displayName": "Unibet"
+  },
+  {
+    "operatorId": "betway",
+    "apiBookmakerKey": "betway",
+    "displayName": "Betway"
+  },
+  {
+    "operatorId": "888sport",
+    "apiBookmakerKey": "888sport",
+    "displayName": "888sport"
+  },
+  {
+    "operatorId": "betfair",
+    "apiBookmakerKey": "betfair_ex_us",
+    "displayName": "Betfair"
+  },
+  {
+    "operatorId": "betrivers",
+    "apiBookmakerKey": "betrivers",
+    "displayName": "BetRivers"
+  },
+  {
+    "operatorId": "wynnbet",
+    "apiBookmakerKey": "wynnbet",
+    "displayName": "WynnBET"
+  }
+]

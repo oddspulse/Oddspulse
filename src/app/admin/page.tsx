@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import Link from 'next/link';
+import Navigation from '@/components/Navigation';
 import { Operator } from '@/lib/types';
 
 export default function AdminPage() {
@@ -99,25 +99,11 @@ export default function AdminPage() {
   return (
     <div className="min-h-screen bg-gradient-casino">
       {/* Header */}
-      <header className="sticky top-0 z-50 bg-casinoBlack/95 backdrop-blur-sm border-b-2 border-casinoGold/20 shadow-2xl">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <div className="flex justify-between items-center">
-            <div>
-              <div className="flex items-center gap-2">
-                <span className="text-3xl">⚙️</span>
-                <h1 className="text-3xl font-heading font-bold text-casinoGold">Admin Panel</h1>
-              </div>
-              <p className="text-textSecondary mt-2">Manage operators and offers</p>
-            </div>
-            <Link
-              href="/"
-              className="bg-gradient-casino-reverse border-2 border-casinoGreen/40 text-casinoGreen px-6 py-3 rounded-lg font-heading font-semibold hover:bg-casinoGreen hover:text-white hover:shadow-glow-green transition-all duration-300 uppercase tracking-wide text-sm"
-            >
-              ← Back to Site
-            </Link>
-          </div>
-        </div>
-      </header>
+      <Navigation
+        title="Admin Panel"
+        subtitle="Manage operators and offers"
+        emoji="⚙️"
+      />
 
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
