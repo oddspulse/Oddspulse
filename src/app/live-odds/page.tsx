@@ -8,35 +8,71 @@ import { LiveEvent, MarketType } from '@/lib/types';
 import { SPORT_KEYS } from '@/lib/oddsService';
 import { format } from 'date-fns';
 
+interface RateLimitedOddsResponse {
+  events: LiveEvent[];
+  fromCache: boolean;
+  cacheAge?: number;
+  quotaInfo: {
+    callCount: number;
+    limit: number;
+    remaining: number;
+    percentUsed: number;
+    isNearLimit: boolean;
+  };
+  refreshInfo: {
+    canRefreshNow: boolean;
+    timeUntilRefresh?: string;
+    lastFetchTime?: number;
+  };
+  warning?: string;
+}
+
 export default function LiveOddsPage() {
   const [events, setEvents] = useState<LiveEvent[]>([]);
   const [loading, setLoading] = useState(true);
+  const [refreshing, setRefreshing] = useState(false);
   const [selectedSport, setSelectedSport] = useState(SPORT_KEYS.NFL);
   const [selectedMarket, setSelectedMarket] = useState<MarketType>('moneyline');
   const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [quotaInfo, setQuotaInfo] = useState<RateLimitedOddsResponse['quotaInfo'] | null>(null);
+  const [refreshInfo, setRefreshInfo] = useState<RateLimitedOddsResponse['refreshInfo'] | null>(null);
+  const [fromCache, setFromCache] = useState(false);
+  const [cacheAge, setCacheAge] = useState<number | undefined>();
+  const [warning, setWarning] = useState<string | undefined>();
 
   // Fetch odds data
-  const fetchOdds = async () => {
+  const fetchOdds = async (forceRefresh = false) => {
     try {
       setError(null);
+      if (forceRefresh) {
+        setRefreshing(true);
+      }
+
       const response = await fetch(
-        `/api/odds/${selectedSport}?markets=${selectedMarket}`
+        `/api/odds/${selectedSport}?markets=${selectedMarket}&forceRefresh=${forceRefresh}`
       );
 
       if (!response.ok) {
-        throw new Error('Failed to fetch odds');
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Failed to fetch odds');
       }
 
-      const data = await response.json();
-      setEvents(data);
+      const data: RateLimitedOddsResponse = await response.json();
+
+      setEvents(data.events);
+      setQuotaInfo(data.quotaInfo);
+      setRefreshInfo(data.refreshInfo);
+      setFromCache(data.fromCache);
+      setCacheAge(data.cacheAge);
+      setWarning(data.warning);
       setLastUpdated(new Date());
-    } catch (err) {
+    } catch (err: any) {
       console.error('Error fetching odds:', err);
-      setError('Failed to load odds. Please check your API key configuration.');
-      setEvents([]);
+      setError(err.message || 'Failed to load odds');
     } finally {
       setLoading(false);
+      setRefreshing(false);
     }
   };
 
@@ -44,15 +80,6 @@ export default function LiveOddsPage() {
   useEffect(() => {
     setLoading(true);
     fetchOdds();
-  }, [selectedSport, selectedMarket]);
-
-  // Polling - refresh every 30 seconds
-  useEffect(() => {
-    const interval = setInterval(() => {
-      fetchOdds();
-    }, 30000); // 30 seconds
-
-    return () => clearInterval(interval);
   }, [selectedSport, selectedMarket]);
 
   // Stats
@@ -64,12 +91,24 @@ export default function LiveOddsPage() {
     )
   ).size;
 
+  // Format cache age
+  const getCacheAgeString = () => {
+    if (!cacheAge) return null;
+    const minutes = Math.floor(cacheAge / (60 * 1000));
+    if (minutes < 1) return 'Less than 1 minute ago';
+    if (minutes === 1) return '1 minute ago';
+    if (minutes < 60) return `${minutes} minutes ago`;
+    const hours = Math.floor(minutes / 60);
+    const mins = minutes % 60;
+    return `${hours}h ${mins}m ago`;
+  };
+
   return (
     <div className="min-h-screen bg-gradient-casino">
       {/* Header */}
       <Navigation
         title="Live Odds Comparison"
-        subtitle="Real-time odds from top sportsbooks • Updates every 30 seconds"
+        subtitle="Smart quota management • 90-minute refresh intervals"
         emoji="📊"
       />
 
@@ -82,6 +121,89 @@ export default function LiveOddsPage() {
           onSportChange={setSelectedSport}
           onMarketChange={setSelectedMarket}
         />
+
+        {/* Quota and Refresh Info Banner */}
+        {quotaInfo && (
+          <div className="bg-gradient-casino-reverse rounded-xl shadow-card-dark p-6 border border-casinoGold/20 my-6">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              {/* API Quota */}
+              <div className={`p-4 rounded-lg border-2 ${
+                quotaInfo.isNearLimit
+                  ? 'bg-casinoRed/10 border-casinoRed'
+                  : 'bg-casinoGreen/10 border-casinoGreen'
+              }`}>
+                <div className="text-xs uppercase tracking-wide mb-2 font-semibold" style={{
+                  color: quotaInfo.isNearLimit ? '#FF314A' : '#0DB15D'
+                }}>
+                  📊 Monthly Quota
+                </div>
+                <div className="text-2xl font-heading font-bold" style={{
+                  color: quotaInfo.isNearLimit ? '#FF314A' : '#0DB15D'
+                }}>
+                  {quotaInfo.remaining}/{quotaInfo.limit}
+                </div>
+                <div className="text-xs text-textSecondary mt-1">
+                  {quotaInfo.percentUsed.toFixed(1)}% used
+                </div>
+                {quotaInfo.isNearLimit && (
+                  <div className="text-xs text-casinoRed mt-2 font-semibold">
+                    ⚠️ Approaching limit!
+                  </div>
+                )}
+              </div>
+
+              {/* Cache Status */}
+              <div className="p-4 rounded-lg border-2 bg-casinoBlue/10 border-casinoBlue">
+                <div className="text-xs text-casinoBlue uppercase tracking-wide mb-2 font-semibold">
+                  💾 Data Source
+                </div>
+                <div className="text-2xl font-heading font-bold text-casinoBlue">
+                  {fromCache ? 'Cached' : 'Fresh'}
+                </div>
+                {fromCache && cacheAge && (
+                  <div className="text-xs text-textSecondary mt-1">
+                    {getCacheAgeString()}
+                  </div>
+                )}
+              </div>
+
+              {/* Refresh Status */}
+              <div className="p-4 rounded-lg border-2 bg-casinoGold/10 border-casinoGold">
+                <div className="text-xs text-casinoGold uppercase tracking-wide mb-2 font-semibold">
+                  🔄 Next Refresh
+                </div>
+                <div className="text-lg font-heading font-bold text-casinoGold">
+                  {refreshInfo?.canRefreshNow ? 'Available' : refreshInfo?.timeUntilRefresh || 'Unknown'}
+                </div>
+                <div className="mt-3">
+                  <button
+                    onClick={() => fetchOdds(true)}
+                    disabled={refreshing || !refreshInfo?.canRefreshNow}
+                    className={`w-full px-4 py-2 rounded-lg font-heading font-semibold text-sm uppercase tracking-wide transition-all duration-200 ${
+                      refreshInfo?.canRefreshNow && !refreshing
+                        ? 'bg-casinoGold text-casinoBlack hover:shadow-glow-gold cursor-pointer'
+                        : 'bg-casinoBlack3 text-textSecondary cursor-not-allowed opacity-50'
+                    }`}
+                  >
+                    {refreshing ? '⏳ Refreshing...' : refreshInfo?.canRefreshNow ? '🔄 Refresh Now' : '⏰ Cooldown'}
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            {/* Warning Banner */}
+            {warning && (
+              <div className="mt-4 p-4 bg-casinoRed/10 border-2 border-casinoRed rounded-lg">
+                <div className="flex items-start gap-2">
+                  <span className="text-casinoRed text-lg">⚠️</span>
+                  <p className="text-casinoRed text-sm font-semibold flex-1">
+                    {warning}
+                  </p>
+                </div>
+              </div>
+            )}
+          </div>
+        )}
 
         {/* Stats Bar */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4 my-6">
@@ -111,7 +233,7 @@ export default function LiveOddsPage() {
           </div>
           <div className="bg-gradient-casino-reverse border border-casinoGold/20 rounded-lg p-4">
             <div className="text-xs text-textSecondary uppercase tracking-wide mb-1">
-              🔄 Last Updated
+              🕐 Last Updated
             </div>
             <div className="text-lg font-heading font-bold text-casinoGold">
               {lastUpdated ? format(lastUpdated, 'h:mm:ss a') : '—'}
@@ -129,18 +251,6 @@ export default function LiveOddsPage() {
                   Error Loading Odds
                 </h3>
                 <p className="text-textSecondary mb-3">{error}</p>
-                <p className="text-textSecondary text-sm">
-                  Make sure you've set <code className="bg-casinoBlack px-2 py-1 rounded text-casinoGold">ODDS_API_KEY</code> in your .env.local file.
-                  Get a free API key at{' '}
-                  <a
-                    href="https://the-odds-api.com/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-casinoGold hover:text-yellow-300 underline"
-                  >
-                    the-odds-api.com
-                  </a>
-                </p>
               </div>
             </div>
           </div>
@@ -168,14 +278,14 @@ export default function LiveOddsPage() {
       <footer className="bg-casinoBlack border-t-2 border-casinoGold/20 mt-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="text-center space-y-4">
-            <div className="flex items-center justify-center gap-2 text-casinoRed">
-              <span className="text-xl">⚠️</span>
+            <div className="flex items-center justify-center gap-2 text-casinoGold">
+              <span className="text-xl">💡</span>
               <p className="text-sm font-semibold uppercase tracking-wide">
-                Odds are for informational purposes only
+                Smart Quota Management: Data refreshes every 90 minutes
               </p>
             </div>
             <p className="text-textSecondary text-sm">
-              Always gamble responsibly. 18+ only.
+              Odds are for informational purposes only. Always gamble responsibly. 18+ only.
             </p>
             <div className="w-24 h-0.5 bg-gradient-to-r from-transparent via-casinoGold to-transparent mx-auto"></div>
             <p className="text-textSecondary text-xs">

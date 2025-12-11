@@ -8,6 +8,25 @@ import { SPORT_KEYS } from '@/lib/oddsService';
 import { findArbitrageOpportunities } from '@/lib/arbitrageService';
 import { format } from 'date-fns';
 
+interface RateLimitedOddsResponse {
+  events: LiveEvent[];
+  fromCache: boolean;
+  cacheAge?: number;
+  quotaInfo: {
+    callCount: number;
+    limit: number;
+    remaining: number;
+    percentUsed: number;
+    isNearLimit: boolean;
+  };
+  refreshInfo: {
+    canRefreshNow: boolean;
+    timeUntilRefresh?: string;
+    lastFetchTime?: number;
+  };
+  warning?: string;
+}
+
 export default function ArbitragePage() {
   const [events, setEvents] = useState<LiveEvent[]>([]);
   const [opportunities, setOpportunities] = useState<ArbitrageOpportunity[]>([]);
@@ -19,15 +38,22 @@ export default function ArbitragePage() {
   const [lastScanned, setLastScanned] = useState<Date | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [scanning, setScanning] = useState(false);
+  const [quotaInfo, setQuotaInfo] = useState<RateLimitedOddsResponse['quotaInfo'] | null>(null);
+  const [refreshInfo, setRefreshInfo] = useState<RateLimitedOddsResponse['refreshInfo'] | null>(null);
+  const [fromCache, setFromCache] = useState(false);
+  const [cacheAge, setCacheAge] = useState<number | undefined>();
+  const [warning, setWarning] = useState<string | undefined>();
 
   // Fetch odds and scan for arbitrage
-  const scanForArbitrage = async () => {
-    setScanning(true);
-    setError(null);
-
+  const scanForArbitrage = async (forceRefresh = false) => {
     try {
+      setError(null);
+      if (forceRefresh) {
+        setScanning(true);
+      }
+
       const response = await fetch(
-        `/api/odds/${selectedSport}?markets=${selectedMarket}`
+        `/api/odds/${selectedSport}?markets=${selectedMarket}&forceRefresh=${forceRefresh}`
       );
 
       if (!response.ok) {
@@ -35,11 +61,17 @@ export default function ArbitragePage() {
         throw new Error(errorData.message || 'Failed to fetch odds');
       }
 
-      const data: LiveEvent[] = await response.json();
-      setEvents(data);
+      const data: RateLimitedOddsResponse = await response.json();
+
+      setEvents(data.events);
+      setQuotaInfo(data.quotaInfo);
+      setRefreshInfo(data.refreshInfo);
+      setFromCache(data.fromCache);
+      setCacheAge(data.cacheAge);
+      setWarning(data.warning);
 
       // Find arbitrage opportunities
-      const opps = findArbitrageOpportunities(data, minProfit, totalStake);
+      const opps = findArbitrageOpportunities(data.events, minProfit, totalStake);
       setOpportunities(opps);
       setLastScanned(new Date());
     } catch (err: any) {
@@ -53,24 +85,28 @@ export default function ArbitragePage() {
 
   // Initial scan
   useEffect(() => {
+    setLoading(true);
     scanForArbitrage();
   }, [selectedSport, selectedMarket]);
 
-  // Auto-refresh every 60 seconds
-  useEffect(() => {
-    const interval = setInterval(() => {
-      scanForArbitrage();
-    }, 60000); // 60 seconds
-
-    return () => clearInterval(interval);
-  }, [selectedSport, selectedMarket, minProfit, totalStake]);
+  // Format cache age
+  const getCacheAgeString = () => {
+    if (!cacheAge) return null;
+    const minutes = Math.floor(cacheAge / (60 * 1000));
+    if (minutes < 1) return 'Less than 1 minute ago';
+    if (minutes === 1) return '1 minute ago';
+    if (minutes < 60) return `${minutes} minutes ago`;
+    const hours = Math.floor(minutes / 60);
+    const mins = minutes % 60;
+    return `${hours}h ${mins}m ago`;
+  };
 
   return (
     <div className="min-h-screen bg-gradient-casino">
       {/* Header */}
       <Navigation
         title="Arbitrage Scanner"
-        subtitle="Find guaranteed profit opportunities across sportsbooks"
+        subtitle="Smart quota management • 90-minute refresh intervals"
         emoji="💰"
       />
 
@@ -83,6 +119,76 @@ export default function ArbitragePage() {
           onSportChange={setSelectedSport}
           onMarketChange={setSelectedMarket}
         />
+
+        {/* Quota and Refresh Info Banner */}
+        {quotaInfo && (
+          <div className="bg-gradient-casino-reverse rounded-xl shadow-card-dark p-6 border border-casinoGold/20 my-6">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              {/* API Quota */}
+              <div className={`p-4 rounded-lg border-2 ${
+                quotaInfo.isNearLimit
+                  ? 'bg-casinoRed/10 border-casinoRed'
+                  : 'bg-casinoGreen/10 border-casinoGreen'
+              }`}>
+                <div className="text-xs uppercase tracking-wide mb-2 font-semibold" style={{
+                  color: quotaInfo.isNearLimit ? '#FF314A' : '#0DB15D'
+                }}>
+                  📊 Monthly Quota
+                </div>
+                <div className="text-2xl font-heading font-bold" style={{
+                  color: quotaInfo.isNearLimit ? '#FF314A' : '#0DB15D'
+                }}>
+                  {quotaInfo.remaining}/{quotaInfo.limit}
+                </div>
+                <div className="text-xs text-textSecondary mt-1">
+                  {quotaInfo.percentUsed.toFixed(1)}% used
+                </div>
+                {quotaInfo.isNearLimit && (
+                  <div className="text-xs text-casinoRed mt-2 font-semibold">
+                    ⚠️ Approaching limit!
+                  </div>
+                )}
+              </div>
+
+              {/* Cache Status */}
+              <div className="p-4 rounded-lg border-2 bg-casinoBlue/10 border-casinoBlue">
+                <div className="text-xs text-casinoBlue uppercase tracking-wide mb-2 font-semibold">
+                  💾 Data Source
+                </div>
+                <div className="text-2xl font-heading font-bold text-casinoBlue">
+                  {fromCache ? 'Cached' : 'Fresh'}
+                </div>
+                {fromCache && cacheAge && (
+                  <div className="text-xs text-textSecondary mt-1">
+                    {getCacheAgeString()}
+                  </div>
+                )}
+              </div>
+
+              {/* Refresh Status */}
+              <div className="p-4 rounded-lg border-2 bg-casinoGold/10 border-casinoGold">
+                <div className="text-xs text-casinoGold uppercase tracking-wide mb-2 font-semibold">
+                  🔄 Next Refresh
+                </div>
+                <div className="text-lg font-heading font-bold text-casinoGold">
+                  {refreshInfo?.canRefreshNow ? 'Available' : refreshInfo?.timeUntilRefresh || 'Unknown'}
+                </div>
+              </div>
+            </div>
+
+            {/* Warning Banner */}
+            {warning && (
+              <div className="mt-4 p-4 bg-casinoRed/10 border-2 border-casinoRed rounded-lg">
+                <div className="flex items-start gap-2">
+                  <span className="text-casinoRed text-lg">⚠️</span>
+                  <p className="text-casinoRed text-sm font-semibold flex-1">
+                    {warning}
+                  </p>
+                </div>
+              </div>
+            )}
+          </div>
+        )}
 
         {/* Settings */}
         <div className="bg-gradient-casino-reverse rounded-xl shadow-card-dark p-6 border border-casinoGold/20 my-6">
@@ -128,15 +234,24 @@ export default function ArbitragePage() {
           </div>
           <div className="mt-4 flex items-center gap-4">
             <button
-              onClick={scanForArbitrage}
-              disabled={scanning}
-              className="bg-gradient-green hover:shadow-glow-green text-white font-heading font-bold py-3 px-8 rounded-lg transition-all duration-300 uppercase tracking-wide text-sm disabled:opacity-50"
+              onClick={() => scanForArbitrage(true)}
+              disabled={scanning || !refreshInfo?.canRefreshNow}
+              className={`font-heading font-bold py-3 px-8 rounded-lg transition-all duration-300 uppercase tracking-wide text-sm ${
+                refreshInfo?.canRefreshNow && !scanning
+                  ? 'bg-gradient-green hover:shadow-glow-green text-white cursor-pointer'
+                  : 'bg-casinoBlack3 text-textSecondary cursor-not-allowed opacity-50'
+              }`}
             >
-              {scanning ? '🔄 Scanning...' : '🔍 Scan Now'}
+              {scanning ? '🔄 Scanning...' : refreshInfo?.canRefreshNow ? '🔍 Scan Now' : '⏰ Cooldown'}
             </button>
             {lastScanned && (
               <span className="text-textSecondary text-sm">
                 Last scanned: {format(lastScanned, 'h:mm:ss a')}
+              </span>
+            )}
+            {refreshInfo && !refreshInfo.canRefreshNow && (
+              <span className="text-casinoGold text-sm font-semibold">
+                ⏳ Wait {refreshInfo.timeUntilRefresh}
               </span>
             )}
           </div>
