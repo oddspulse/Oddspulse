@@ -4,6 +4,9 @@ import { useEffect, useState } from 'react';
 import Navigation from '@/components/Navigation';
 import OperatorCard from '@/components/OperatorCard';
 import FilterBar from '@/components/FilterBar';
+import { PromoBanner } from '@/components/PromoBanner';
+import { GameGrid } from '@/components/GameGrid';
+import { AppNavigation } from '@/components/AppNavigation';
 import { Operator } from '@/lib/types';
 
 export default function HomePage() {
@@ -68,7 +71,7 @@ export default function HomePage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-casino">
+    <div className="min-h-screen bg-gradient-casino pb-24">
       {/* Header */}
       <Navigation
         title="BetRadar Hub"
@@ -78,21 +81,29 @@ export default function HomePage() {
 
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Promo Banner */}
+        <PromoBanner />
+
+        {/* Game Grid */}
+        <GameGrid />
+
         {/* Filter Bar */}
-        <FilterBar onFilterChange={setFilters} />
+        <div className="rounded-xl2 bg-casinoSurface shadow-card p-6 mb-6 card-3d border border-white/5">
+          <FilterBar onFilterChange={setFilters} />
+        </div>
 
         {/* Results Count */}
         <div className="mb-6 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <span className="text-casinoGreen text-xl">✓</span>
             <p className="text-textSecondary">
-              Showing <span className="font-bold text-casinoGold">{filteredOperators.length}</span> of{' '}
+              Showing <span className="font-bold gradient-text">{filteredOperators.length}</span> of{' '}
               <span className="font-bold text-textPrimary">{operators.length}</span> operators
             </p>
           </div>
           {filteredOperators.length > 0 && (
             <div className="hidden sm:flex items-center gap-2 text-xs text-textSecondary">
-              <span className="w-2 h-2 bg-casinoGreen rounded-full animate-pulse"></span>
+              <span className="w-2 h-2 bg-casinoGreen rounded-full animate-pulse shadow-glow-green"></span>
               <span>Live offers</span>
             </div>
           )}
@@ -102,7 +113,7 @@ export default function HomePage() {
         {loading && (
           <div className="text-center py-20">
             <div className="inline-block">
-              <div className="w-16 h-16 border-4 border-casinoGold/30 border-t-casinoGold rounded-full animate-spin"></div>
+              <div className="w-16 h-16 border-4 border-casinoOrange/30 border-t-casinoOrange rounded-full animate-spin shadow-glow"></div>
               <p className="text-textSecondary text-lg mt-4 font-heading">Loading operators...</p>
             </div>
           </div>
@@ -110,7 +121,7 @@ export default function HomePage() {
 
         {/* No Results */}
         {!loading && filteredOperators.length === 0 && (
-          <div className="text-center py-20 bg-gradient-casino-reverse rounded-xl border border-casinoGold/20 p-12">
+          <div className="text-center py-20 rounded-xl2 bg-casinoSurface shadow-card border border-white/5 p-12">
             <span className="text-6xl mb-4 block">🔍</span>
             <p className="text-textSecondary text-xl font-heading mb-2">
               No operators found
@@ -130,7 +141,7 @@ export default function HomePage() {
       </main>
 
       {/* Footer */}
-      <footer className="bg-casinoBlack border-t-2 border-casinoGold/20 mt-16">
+      <footer className="glass border-t border-white/5 mt-16 pb-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="text-center space-y-4">
             {/* Warning */}
@@ -147,7 +158,7 @@ export default function HomePage() {
             </p>
 
             {/* Divider */}
-            <div className="w-24 h-0.5 bg-gradient-to-r from-transparent via-casinoGold to-transparent mx-auto"></div>
+            <div className="w-24 h-0.5 bg-gradient-orange mx-auto rounded-full"></div>
 
             {/* Copyright */}
             <p className="text-textSecondary text-xs">
@@ -156,6 +167,9 @@ export default function HomePage() {
           </div>
         </div>
       </footer>
+
+      {/* Bottom Navigation */}
+      <AppNavigation />
     </div>
   );
 }

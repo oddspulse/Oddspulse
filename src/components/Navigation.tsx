@@ -17,35 +17,35 @@ const NAV_LINKS: NavLink[] = [
     label: 'Casinos',
     emoji: '🏠',
     color: 'casinoGreen',
-    hoverColor: 'hover:bg-casinoGreen hover:text-white hover:shadow-glow-green',
+    hoverColor: 'hover:shadow-glow-green hover:scale-105',
   },
   {
     href: '/live-odds',
     label: 'Live Odds',
     emoji: '📊',
     color: 'casinoBlue',
-    hoverColor: 'hover:bg-casinoBlue hover:text-white',
+    hoverColor: 'hover:shadow-glow hover:scale-105',
   },
   {
     href: '/arbitrage',
     label: 'Arbitrage',
     emoji: '💰',
     color: 'casinoGreen',
-    hoverColor: 'hover:bg-casinoGreen hover:text-white hover:shadow-glow-green',
+    hoverColor: 'hover:shadow-glow-green hover:scale-105',
   },
   {
     href: '/rtp-slots',
     label: 'RTP Slots',
     emoji: '🎰',
     color: 'casinoGold',
-    hoverColor: 'hover:bg-casinoGold hover:text-casinoBlack hover:shadow-glow-gold',
+    hoverColor: 'hover:shadow-glow-gold hover:scale-105',
   },
   {
     href: '/admin',
     label: 'Admin',
     emoji: '⚙️',
     color: 'casinoRed',
-    hoverColor: 'hover:bg-casinoRed hover:text-white',
+    hoverColor: 'hover:shadow-glow hover:scale-105',
   },
 ];
 
@@ -60,18 +60,18 @@ export default function Navigation({ title, subtitle, emoji, currentPage }: Navi
   const pathname = usePathname();
 
   return (
-    <header className="sticky top-0 z-50 bg-casinoBlack/95 backdrop-blur-sm border-b-2 border-casinoGold/20 shadow-2xl">
+    <header className="sticky top-0 z-40 glass border-b border-white/5 shadow-card-dark">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
         <div className="flex flex-col lg:flex-row justify-between items-center gap-4">
           {/* Title Section */}
           <div className="text-center lg:text-left">
             <div className="flex items-center gap-3 justify-center lg:justify-start">
-              <span className="text-4xl">{emoji}</span>
-              <h1 className="text-3xl md:text-5xl font-heading font-bold bg-gradient-to-r from-casinoGold via-yellow-300 to-casinoGold bg-clip-text text-transparent">
+              <span className="text-4xl drop-shadow-lg">{emoji}</span>
+              <h1 className="text-3xl md:text-5xl font-heading font-bold gradient-text drop-shadow-lg">
                 {title}
               </h1>
             </div>
-            <p className="text-textSecondary mt-2 font-body">
+            <p className="text-textSecondary mt-2 font-sans text-sm">
               {subtitle}
             </p>
           </div>
@@ -80,14 +80,13 @@ export default function Navigation({ title, subtitle, emoji, currentPage }: Navi
           <nav className="flex flex-wrap gap-3 justify-center">
             {NAV_LINKS.map((link) => {
               const isActive = pathname === link.href;
-              const baseClasses = "px-6 py-3 rounded-lg font-heading font-semibold transition-all duration-300 uppercase tracking-wide text-sm border-2";
 
               if (isActive) {
                 return (
                   <Link
                     key={link.href}
                     href={link.href}
-                    className={`${baseClasses} bg-${link.color} text-white border-${link.color} shadow-glow-gold`}
+                    className="px-6 py-3 rounded-full font-heading font-semibold transition-all duration-300 uppercase tracking-wide text-xs bg-gradient-orange text-casinoBlack shadow-glow border border-casinoOrange/50"
                   >
                     {link.emoji} {link.label}
                   </Link>
@@ -98,7 +97,7 @@ export default function Navigation({ title, subtitle, emoji, currentPage }: Navi
                 <Link
                   key={link.href}
                   href={link.href}
-                  className={`${baseClasses} bg-gradient-casino-reverse border-${link.color}/40 text-${link.color} ${link.hoverColor}`}
+                  className={`px-6 py-3 rounded-full font-heading font-semibold transition-all duration-300 uppercase tracking-wide text-xs glass border border-white/10 text-textSecondary ${link.hoverColor}`}
                 >
                   {link.emoji} {link.label}
                 </Link>

@@ -4,8 +4,15 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --font-heading: 'Poppins', system-ui, sans-serif;
+  --font-sans: 'Inter', system-ui, sans-serif;
+}
+
 body {
-  @apply bg-casinoBlack font-body text-textPrimary;
+  background-color: #050816;
+  color: #FFFFFF;
+  font-family: var(--font-sans);
 }
 
 .line-clamp-3 {
@@ -18,10 +25,10 @@ body {
 /* Custom glow animations */
 @keyframes pulse-glow-gold {
   0%, 100% {
-    box-shadow: 0 0 20px rgba(245, 194, 66, 0.3);
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
   }
   50% {
-    box-shadow: 0 0 30px rgba(245, 194, 66, 0.6);
+    box-shadow: 0 0 30px rgba(255, 215, 0, 0.6);
   }
 }
 
@@ -34,12 +41,38 @@ body {
   }
 }
 
+@keyframes pulse-glow-orange {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(255, 159, 28, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(255, 159, 28, 0.6);
+  }
+}
+
+@keyframes pulse-glow-purple {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(123, 97, 255, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(123, 97, 255, 0.6);
+  }
+}
+
 .animate-glow-gold {
   animation: pulse-glow-gold 2s ease-in-out infinite;
 }
 
 .animate-glow-green {
   animation: pulse-glow-green 2s ease-in-out infinite;
+}
+
+.animate-glow-orange {
+  animation: pulse-glow-orange 2s ease-in-out infinite;
+}
+
+.animate-glow-purple {
+  animation: pulse-glow-purple 2s ease-in-out infinite;
 }
 
 /* Smooth scrolling */
@@ -53,14 +86,39 @@ html {
 }
 
 ::-webkit-scrollbar-track {
-  background: #0D0D0D;
+  background: #050816;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #252525;
+  background: #11172A;
   border-radius: 6px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #F5C242;
+  background: #FF9F1C;
+}
+
+/* 3D Card Effects */
+.card-3d {
+  transform-style: preserve-3d;
+  transition: transform 0.3s ease;
+}
+
+.card-3d:hover {
+  transform: translateY(-4px) scale(1.02);
+}
+
+/* Glassmorphism effect */
+.glass {
+  background: rgba(11, 16, 32, 0.7);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+/* Gradient text */
+.gradient-text {
+  background: linear-gradient(to right, #FFB547, #FF9F1C);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
