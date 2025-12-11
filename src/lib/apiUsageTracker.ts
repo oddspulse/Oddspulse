@@ -9,6 +9,8 @@ export interface ApiUsage {
   callCount: number;
   lastReset: string; // ISO date
   callHistory: ApiCall[];
+  lastFetchTime?: string; // ISO timestamp of last real API call
+  nextAllowedFetchTime?: string; // ISO timestamp when next fetch is allowed
 }
 
 export interface ApiCall {
@@ -70,14 +72,20 @@ function resetUsage(): ApiUsage {
  */
 export function incrementApiUsage(endpoint: string, sportKey?: string, remaining?: number): void {
   const usage = loadApiUsage();
+  const now = new Date();
 
   usage.callCount++;
   usage.callHistory.push({
-    timestamp: new Date().toISOString(),
+    timestamp: now.toISOString(),
     endpoint,
     sportKey,
     remaining,
   });
+
+  // Update fetch timestamps
+  usage.lastFetchTime = now.toISOString();
+  const nextAllowedTime = new Date(now.getTime() + ODDS_API_CONFIG.MIN_REFRESH_INTERVAL_MS);
+  usage.nextAllowedFetchTime = nextAllowedTime.toISOString();
 
   // Keep only last 100 calls in history to prevent file bloat
   if (usage.callHistory.length > 100) {
@@ -87,6 +95,7 @@ export function incrementApiUsage(endpoint: string, sportKey?: string, remaining
   saveApiUsage(usage);
 
   console.log(`[API Usage] Call #${usage.callCount}/${ODDS_API_CONFIG.MONTHLY_API_LIMIT} this month`);
+  console.log(`[API Usage] Next fetch allowed at: ${usage.nextAllowedFetchTime}`);
   if (remaining !== undefined) {
     console.log(`[API Usage] API reports ${remaining} requests remaining`);
   }
@@ -119,6 +128,8 @@ export function getApiUsageStats(): {
   percentUsed: number;
   monthKey: string;
   isNearLimit: boolean;
+  lastFetchTime?: string;
+  nextAllowedFetchTime?: string;
 } {
   const usage = loadApiUsage();
   const remaining = Math.max(0, ODDS_API_CONFIG.MONTHLY_API_LIMIT - usage.callCount);
@@ -132,5 +143,7 @@ export function getApiUsageStats(): {
     percentUsed,
     monthKey: usage.monthKey,
     isNearLimit,
+    lastFetchTime: usage.lastFetchTime,
+    nextAllowedFetchTime: usage.nextAllowedFetchTime,
   };
 }

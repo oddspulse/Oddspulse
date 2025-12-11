@@ -7,6 +7,7 @@ import { ArbitrageOpportunity, LiveEvent, MarketType } from '@/lib/types';
 import { SPORT_KEYS } from '@/lib/oddsService';
 import { findArbitrageOpportunities } from '@/lib/arbitrageService';
 import { format } from 'date-fns';
+import { useOddsStatus, formatCountdown, formatCacheAge } from '@/hooks/useOddsStatus';
 
 interface RateLimitedOddsResponse {
   events: LiveEvent[];
@@ -38,11 +39,12 @@ export default function ArbitragePage() {
   const [lastScanned, setLastScanned] = useState<Date | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [scanning, setScanning] = useState(false);
-  const [quotaInfo, setQuotaInfo] = useState<RateLimitedOddsResponse['quotaInfo'] | null>(null);
-  const [refreshInfo, setRefreshInfo] = useState<RateLimitedOddsResponse['refreshInfo'] | null>(null);
   const [fromCache, setFromCache] = useState(false);
   const [cacheAge, setCacheAge] = useState<number | undefined>();
   const [warning, setWarning] = useState<string | undefined>();
+
+  // Use the odds status hook for real-time countdown
+  const { status, remainingMs, canRefreshNow, refetchStatus } = useOddsStatus(5000);
 
   // Fetch odds and scan for arbitrage
   const scanForArbitrage = async (forceRefresh = false) => {
@@ -64,8 +66,6 @@ export default function ArbitragePage() {
       const data: RateLimitedOddsResponse = await response.json();
 
       setEvents(data.events);
-      setQuotaInfo(data.quotaInfo);
-      setRefreshInfo(data.refreshInfo);
       setFromCache(data.fromCache);
       setCacheAge(data.cacheAge);
       setWarning(data.warning);
@@ -74,6 +74,11 @@ export default function ArbitragePage() {
       const opps = findArbitrageOpportunities(data.events, minProfit, totalStake);
       setOpportunities(opps);
       setLastScanned(new Date());
+
+      // Refetch status after manual scan to update countdown
+      if (forceRefresh) {
+        await refetchStatus();
+      }
     } catch (err: any) {
       console.error('Error scanning for arbitrage:', err);
       setError(err.message || 'Failed to scan for arbitrage opportunities');
@@ -88,18 +93,6 @@ export default function ArbitragePage() {
     setLoading(true);
     scanForArbitrage();
   }, [selectedSport, selectedMarket]);
-
-  // Format cache age
-  const getCacheAgeString = () => {
-    if (!cacheAge) return null;
-    const minutes = Math.floor(cacheAge / (60 * 1000));
-    if (minutes < 1) return 'Less than 1 minute ago';
-    if (minutes === 1) return '1 minute ago';
-    if (minutes < 60) return `${minutes} minutes ago`;
-    const hours = Math.floor(minutes / 60);
-    const mins = minutes % 60;
-    return `${hours}h ${mins}m ago`;
-  };
 
   return (
     <div className="min-h-screen bg-gradient-casino">
@@ -121,29 +114,29 @@ export default function ArbitragePage() {
         />
 
         {/* Quota and Refresh Info Banner */}
-        {quotaInfo && (
+        {status && (
           <div className="bg-gradient-casino-reverse rounded-xl shadow-card-dark p-6 border border-casinoGold/20 my-6">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               {/* API Quota */}
               <div className={`p-4 rounded-lg border-2 ${
-                quotaInfo.isNearLimit
+                status.isNearLimit
                   ? 'bg-casinoRed/10 border-casinoRed'
                   : 'bg-casinoGreen/10 border-casinoGreen'
               }`}>
                 <div className="text-xs uppercase tracking-wide mb-2 font-semibold" style={{
-                  color: quotaInfo.isNearLimit ? '#FF314A' : '#0DB15D'
+                  color: status.isNearLimit ? '#FF314A' : '#0DB15D'
                 }}>
                   📊 Monthly Quota
                 </div>
                 <div className="text-2xl font-heading font-bold" style={{
-                  color: quotaInfo.isNearLimit ? '#FF314A' : '#0DB15D'
+                  color: status.isNearLimit ? '#FF314A' : '#0DB15D'
                 }}>
-                  {quotaInfo.remaining}/{quotaInfo.limit}
+                  {status.remaining}/{status.monthlyLimit}
                 </div>
                 <div className="text-xs text-textSecondary mt-1">
-                  {quotaInfo.percentUsed.toFixed(1)}% used
+                  {status.percentUsed.toFixed(1)}% used
                 </div>
-                {quotaInfo.isNearLimit && (
+                {status.isNearLimit && (
                   <div className="text-xs text-casinoRed mt-2 font-semibold">
                     ⚠️ Approaching limit!
                   </div>
@@ -160,18 +153,18 @@ export default function ArbitragePage() {
                 </div>
                 {fromCache && cacheAge && (
                   <div className="text-xs text-textSecondary mt-1">
-                    {getCacheAgeString()}
+                    {formatCacheAge(cacheAge)}
                   </div>
                 )}
               </div>
 
-              {/* Refresh Status */}
+              {/* Refresh Status with Live Countdown */}
               <div className="p-4 rounded-lg border-2 bg-casinoGold/10 border-casinoGold">
                 <div className="text-xs text-casinoGold uppercase tracking-wide mb-2 font-semibold">
                   🔄 Next Refresh
                 </div>
                 <div className="text-lg font-heading font-bold text-casinoGold">
-                  {refreshInfo?.canRefreshNow ? 'Available' : refreshInfo?.timeUntilRefresh || 'Unknown'}
+                  {formatCountdown(remainingMs)}
                 </div>
               </div>
             </div>
@@ -235,23 +228,23 @@ export default function ArbitragePage() {
           <div className="mt-4 flex items-center gap-4">
             <button
               onClick={() => scanForArbitrage(true)}
-              disabled={scanning || !refreshInfo?.canRefreshNow}
+              disabled={scanning || !canRefreshNow}
               className={`font-heading font-bold py-3 px-8 rounded-lg transition-all duration-300 uppercase tracking-wide text-sm ${
-                refreshInfo?.canRefreshNow && !scanning
+                canRefreshNow && !scanning
                   ? 'bg-gradient-green hover:shadow-glow-green text-white cursor-pointer'
                   : 'bg-casinoBlack3 text-textSecondary cursor-not-allowed opacity-50'
               }`}
             >
-              {scanning ? '🔄 Scanning...' : refreshInfo?.canRefreshNow ? '🔍 Scan Now' : '⏰ Cooldown'}
+              {scanning ? '🔄 Scanning...' : canRefreshNow ? '🔍 Scan Now' : '⏰ Cooldown'}
             </button>
             {lastScanned && (
               <span className="text-textSecondary text-sm">
                 Last scanned: {format(lastScanned, 'h:mm:ss a')}
               </span>
             )}
-            {refreshInfo && !refreshInfo.canRefreshNow && (
+            {!canRefreshNow && remainingMs !== null && (
               <span className="text-casinoGold text-sm font-semibold">
-                ⏳ Wait {refreshInfo.timeUntilRefresh}
+                ⏳ Next scan in {formatCountdown(remainingMs)}
               </span>
             )}
           </div>

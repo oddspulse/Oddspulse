@@ -7,6 +7,7 @@ import SportSelector from '@/components/SportSelector';
 import { LiveEvent, MarketType } from '@/lib/types';
 import { SPORT_KEYS } from '@/lib/oddsService';
 import { format } from 'date-fns';
+import { useOddsStatus, formatCountdown, formatCacheAge } from '@/hooks/useOddsStatus';
 
 interface RateLimitedOddsResponse {
   events: LiveEvent[];
@@ -35,11 +36,12 @@ export default function LiveOddsPage() {
   const [selectedMarket, setSelectedMarket] = useState<MarketType>('moneyline');
   const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [quotaInfo, setQuotaInfo] = useState<RateLimitedOddsResponse['quotaInfo'] | null>(null);
-  const [refreshInfo, setRefreshInfo] = useState<RateLimitedOddsResponse['refreshInfo'] | null>(null);
   const [fromCache, setFromCache] = useState(false);
   const [cacheAge, setCacheAge] = useState<number | undefined>();
   const [warning, setWarning] = useState<string | undefined>();
+
+  // Use the odds status hook for real-time countdown
+  const { status, remainingMs, canRefreshNow, refetchStatus } = useOddsStatus(5000);
 
   // Fetch odds data
   const fetchOdds = async (forceRefresh = false) => {
@@ -61,12 +63,15 @@ export default function LiveOddsPage() {
       const data: RateLimitedOddsResponse = await response.json();
 
       setEvents(data.events);
-      setQuotaInfo(data.quotaInfo);
-      setRefreshInfo(data.refreshInfo);
       setFromCache(data.fromCache);
       setCacheAge(data.cacheAge);
       setWarning(data.warning);
       setLastUpdated(new Date());
+
+      // Refetch status after manual refresh to update countdown
+      if (forceRefresh) {
+        await refetchStatus();
+      }
     } catch (err: any) {
       console.error('Error fetching odds:', err);
       setError(err.message || 'Failed to load odds');
@@ -91,18 +96,6 @@ export default function LiveOddsPage() {
     )
   ).size;
 
-  // Format cache age
-  const getCacheAgeString = () => {
-    if (!cacheAge) return null;
-    const minutes = Math.floor(cacheAge / (60 * 1000));
-    if (minutes < 1) return 'Less than 1 minute ago';
-    if (minutes === 1) return '1 minute ago';
-    if (minutes < 60) return `${minutes} minutes ago`;
-    const hours = Math.floor(minutes / 60);
-    const mins = minutes % 60;
-    return `${hours}h ${mins}m ago`;
-  };
-
   return (
     <div className="min-h-screen bg-gradient-casino">
       {/* Header */}
@@ -123,29 +116,29 @@ export default function LiveOddsPage() {
         />
 
         {/* Quota and Refresh Info Banner */}
-        {quotaInfo && (
+        {status && (
           <div className="bg-gradient-casino-reverse rounded-xl shadow-card-dark p-6 border border-casinoGold/20 my-6">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               {/* API Quota */}
               <div className={`p-4 rounded-lg border-2 ${
-                quotaInfo.isNearLimit
+                status.isNearLimit
                   ? 'bg-casinoRed/10 border-casinoRed'
                   : 'bg-casinoGreen/10 border-casinoGreen'
               }`}>
                 <div className="text-xs uppercase tracking-wide mb-2 font-semibold" style={{
-                  color: quotaInfo.isNearLimit ? '#FF314A' : '#0DB15D'
+                  color: status.isNearLimit ? '#FF314A' : '#0DB15D'
                 }}>
                   📊 Monthly Quota
                 </div>
                 <div className="text-2xl font-heading font-bold" style={{
-                  color: quotaInfo.isNearLimit ? '#FF314A' : '#0DB15D'
+                  color: status.isNearLimit ? '#FF314A' : '#0DB15D'
                 }}>
-                  {quotaInfo.remaining}/{quotaInfo.limit}
+                  {status.remaining}/{status.monthlyLimit}
                 </div>
                 <div className="text-xs text-textSecondary mt-1">
-                  {quotaInfo.percentUsed.toFixed(1)}% used
+                  {status.percentUsed.toFixed(1)}% used
                 </div>
-                {quotaInfo.isNearLimit && (
+                {status.isNearLimit && (
                   <div className="text-xs text-casinoRed mt-2 font-semibold">
                     ⚠️ Approaching limit!
                   </div>
@@ -162,30 +155,30 @@ export default function LiveOddsPage() {
                 </div>
                 {fromCache && cacheAge && (
                   <div className="text-xs text-textSecondary mt-1">
-                    {getCacheAgeString()}
+                    {formatCacheAge(cacheAge)}
                   </div>
                 )}
               </div>
 
-              {/* Refresh Status */}
+              {/* Refresh Status with Live Countdown */}
               <div className="p-4 rounded-lg border-2 bg-casinoGold/10 border-casinoGold">
                 <div className="text-xs text-casinoGold uppercase tracking-wide mb-2 font-semibold">
                   🔄 Next Refresh
                 </div>
-                <div className="text-lg font-heading font-bold text-casinoGold">
-                  {refreshInfo?.canRefreshNow ? 'Available' : refreshInfo?.timeUntilRefresh || 'Unknown'}
+                <div className="text-lg font-heading font-bold text-casinoGold mb-2">
+                  {formatCountdown(remainingMs)}
                 </div>
                 <div className="mt-3">
                   <button
                     onClick={() => fetchOdds(true)}
-                    disabled={refreshing || !refreshInfo?.canRefreshNow}
+                    disabled={refreshing || !canRefreshNow}
                     className={`w-full px-4 py-2 rounded-lg font-heading font-semibold text-sm uppercase tracking-wide transition-all duration-200 ${
-                      refreshInfo?.canRefreshNow && !refreshing
+                      canRefreshNow && !refreshing
                         ? 'bg-casinoGold text-casinoBlack hover:shadow-glow-gold cursor-pointer'
                         : 'bg-casinoBlack3 text-textSecondary cursor-not-allowed opacity-50'
                     }`}
                   >
-                    {refreshing ? '⏳ Refreshing...' : refreshInfo?.canRefreshNow ? '🔄 Refresh Now' : '⏰ Cooldown'}
+                    {refreshing ? '⏳ Refreshing...' : canRefreshNow ? '🔄 Refresh Now' : '⏰ Cooldown'}
                   </button>
                 </div>
               </div>
