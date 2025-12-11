@@ -20,13 +20,13 @@ A modern, clean web application for comparing online sportsbooks and casino oper
   - Delete existing operators
   - Update tags and categorization
 - **Responsive Design**: Mobile-friendly layout using Tailwind CSS
-- **SQLite Database**: Simple, file-based database - no external DB server needed
+- **JSON Storage**: Simple file-based storage, perfect for Vercel serverless deployment
 
 ## Tech Stack
 
 - **Frontend**: Next.js 14 (React) with TypeScript
 - **Styling**: Tailwind CSS
-- **Database**: SQLite with better-sqlite3
+- **Data Storage**: JSON file (perfect for Vercel serverless)
 - **Deployment**: Vercel-ready (also works on Netlify, Render, etc.)
 
 ## Project Structure
@@ -47,13 +47,11 @@ betradar-hub/
 │   ├── components/
 │   │   ├── OperatorCard.tsx            # Individual operator card
 │   │   └── FilterBar.tsx               # Search and filter controls
+│   ├── data/
+│   │   └── operators.json              # Operator data (20 pre-loaded)
 │   └── lib/
-│       ├── db.ts                       # Database functions
+│       ├── db.ts                       # Data access functions
 │       └── types.ts                    # TypeScript types
-├── scripts/
-│   └── init-db.js                      # Database initialization script
-├── database/
-│   └── operators.db                    # SQLite database (auto-generated)
 ├── package.json
 ├── tsconfig.json
 ├── next.config.js
@@ -81,27 +79,19 @@ cd betradar-hub
 npm install
 ```
 
-3. **Initialize the database with seed data**
-
-This will create a SQLite database with 20 pre-populated operators:
-
-```bash
-npm run db:init
-```
-
-You should see: `✅ Database initialized with 20 operators!`
-
-4. **Run the development server**
+3. **Run the development server**
 
 ```bash
 npm run dev
 ```
 
-5. **Open your browser**
+4. **Open your browser**
 
 Navigate to [http://localhost:3000](http://localhost:3000)
 
 You should see the BetRadar Hub homepage with all 20 operators!
+
+**Note**: All operator data is stored in `src/data/operators.json` and is ready to use out of the box. No database initialization needed!
 
 ## Usage
 
@@ -170,41 +160,42 @@ type Operator = {
 
 ### Deploy to Vercel (Recommended)
 
-1. **Install Vercel CLI** (optional)
+**Option 1: Via GitHub (Easiest)**
+
+1. Push your code to GitHub
+2. Visit [vercel.com](https://vercel.com) and sign in
+3. Click "Add New..." → "Project"
+4. Import your repository
+5. Click "Deploy" (Vercel auto-detects Next.js settings)
+
+**Option 2: Via CLI**
 
 ```bash
 npm install -g vercel
-```
-
-2. **Deploy**
-
-```bash
 vercel
 ```
 
-Or connect your GitHub repo to Vercel via their web dashboard.
+**Note**: The app uses JSON file storage which works perfectly with Vercel's serverless environment. No additional configuration needed!
 
-**Important**: Make sure your `database/operators.db` file is committed to git before deploying, or re-run `npm run db:init` after deploying.
+Your app will be live at: `https://your-project.vercel.app`
 
 ### Deploy to Netlify
 
-1. Build the project:
-
-```bash
-npm run build
-```
-
-2. Deploy the `.next` folder to Netlify
-
-3. Set the build command to `npm run build` and publish directory to `.next`
+1. Push your code to GitHub
+2. Sign in to [netlify.com](https://netlify.com)
+3. Click "Add new site" → "Import an existing project"
+4. Connect your repository
+5. Build settings:
+   - Build command: `npm run build`
+   - Publish directory: `.next`
+6. Click "Deploy"
 
 ### Deploy to Render/Railway/Other Platforms
 
 Most platforms that support Node.js will work:
 
-1. Set build command: `npm install && npm run build && npm run db:init`
+1. Set build command: `npm install && npm run build`
 2. Set start command: `npm start`
-3. Ensure the `database` directory is writable (may require configuration)
 
 ## Customization
 
@@ -240,29 +231,29 @@ theme: {
 
 ### Add More Operators
 
+**Option 1: Via Admin Panel**
 1. Go to `/admin`
 2. Click "+ Add New Operator"
 3. Fill in the form and save
 
-Or edit `scripts/init-db.js` to add operators to the seed data.
+**Option 2: Edit JSON Directly**
+Edit `src/data/operators.json` and add a new operator object to the array.
 
 ### Modify Logo Placeholders
 
 Replace placeholder logo URLs in the admin panel with real logo images:
-- Upload logos to a CDN or public folder
+- Upload logos to a CDN (like Cloudinary, Imgur, etc.)
+- Or use direct URLs from operator websites
 - Update the `brandLogoUrl` field for each operator
 
 ## Troubleshooting
 
-### Database Not Found Error
+### No Data Showing
 
-If you see `Error: unable to open database file`:
-
-```bash
-npm run db:init
-```
-
-This creates the `database/operators.db` file.
+If you see no operators on the homepage:
+- Check that `src/data/operators.json` exists
+- Verify the JSON is valid (no syntax errors)
+- Check browser console for errors
 
 ### Port Already in Use
 
@@ -281,6 +272,15 @@ rm -rf node_modules package-lock.json
 npm install
 ```
 
+### Admin Changes Not Persisting on Vercel
+
+Note: In Vercel's serverless environment, file system writes are ephemeral. For production use with Vercel, consider:
+- Using Vercel KV for storage
+- Using a cloud database (MongoDB, PostgreSQL, etc.)
+- Using a CMS (Sanity, Contentful, etc.)
+
+For now, the JSON file works great for local development and initial testing!
+
 ## Development
 
 ### Adding New Features
@@ -288,14 +288,15 @@ npm install
 - **Components**: Add to `src/components/`
 - **API Routes**: Add to `src/app/api/`
 - **Pages**: Add to `src/app/`
-- **Database Functions**: Edit `src/lib/db.ts`
+- **Data Functions**: Edit `src/lib/db.ts`
+- **Data**: Edit `src/data/operators.json`
 
-### Database Schema Changes
+### Working with Data
 
-If you modify the schema in `scripts/init-db.js`:
-
-1. Delete `database/operators.db`
-2. Run `npm run db:init` again
+The app reads and writes from `src/data/operators.json`:
+- **Read**: Data is loaded on each request
+- **Write**: Changes are saved immediately via the admin panel
+- **Format**: Standard JSON array of operator objects
 
 ## License
 
@@ -314,4 +315,6 @@ Gambling can be addictive. This tool is for informational and affiliate marketin
 
 ---
 
-**Built with Next.js + TypeScript + Tailwind CSS + SQLite**
+**Built with Next.js + TypeScript + Tailwind CSS + JSON Storage**
+
+Perfect for Vercel serverless deployment! 🚀

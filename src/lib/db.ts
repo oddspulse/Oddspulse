@@ -1,110 +1,77 @@
-import Database from 'better-sqlite3';
-import path from 'path';
 import { Operator } from './types';
+import fs from 'fs';
+import path from 'path';
 
-const dbPath = path.join(process.cwd(), 'database', 'operators.db');
-let db: Database.Database;
+// Path to JSON data file
+const DATA_FILE = path.join(process.cwd(), 'src', 'data', 'operators.json');
 
-export function getDb() {
-  if (!db) {
-    db = new Database(dbPath);
+// Read data from JSON file
+function readData(): Operator[] {
+  try {
+    const fileContent = fs.readFileSync(DATA_FILE, 'utf-8');
+    return JSON.parse(fileContent);
+  } catch (error) {
+    console.error('Error reading data file:', error);
+    return [];
   }
-  return db;
 }
 
-// Helper to parse JSON fields
-function parseOperator(row: any): Operator {
-  return {
-    id: row.id,
-    name: row.name,
-    brandLogoUrl: row.brandLogoUrl,
-    regionTags: JSON.parse(row.regionTags),
-    productTags: JSON.parse(row.productTags),
-    bonusHeadline: row.bonusHeadline,
-    detailedOffer: row.detailedOffer || '',
-    affiliateUrl: row.affiliateUrl,
-    rtpInfo: row.rtpInfo || undefined,
-    notes: row.notes || undefined,
-  };
+// Write data to JSON file
+function writeData(operators: Operator[]): void {
+  try {
+    fs.writeFileSync(DATA_FILE, JSON.stringify(operators, null, 2), 'utf-8');
+  } catch (error) {
+    console.error('Error writing data file:', error);
+    throw new Error('Failed to save data');
+  }
 }
 
 export function getAllOperators(): Operator[] {
-  const db = getDb();
-  const rows = db.prepare('SELECT * FROM operators ORDER BY name').all();
-  return rows.map(parseOperator);
+  return readData().sort((a, b) => a.name.localeCompare(b.name));
 }
 
 export function getOperatorById(id: string): Operator | null {
-  const db = getDb();
-  const row = db.prepare('SELECT * FROM operators WHERE id = ?').get(id);
-  return row ? parseOperator(row) : null;
+  const operators = readData();
+  return operators.find(op => op.id === id) || null;
 }
 
 export function createOperator(operator: Operator): Operator {
-  const db = getDb();
-  const stmt = db.prepare(`
-    INSERT INTO operators (
-      id, name, brandLogoUrl, regionTags, productTags, bonusHeadline,
-      detailedOffer, affiliateUrl, rtpInfo, notes
-    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-  `);
+  const operators = readData();
 
-  stmt.run(
-    operator.id,
-    operator.name,
-    operator.brandLogoUrl,
-    JSON.stringify(operator.regionTags),
-    JSON.stringify(operator.productTags),
-    operator.bonusHeadline,
-    operator.detailedOffer,
-    operator.affiliateUrl,
-    operator.rtpInfo || null,
-    operator.notes || null
-  );
+  // Check if operator with this ID already exists
+  const exists = operators.some(op => op.id === operator.id);
+  if (exists) {
+    throw new Error(`Operator with ID "${operator.id}" already exists`);
+  }
 
+  operators.push(operator);
+  writeData(operators);
   return operator;
 }
 
-export function updateOperator(id: string, operator: Partial<Operator>): Operator | null {
-  const db = getDb();
-  const existing = getOperatorById(id);
-  if (!existing) return null;
+export function updateOperator(id: string, updates: Partial<Operator>): Operator | null {
+  const operators = readData();
+  const index = operators.findIndex(op => op.id === id);
 
-  const updated = { ...existing, ...operator };
+  if (index === -1) {
+    return null;
+  }
 
-  const stmt = db.prepare(`
-    UPDATE operators SET
-      name = ?,
-      brandLogoUrl = ?,
-      regionTags = ?,
-      productTags = ?,
-      bonusHeadline = ?,
-      detailedOffer = ?,
-      affiliateUrl = ?,
-      rtpInfo = ?,
-      notes = ?
-    WHERE id = ?
-  `);
+  // Merge updates with existing operator
+  operators[index] = { ...operators[index], ...updates };
+  writeData(operators);
 
-  stmt.run(
-    updated.name,
-    updated.brandLogoUrl,
-    JSON.stringify(updated.regionTags),
-    JSON.stringify(updated.productTags),
-    updated.bonusHeadline,
-    updated.detailedOffer,
-    updated.affiliateUrl,
-    updated.rtpInfo || null,
-    updated.notes || null,
-    id
-  );
-
-  return updated;
+  return operators[index];
 }
 
 export function deleteOperator(id: string): boolean {
-  const db = getDb();
-  const stmt = db.prepare('DELETE FROM operators WHERE id = ?');
-  const result = stmt.run(id);
-  return result.changes > 0;
+  const operators = readData();
+  const filteredOperators = operators.filter(op => op.id !== id);
+
+  if (filteredOperators.length === operators.length) {
+    return false; // No operator was deleted
+  }
+
+  writeData(filteredOperators);
+  return true;
 }
