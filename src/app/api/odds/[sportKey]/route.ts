@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { getLiveOdds } from '@/lib/oddsService';
+import { getRateLimitedLiveOdds } from '@/lib/rateLimitedOddsService';
 import { MarketType } from '@/lib/types';
 
 export async function GET(
@@ -10,17 +10,25 @@ export async function GET(
     const { searchParams } = new URL(request.url);
     const marketsParam = searchParams.get('markets') || 'moneyline,spread,total';
     const region = searchParams.get('region') || 'us';
+    const forceRefresh = searchParams.get('forceRefresh') === 'true';
 
     // Parse markets from comma-separated string
     const markets = marketsParam.split(',').filter(m =>
       ['moneyline', 'spread', 'total'].includes(m)
     ) as MarketType[];
 
-    const events = await getLiveOdds(params.sportKey, markets, region);
+    // Use rate-limited service (includes caching and quota tracking)
+    const result = await getRateLimitedLiveOdds({
+      sportKey: params.sportKey,
+      markets,
+      region,
+      forceRefresh,
+    });
 
-    return NextResponse.json(events, {
+    return NextResponse.json(result, {
       headers: {
-        'Cache-Control': 'public, s-maxage=30, stale-while-revalidate=59',
+        // Don't cache at CDN level since we're managing cache internally
+        'Cache-Control': 'no-store, must-revalidate',
       },
     });
   } catch (error: any) {
@@ -38,14 +46,25 @@ export async function GET(
       );
     }
 
-    if (error.message?.includes('rate limit')) {
+    if (error.message?.includes('rate limit') || error.message?.includes('quota')) {
       return NextResponse.json(
         {
           error: 'Rate Limit Exceeded',
           message: error.message,
-          hint: 'Please wait before making more requests or upgrade your API plan'
+          hint: 'Monthly API quota exhausted. Data will refresh next month or upgrade your plan.'
         },
         { status: 429 }
+      );
+    }
+
+    if (error.message?.includes('No cached data')) {
+      return NextResponse.json(
+        {
+          error: 'No Data Available',
+          message: 'No cached data available and refresh not allowed yet',
+          hint: 'Please wait for the refresh interval to expire'
+        },
+        { status: 503 }
       );
     }
 
