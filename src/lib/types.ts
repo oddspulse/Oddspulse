@@ -106,3 +106,28 @@ export type OddsFilters = {
   region?: string;
   oddsFormat?: 'american' | 'decimal';
 };
+
+// Arbitrage types
+export type ArbitrageOpportunity = {
+  id: string;
+  sport: string;
+  league: string;
+  homeTeam: string;
+  awayTeam: string;
+  startTime: string;
+  marketType: MarketType;
+  profit: number; // percentage profit (e.g., 2.5 for 2.5%)
+  totalStake: number; // recommended total stake amount
+  bets: ArbitrageBet[];
+};
+
+export type ArbitrageBet = {
+  outcome: string; // e.g., "Home Win", "Away +3.5", "Over 45.5"
+  operatorId: string;
+  operatorName: string;
+  odds: number; // American odds
+  decimalOdds: number;
+  stake: number; // recommended stake amount
+  potentialReturn: number;
+  affiliateUrl: string;
+};

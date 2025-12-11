@@ -23,10 +23,37 @@ export async function GET(
         'Cache-Control': 'public, s-maxage=30, stale-while-revalidate=59',
       },
     });
-  } catch (error) {
-    console.error('Error fetching odds:', error);
+  } catch (error: any) {
+    console.error('[API] Error fetching odds:', error);
+
+    // Handle specific error types
+    if (error.message?.includes('API key')) {
+      return NextResponse.json(
+        {
+          error: 'API Configuration Error',
+          message: error.message,
+          hint: 'Add your API key to .env.local'
+        },
+        { status: 500 }
+      );
+    }
+
+    if (error.message?.includes('rate limit')) {
+      return NextResponse.json(
+        {
+          error: 'Rate Limit Exceeded',
+          message: error.message,
+          hint: 'Please wait before making more requests or upgrade your API plan'
+        },
+        { status: 429 }
+      );
+    }
+
     return NextResponse.json(
-      { error: 'Failed to fetch odds data' },
+      {
+        error: 'Failed to fetch odds data',
+        message: error.message || 'Unknown error occurred'
+      },
       { status: 500 }
     );
   }

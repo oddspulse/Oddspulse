@@ -24,6 +24,14 @@ A comprehensive, casino-themed web application for comparing online sportsbooks 
 - **Auto-Refresh**: Updates every 30 seconds to keep odds current
 - **Affiliate Integration**: Direct links to place bets with tracked affiliate URLs
 
+### 💰 Arbitrage Scanner
+- **Guaranteed Profit Detection**: Automatically scans for arbitrage opportunities
+- **Real-Time Analysis**: Analyzes live odds to find pricing inefficiencies
+- **Profit Calculator**: Calculates exact stake amounts for guaranteed returns
+- **Multi-Sportsbook Coverage**: Compares odds across all available operators
+- **Customizable Settings**: Adjust minimum profit threshold and total stake
+- **Step-by-Step Instructions**: Clear betting instructions with affiliate links
+
 ### 🎰 RTP Slots Database
 - **Comprehensive Slot Database**: 20+ high-RTP slot games from 34+ providers
 - **Provider Coverage**: NetEnt, Microgaming, Pragmatic Play, Nolimit City, Hacksaw Gaming, Big Time Gaming, and more
@@ -156,6 +164,32 @@ You should see the BetRadar Hub homepage with all 20 operators!
 
 **Note**: All operator and slot data is stored in JSON files (`src/data/operators.json`, `src/data/slots.json`) and is ready to use out of the box. No database initialization needed!
 
+## 🔐 Security & API Key Management
+
+**CRITICAL: Never commit your `.env.local` file to Git!**
+
+Your API key is stored in `.env.local` which is automatically ignored by Git (listed in `.gitignore`). This keeps your key secure.
+
+### Best Practices:
+
+1. **Never hard-code API keys** in source files
+2. **Never commit `.env.local`** to version control
+3. **Use `.env.example`** as a template (with placeholder values)
+4. **Rotate keys regularly** if exposed
+5. **Monitor API usage** through The Odds API dashboard
+
+### For Team Collaboration:
+
+- Share `.env.example` (with `REPLACE_ME` placeholders)
+- Each team member creates their own `.env.local`
+- Document the setup process in your team wiki
+
+### For Deployment (Vercel/Netlify/etc.):
+
+- Add environment variables through the platform's dashboard
+- Never include secrets in your repository
+- Use platform-specific secrets management tools
+
 ## Usage
 
 ### Homepage (Casino Operators)
@@ -175,6 +209,19 @@ Access at [http://localhost:3000/live-odds](http://localhost:3000/live-odds)
 - **Best Odds**: Automatically highlighted in green with "Best" badge
 - **Place Bets**: Click any odds row to visit the sportsbook via affiliate link
 - **Auto-Refresh**: Page automatically updates every 30 seconds
+
+### Arbitrage Scanner
+
+Access at [http://localhost:3000/arbitrage](http://localhost:3000/arbitrage)
+
+- **Select Sport & Market**: Choose sport and betting market type
+- **Adjust Settings**: Set minimum profit percentage and total stake amount
+- **Scan for Opportunities**: Click "Scan Now" or wait for auto-refresh
+- **View Results**: See all arbitrage opportunities sorted by profit
+- **Place Bets**: Follow the betting instructions with calculated stake amounts
+- **Guaranteed Profit**: Each opportunity shows exact profit and required bets
+
+**Note**: Arbitrage betting may violate sportsbook terms of service. Use responsibly and at your own risk.
 
 ### RTP Slots Database
 

@@ -27,6 +27,13 @@ const NAV_LINKS: NavLink[] = [
     hoverColor: 'hover:bg-casinoBlue hover:text-white',
   },
   {
+    href: '/arbitrage',
+    label: 'Arbitrage',
+    emoji: '💰',
+    color: 'casinoGreen',
+    hoverColor: 'hover:bg-casinoGreen hover:text-white hover:shadow-glow-green',
+  },
+  {
     href: '/rtp-slots',
     label: 'RTP Slots',
     emoji: '🎰',

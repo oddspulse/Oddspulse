@@ -2,10 +2,28 @@ import { LiveEvent, LiveMarket, MarketOutcome, Sport, MarketType, Operator } fro
 import bookmakerMappings from '@/data/bookmaker-mappings.json';
 import operatorsData from '@/data/operators.json';
 
+// Environment variables - loaded securely from .env.local
 const API_KEY = process.env.ODDS_API_KEY || '';
 const BASE_URL = process.env.ODDS_API_BASE_URL || 'https://api.the-odds-api.com/v4';
 const DEFAULT_REGION = process.env.ODDS_API_REGION || 'us';
 const DEFAULT_FORMAT = process.env.ODDS_API_FORMAT || 'american';
+
+// Check if API key is configured
+function checkApiKey(): void {
+  if (!API_KEY || API_KEY === 'REPLACE_ME') {
+    throw new Error(
+      'ODDS_API_KEY is not configured. Please add your API key to .env.local'
+    );
+  }
+}
+
+// Log API usage (without exposing the key)
+function logApiCall(endpoint: string, remainingRequests?: number): void {
+  console.log(`[Odds API] ${endpoint}`);
+  if (remainingRequests !== undefined) {
+    console.log(`[Odds API] Remaining requests: ${remainingRequests}`);
+  }
+}
 
 // Sport keys for major sports
 export const SPORT_KEYS = {
@@ -23,18 +41,34 @@ export const SPORT_KEYS = {
 // Get available sports from The Odds API
 export async function getAvailableSports(): Promise<Sport[]> {
   try {
-    const response = await fetch(`${BASE_URL}/sports?apiKey=${API_KEY}`);
+    checkApiKey();
+
+    const url = `${BASE_URL}/sports?apiKey=${API_KEY}`;
+    logApiCall('GET /sports');
+
+    const response = await fetch(url);
+
+    // Check rate limit headers
+    const remaining = response.headers.get('x-requests-remaining');
+    if (remaining) {
+      logApiCall('Sports list', parseInt(remaining));
+    }
 
     if (!response.ok) {
-      console.error('Failed to fetch sports:', response.statusText);
-      return [];
+      if (response.status === 401) {
+        throw new Error('Invalid API key. Please check your ODDS_API_KEY in .env.local');
+      }
+      if (response.status === 429) {
+        throw new Error('API rate limit exceeded. Please wait before making more requests.');
+      }
+      throw new Error(`API error: ${response.statusText}`);
     }
 
     const sports = await response.json();
     return sports;
   } catch (error) {
-    console.error('Error fetching sports:', error);
-    return [];
+    console.error('[Odds API] Error fetching sports:', error);
+    throw error;
   }
 }
 
@@ -45,19 +79,37 @@ export async function getLiveOdds(
   region: string = DEFAULT_REGION
 ): Promise<LiveEvent[]> {
   try {
-    const marketsParam = markets.join(',');
+    checkApiKey();
+
     const url = `${BASE_URL}/sports/${sportKey}/odds?apiKey=${API_KEY}&regions=${region}&markets=h2h,spreads,totals&oddsFormat=${DEFAULT_FORMAT}`;
 
-    console.log('Fetching odds from:', url);
+    logApiCall(`GET /sports/${sportKey}/odds`);
 
     const response = await fetch(url, {
       // Cache for 30 seconds to avoid hitting API limits
       next: { revalidate: 30 }
     });
 
+    // Check rate limit headers
+    const remaining = response.headers.get('x-requests-remaining');
+    const used = response.headers.get('x-requests-used');
+    if (remaining) {
+      logApiCall(`Odds for ${sportKey}`, parseInt(remaining));
+      console.log(`[Odds API] Requests used: ${used || 'unknown'}`);
+    }
+
     if (!response.ok) {
-      console.error('Failed to fetch odds:', response.statusText);
-      return [];
+      if (response.status === 401) {
+        throw new Error('Invalid API key. Please check your ODDS_API_KEY in .env.local');
+      }
+      if (response.status === 429) {
+        throw new Error('API rate limit exceeded. You have used your monthly quota. Upgrade your plan or wait until next month.');
+      }
+      if (response.status === 404) {
+        console.warn(`[Odds API] Sport not found: ${sportKey}`);
+        return [];
+      }
+      throw new Error(`API error: ${response.statusText}`);
     }
 
     const data = await response.json();
@@ -118,8 +170,9 @@ export async function getLiveOdds(
 
     return events;
   } catch (error) {
-    console.error('Error fetching live odds:', error);
-    return [];
+    console.error('[Odds API] Error fetching live odds:', error);
+    // Re-throw the error so it can be handled by the caller
+    throw error;
   }
 }
 
