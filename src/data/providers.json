@@ -1,0 +1,167 @@
+[
+  {
+    "id": "netent",
+    "name": "NetEnt",
+    "color": "#00A3FF"
+  },
+  {
+    "id": "microgaming",
+    "name": "Microgaming",
+    "color": "#E31E24"
+  },
+  {
+    "id": "pragmatic-play",
+    "name": "Pragmatic Play",
+    "color": "#FF6B00"
+  },
+  {
+    "id": "playngo",
+    "name": "Play'n GO",
+    "color": "#00D4FF"
+  },
+  {
+    "id": "igt",
+    "name": "IGT",
+    "color": "#0066CC"
+  },
+  {
+    "id": "nolimit-city",
+    "name": "Nolimit City",
+    "color": "#FF0000"
+  },
+  {
+    "id": "hacksaw-gaming",
+    "name": "Hacksaw Gaming",
+    "color": "#FF3366"
+  },
+  {
+    "id": "relax-gaming",
+    "name": "Relax Gaming",
+    "color": "#8B5CF6"
+  },
+  {
+    "id": "big-time-gaming",
+    "name": "Big Time Gaming",
+    "color": "#FFD700"
+  },
+  {
+    "id": "push-gaming",
+    "name": "Push Gaming",
+    "color": "#FF4500"
+  },
+  {
+    "id": "elk-studios",
+    "name": "ELK Studios",
+    "color": "#1E90FF"
+  },
+  {
+    "id": "blueprint-gaming",
+    "name": "Blueprint Gaming",
+    "color": "#0052CC"
+  },
+  {
+    "id": "red-tiger",
+    "name": "Red Tiger Gaming",
+    "color": "#DC143C"
+  },
+  {
+    "id": "thunderkick",
+    "name": "Thunderkick",
+    "color": "#FF6347"
+  },
+  {
+    "id": "quickspin",
+    "name": "Quickspin",
+    "color": "#9C27B0"
+  },
+  {
+    "id": "yggdrasil",
+    "name": "Yggdrasil",
+    "color": "#00C853"
+  },
+  {
+    "id": "wms",
+    "name": "WMS",
+    "color": "#2196F3"
+  },
+  {
+    "id": "novomatic",
+    "name": "Novomatic",
+    "color": "#FFEB3B"
+  },
+  {
+    "id": "aristocrat",
+    "name": "Aristocrat",
+    "color": "#4CAF50"
+  },
+  {
+    "id": "playtech",
+    "name": "Playtech",
+    "color": "#009688"
+  },
+  {
+    "id": "fantasma",
+    "name": "Fantasma",
+    "color": "#E91E63"
+  },
+  {
+    "id": "playson",
+    "name": "Playson",
+    "color": "#FF5722"
+  },
+  {
+    "id": "evoplay",
+    "name": "Evoplay",
+    "color": "#673AB7"
+  },
+  {
+    "id": "spinomenal",
+    "name": "Spinomenal",
+    "color": "#3F51B5"
+  },
+  {
+    "id": "kalamba",
+    "name": "Kalamba",
+    "color": "#00BCD4"
+  },
+  {
+    "id": "slotmill",
+    "name": "Slotmill",
+    "color": "#FFC107"
+  },
+  {
+    "id": "booming-games",
+    "name": "Booming Games",
+    "color": "#FF9800"
+  },
+  {
+    "id": "merkur",
+    "name": "Merkur",
+    "color": "#795548"
+  },
+  {
+    "id": "tom-horn",
+    "name": "Tom Horn",
+    "color": "#607D8B"
+  },
+  {
+    "id": "iron-dog-studio",
+    "name": "Iron Dog Studio",
+    "color": "#9E9E9E"
+  },
+  {
+    "id": "wazdan",
+    "name": "Wazdan",
+    "color": "#CDDC39"
+  },
+  {
+    "id": "endorphina",
+    "name": "Endorphina",
+    "color": "#E91E63"
+  },
+  {
+    "id": "spribe",
+    "name": "Spribe",
+    "color": "#00E676"
+  }
+]

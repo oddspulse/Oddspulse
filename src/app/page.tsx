@@ -84,12 +84,20 @@ export default function HomePage() {
                 Premium Sportsbook & Casino Comparison
               </p>
             </div>
-            <Link
-              href="/admin"
-              className="bg-gradient-casino-reverse border-2 border-casinoGold/40 text-casinoGold px-6 py-3 rounded-lg font-heading font-semibold hover:bg-casinoGold hover:text-casinoBlack hover:shadow-glow-gold transition-all duration-300 uppercase tracking-wide text-sm"
-            >
-              ⚙️ Admin Panel
-            </Link>
+            <div className="flex gap-3">
+              <Link
+                href="/rtp-slots"
+                className="bg-gradient-casino-reverse border-2 border-casinoGreen/40 text-casinoGreen px-6 py-3 rounded-lg font-heading font-semibold hover:bg-casinoGreen hover:text-white hover:shadow-glow-green transition-all duration-300 uppercase tracking-wide text-sm"
+              >
+                🎰 RTP Slots
+              </Link>
+              <Link
+                href="/admin"
+                className="bg-gradient-casino-reverse border-2 border-casinoGold/40 text-casinoGold px-6 py-3 rounded-lg font-heading font-semibold hover:bg-casinoGold hover:text-casinoBlack hover:shadow-glow-gold transition-all duration-300 uppercase tracking-wide text-sm"
+              >
+                ⚙️ Admin
+              </Link>
+            </div>
           </div>
         </div>
       </header>
