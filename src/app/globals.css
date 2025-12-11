@@ -1,9 +1,11 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 body {
-  @apply bg-gray-50;
+  @apply bg-casinoBlack font-body text-textPrimary;
 }
 
 .line-clamp-3 {
@@ -11,4 +13,54 @@ body {
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
+}
+
+/* Custom glow animations */
+@keyframes pulse-glow-gold {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(245, 194, 66, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(245, 194, 66, 0.6);
+  }
+}
+
+@keyframes pulse-glow-green {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(13, 177, 93, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(13, 177, 93, 0.6);
+  }
+}
+
+.animate-glow-gold {
+  animation: pulse-glow-gold 2s ease-in-out infinite;
+}
+
+.animate-glow-green {
+  animation: pulse-glow-green 2s ease-in-out infinite;
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Custom scrollbar for dark theme */
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0D0D0D;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #252525;
+  border-radius: 6px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #F5C242;
 }
