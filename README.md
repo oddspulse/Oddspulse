@@ -21,7 +21,9 @@ A comprehensive, casino-themed web application for comparing online sportsbooks 
 - **Multiple Sports**: NFL, NBA, NHL, MLB, Soccer (EPL, Champions League), UFC, Tennis, Golf
 - **Market Types**: Moneyline, Spread, Totals (Over/Under)
 - **Best Odds Highlighting**: Automatically highlights the best odds for each outcome
-- **Auto-Refresh**: Updates every 30 seconds to keep odds current
+- **Smart Quota Management**: 90-minute refresh intervals with intelligent caching
+- **Manual Refresh**: User-controlled updates with cooldown enforcement
+- **Quota Display**: Real-time monitoring of monthly API usage
 - **Affiliate Integration**: Direct links to place bets with tracked affiliate URLs
 
 ### 💰 Arbitrage Scanner
@@ -30,6 +32,8 @@ A comprehensive, casino-themed web application for comparing online sportsbooks 
 - **Profit Calculator**: Calculates exact stake amounts for guaranteed returns
 - **Multi-Sportsbook Coverage**: Compares odds across all available operators
 - **Customizable Settings**: Adjust minimum profit threshold and total stake
+- **Smart Quota Management**: 90-minute refresh intervals to preserve API quota
+- **Manual Scan**: User-controlled scanning with cooldown enforcement
 - **Step-by-Step Instructions**: Clear betting instructions with affiliate links
 
 ### 🎰 RTP Slots Database
@@ -150,6 +154,28 @@ ODDS_API_FORMAT=american
 
 **Note**: The live odds feature will show an error message if the API key is not configured. The casino comparison and RTP slots features work without it.
 
+### Understanding API Quota Management
+
+The Odds API free tier provides **500 requests per month**. To ensure your quota lasts the entire month, this app implements smart quota management:
+
+**How it works:**
+- **90-Minute Refresh Intervals**: Data refreshes at most once every 90 minutes
+- **Intelligent Caching**: Cached data is served when refresh interval hasn't elapsed
+- **Manual Refresh Control**: Users can manually refresh when cooldown expires
+- **Real-Time Monitoring**: Dashboard displays remaining quota (X/500 calls)
+- **Warning System**: Alerts when approaching 90% quota usage
+
+**Monthly Distribution:**
+- 500 calls ÷ 30 days = ~16 calls per day
+- 16 calls per day ÷ 24 hours = ~1 call every 90 minutes
+- This ensures quota lasts the full month while keeping data reasonably fresh
+
+**Cache Behavior:**
+- Data cached for up to 2 hours
+- Serves cached data during cooldown periods
+- Shows cache age ("45 minutes ago", "1h 30m ago")
+- Automatic monthly reset when new month begins
+
 5. **Run the development server**
 
 ```bash
@@ -208,7 +234,10 @@ Access at [http://localhost:3000/live-odds](http://localhost:3000/live-odds)
 - **View Odds**: See real-time odds from multiple sportsbooks
 - **Best Odds**: Automatically highlighted in green with "Best" badge
 - **Place Bets**: Click any odds row to visit the sportsbook via affiliate link
-- **Auto-Refresh**: Page automatically updates every 30 seconds
+- **Quota Dashboard**: Monitor monthly API usage and remaining calls
+- **Cache Status**: See if data is "Fresh" or "Cached" with age display
+- **Manual Refresh**: Click "Refresh Now" when cooldown expires (90-minute intervals)
+- **Cooldown Timer**: Shows time remaining until next refresh is allowed
 
 ### Arbitrage Scanner
 
@@ -216,10 +245,12 @@ Access at [http://localhost:3000/arbitrage](http://localhost:3000/arbitrage)
 
 - **Select Sport & Market**: Choose sport and betting market type
 - **Adjust Settings**: Set minimum profit percentage and total stake amount
-- **Scan for Opportunities**: Click "Scan Now" or wait for auto-refresh
+- **Scan for Opportunities**: Click "Scan Now" to manually scan for arbitrage
 - **View Results**: See all arbitrage opportunities sorted by profit
 - **Place Bets**: Follow the betting instructions with calculated stake amounts
 - **Guaranteed Profit**: Each opportunity shows exact profit and required bets
+- **Quota Dashboard**: Monitor API usage to avoid exceeding monthly limits
+- **Cooldown Timer**: Respects 90-minute refresh intervals
 
 **Note**: Arbitrage betting may violate sportsbook terms of service. Use responsibly and at your own risk.
 
@@ -322,7 +353,7 @@ Then configure environment variables in the Vercel dashboard under Settings → 
 
 Your app will be live at: `https://your-project.vercel.app`
 
-**Live Odds API Rate Limits**: The free tier of The Odds API includes 500 requests per month. Each page load on the live-odds page uses 1 request. With auto-refresh every 30 seconds, plan accordingly for production use.
+**Live Odds API Rate Limits**: The free tier of The Odds API includes 500 requests per month. This app implements smart quota management with 90-minute refresh intervals and intelligent caching to ensure your quota lasts the entire month. Manual refresh controls prevent accidental quota exhaustion.
 
 ### Deploy to Netlify
 
