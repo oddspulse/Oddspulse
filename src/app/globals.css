@@ -122,3 +122,8 @@ html {
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
+
+/* Shadow glow orange utility */
+.shadow-glow-orange {
+  box-shadow: 0 0 25px rgba(255, 159, 28, 0.5);
+}

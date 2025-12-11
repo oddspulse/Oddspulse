@@ -3,15 +3,15 @@
 import Link from 'next/link';
 
 const GAMES = [
-  { label: 'Live Odds', href: '/live-odds', emoji: '📊', gradient: 'from-casinoBlue to-casinoPurple' },
-  { label: 'Arbitrage', href: '/arbitrage', emoji: '💰', gradient: 'from-casinoGreen to-casinoBlue' },
-  { label: 'RTP Slots', href: '/rtp-slots', emoji: '🎰', gradient: 'from-casinoOrange to-casinoRed' },
-  { label: 'Operators', href: '/', emoji: '🏢', gradient: 'from-casinoPurple to-casinoOrange' },
+  { label: 'Slots', href: '/rtp-slots', emoji: '🎰', gradient: 'from-casinoOrange to-casinoPurple' },
+  { label: 'Poker', href: '/', emoji: '🃏', gradient: 'from-casinoPurple to-casinoOrange' },
+  { label: 'Live Casino', href: '/', emoji: '🎲', gradient: 'from-casinoOrangeLight to-casinoPurple' },
+  { label: 'Sports', href: '/live-odds', emoji: '⚽', gradient: 'from-casinoPurple to-casinoOrangeLight' },
 ];
 
 export function GameGrid() {
   return (
-    <section className="mb-20">
+    <section className="mb-6">
       <h3 className="text-lg font-bold mb-4 font-heading text-textPrimary">
         Popular Games
       </h3>
@@ -22,12 +22,11 @@ export function GameGrid() {
             href={game.href}
             className="block"
           >
-            <div className="rounded-xl2 p-4 shadow-card bg-gradient-to-br from-casinoSurface to-casinoSurfaceAlt relative overflow-hidden card-3d border border-white/5 hover:border-white/10 transition-all duration-300">
-              <span className="inline-flex px-3 py-1.5 rounded-full bg-black/40 text-xs shadow-soft backdrop-blur-sm font-medium">
+            <div className="rounded-xl2 p-4 shadow-card bg-gradient-to-br from-casinoSurface to-casinoSurfaceAlt relative overflow-hidden hover:scale-105 transition-transform duration-300 border border-white/5">
+              <span className="inline-flex px-3 py-1.5 rounded-full bg-black/40 text-xs shadow-soft backdrop-blur-sm font-medium text-white">
                 {game.label}
               </span>
 
-              {/* Colorful gradient art */}
               <div className={`mt-4 h-24 rounded-xl bg-gradient-to-tr ${game.gradient} shadow-soft flex items-center justify-center relative overflow-hidden`}>
                 <span className="text-5xl z-10">{game.emoji}</span>
                 <div className="absolute inset-0 bg-black/20" />
