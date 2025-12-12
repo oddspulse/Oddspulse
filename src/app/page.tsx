@@ -74,7 +74,7 @@ export default function HomePage() {
     <div className="min-h-screen bg-gradient-casino pb-24">
       {/* Header */}
       <Navigation
-        title="BetRadar Hub"
+        title="BetRadar"
         subtitle="Premium Sportsbook & Casino Comparison"
         emoji="🎰"
       />

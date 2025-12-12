@@ -34,6 +34,7 @@ export type SlotGame = {
   maxBet?: number;
   theme?: string;
   features?: string[];
+  popularityRank?: number; // 1-5 for top popular slots per provider
 };
 
 export type SlotFilters = {
