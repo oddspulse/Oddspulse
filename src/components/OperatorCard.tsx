@@ -75,12 +75,13 @@ export default function OperatorCard({ operator }: OperatorCardProps) {
           href={operator.affiliateUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="block w-full bg-gradient-orange hover:shadow-glow text-casinoBlack font-heading font-bold py-4 px-6 rounded-full text-center transition-all duration-300 transform hover:scale-105 hover:-translate-y-1 uppercase tracking-wide text-sm relative overflow-hidden group/btn"
+          className="block w-full bg-gradient-orange hover:shadow-glow-gold text-casinoBlack font-heading font-extrabold py-5 px-8 rounded-full text-center transition-all duration-300 transform hover:scale-110 hover:-translate-y-2 uppercase tracking-wider text-base relative overflow-hidden group/btn shadow-glow animate-pulse"
         >
-          <span className="absolute inset-0 bg-gradient-to-r from-casinoOrangeLight/0 via-white/20 to-casinoOrangeLight/0 opacity-0 group-hover/btn:opacity-100 transition-opacity duration-300"></span>
-          <span className="relative z-10 flex items-center justify-center gap-2">
-            <span>Claim Offer</span>
-            <span className="text-lg group-hover/btn:translate-x-1 transition-transform duration-200">→</span>
+          <span className="absolute inset-0 bg-gradient-to-r from-casinoOrangeLight/0 via-white/30 to-casinoOrangeLight/0 opacity-0 group-hover/btn:opacity-100 transition-opacity duration-300 animate-shimmer"></span>
+          <span className="relative z-10 flex items-center justify-center gap-3">
+            <span className="text-xl">🎁</span>
+            <span className="drop-shadow-lg">CLAIM NOW</span>
+            <span className="text-2xl group-hover/btn:translate-x-2 transition-transform duration-200">→</span>
           </span>
         </a>
 
