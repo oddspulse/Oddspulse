@@ -75,9 +75,9 @@ export default function OperatorCard({ operator }: OperatorCardProps) {
           href={operator.affiliateUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="block w-full bg-gradient-orange hover:shadow-glow-gold text-casinoBlack font-heading font-extrabold py-5 px-8 rounded-full text-center transition-all duration-300 transform hover:scale-110 hover:-translate-y-2 uppercase tracking-wider text-base relative overflow-hidden group/btn shadow-glow animate-pulse"
+          className="block w-full bg-gradient-green hover:shadow-glow-green text-white font-heading font-extrabold py-5 px-8 rounded-full text-center transition-all duration-300 transform hover:scale-110 hover:-translate-y-2 uppercase tracking-wider text-base relative overflow-hidden group/btn shadow-glow-green animate-pulse"
         >
-          <span className="absolute inset-0 bg-gradient-to-r from-casinoOrangeLight/0 via-white/30 to-casinoOrangeLight/0 opacity-0 group-hover/btn:opacity-100 transition-opacity duration-300 animate-shimmer"></span>
+          <span className="absolute inset-0 bg-gradient-to-r from-casinoGreen/0 via-white/30 to-casinoGreen/0 opacity-0 group-hover/btn:opacity-100 transition-opacity duration-300 animate-shimmer"></span>
           <span className="relative z-10 flex items-center justify-center gap-3">
             <span className="text-xl">🎁</span>
             <span className="drop-shadow-lg">CLAIM NOW</span>
