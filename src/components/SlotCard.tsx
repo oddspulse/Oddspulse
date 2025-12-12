@@ -129,7 +129,7 @@ export default function SlotCard({ slot, operators }: SlotCardProps) {
                   href={op.affiliateUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="px-3 py-1.5 bg-casinoBlack3 border border-casinoGreen/30 text-casinoGreen text-xs font-semibold rounded hover:bg-casinoGreen/20 hover:shadow-glow-green transition-all duration-200"
+                  className="px-3 py-1.5 bg-casinoSurfaceAlt border border-white/10 text-textPrimary text-xs font-medium rounded hover:bg-casinoSurface hover:border-white/20 transition-all duration-200"
                 >
                   {op.name}
                 </a>
@@ -143,20 +143,21 @@ export default function SlotCard({ slot, operators }: SlotCardProps) {
           </div>
         )}
 
-        {/* Play Now Button */}
+        {/* Join Now Button - Professional Style */}
         {supportedOperators.length > 0 && (
-          <a
-            href={supportedOperators[0].affiliateUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="block w-full bg-gradient-green hover:shadow-glow-green text-white font-heading font-bold py-3 px-6 rounded-lg text-center transition-all duration-300 transform hover:scale-105 hover:-translate-y-1 uppercase tracking-wide text-sm relative overflow-hidden group/btn"
-          >
-            <span className="absolute inset-0 bg-gradient-to-r from-casinoGold/0 via-casinoGold/20 to-casinoGold/0 opacity-0 group-hover/btn:opacity-100 transition-opacity duration-300"></span>
-            <span className="relative z-10 flex items-center justify-center gap-2">
-              <span>Play Now</span>
-              <span className="text-lg group-hover/btn:translate-x-1 transition-transform duration-200">→</span>
-            </span>
-          </a>
+          <div>
+            <a
+              href={supportedOperators[0].affiliateUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center w-full px-4 py-3 rounded-lg text-sm font-medium bg-casinoSurfaceAlt text-textPrimary border border-white/10 shadow-soft hover:bg-casinoSurface hover:border-white/20 transition-all duration-200"
+            >
+              Join Now
+            </a>
+            <p className="text-[10px] text-textSecondary text-center mt-2">
+              Official site • 18+ • T&Cs apply
+            </p>
+          </div>
         )}
       </div>
     </div>

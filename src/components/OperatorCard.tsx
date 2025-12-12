@@ -8,7 +8,7 @@ interface OperatorCardProps {
 
 export default function OperatorCard({ operator }: OperatorCardProps) {
   return (
-    <div className="group rounded-xl2 shadow-card-dark hover:shadow-glow transition-all duration-300 overflow-hidden border border-white/5 hover:border-casinoOrange/30 card-3d bg-gradient-to-br from-casinoSurface to-casinoSurfaceAlt relative">
+    <div className="group rounded-xl2 shadow-card-dark hover:shadow-card-hover transition-all duration-300 overflow-hidden border border-white/10 hover:border-white/20 card-3d bg-gradient-to-br from-casinoSurface to-casinoSurfaceAlt relative">
       {/* Logo Section */}
       <div className="glass border-b border-white/5 p-6 flex items-center justify-center h-28 relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-casinoOrange/5 to-transparent"></div>
@@ -22,7 +22,7 @@ export default function OperatorCard({ operator }: OperatorCardProps) {
       {/* Content Section */}
       <div className="p-6">
         {/* Brand Name */}
-        <h3 className="text-xl font-heading font-bold text-textPrimary mb-3 group-hover:gradient-text transition-all duration-200">
+        <h3 className="text-xl font-heading font-bold text-textPrimary mb-3">
           {operator.name}
         </h3>
 
@@ -70,20 +70,20 @@ export default function OperatorCard({ operator }: OperatorCardProps) {
           </div>
         )}
 
-        {/* CTA Button */}
+        {/* CTA Button - Professional Style */}
         <a
           href={operator.affiliateUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="block w-full bg-gradient-green hover:shadow-glow-green text-white font-heading font-extrabold py-5 px-8 rounded-full text-center transition-all duration-300 transform hover:scale-110 hover:-translate-y-2 uppercase tracking-wider text-base relative overflow-hidden group/btn shadow-glow-green animate-pulse"
+          className="inline-flex items-center justify-center w-full px-4 py-3 rounded-lg text-sm font-medium bg-casinoSurfaceAlt text-textPrimary border border-white/10 shadow-soft hover:bg-casinoSurface hover:border-white/20 transition-all duration-200"
         >
-          <span className="absolute inset-0 bg-gradient-to-r from-casinoGreen/0 via-white/30 to-casinoGreen/0 opacity-0 group-hover/btn:opacity-100 transition-opacity duration-300 animate-shimmer"></span>
-          <span className="relative z-10 flex items-center justify-center gap-3">
-            <span className="text-xl">🎁</span>
-            <span className="drop-shadow-lg">CLAIM NOW</span>
-            <span className="text-2xl group-hover/btn:translate-x-2 transition-transform duration-200">→</span>
-          </span>
+          Join Now
         </a>
+
+        {/* Trust Signal */}
+        <p className="text-[10px] text-textSecondary text-center mt-2">
+          Official site • 18+ • T&Cs apply
+        </p>
 
         {/* Optional: "Hot Offer" badge for featured operators */}
         {operator.notes?.toLowerCase().includes('leading') && (
@@ -92,9 +92,6 @@ export default function OperatorCard({ operator }: OperatorCardProps) {
           </div>
         )}
       </div>
-
-      {/* Decorative glow */}
-      <div className="absolute -bottom-12 -right-12 w-24 h-24 bg-casinoOrange/10 rounded-full blur-3xl" />
     </div>
   );
 }
