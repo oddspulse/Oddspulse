@@ -4,9 +4,9 @@ import Link from 'next/link';
 
 const GAMES = [
   { label: 'Slots', href: '/rtp-slots', emoji: '🎰', gradient: 'from-casinoOrange to-casinoPurple' },
-  { label: 'Poker', href: '/', emoji: '🃏', gradient: 'from-casinoPurple to-casinoOrange' },
   { label: 'Live Casino', href: '/', emoji: '🎲', gradient: 'from-casinoOrangeLight to-casinoPurple' },
   { label: 'Sports', href: '/live-odds', emoji: '⚽', gradient: 'from-casinoPurple to-casinoOrangeLight' },
+  { label: 'Arbitrage', href: '/arbitrage', emoji: '💰', gradient: 'from-casinoPurple to-casinoOrange' },
 ];
 
 export function GameGrid() {
