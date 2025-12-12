@@ -2,7 +2,7 @@
   {
     "id": "fanduel",
     "name": "FanDuel",
-    "brandLogoUrl": "https://logo.clearbit.com/fanduel.com",
+    "brandLogoUrl": "https://www.fanduel.com/favicon.ico",
     "regionTags": ["US"],
     "productTags": ["Sports", "Casino"],
     "bonusHeadline": "Bet $5, Get $150 in Bonus Bets",
@@ -13,7 +13,7 @@
   {
     "id": "draftkings",
     "name": "DraftKings",
-    "brandLogoUrl": "https://logo.clearbit.com/draftkings.com",
+    "brandLogoUrl": "https://www.draftkings.com/favicon.ico",
     "regionTags": ["US"],
     "productTags": ["Sports", "Casino"],
     "bonusHeadline": "Bet $5, Get $200 in Bonus Bets Instantly",
@@ -24,7 +24,7 @@
   {
     "id": "betmgm",
     "name": "BetMGM",
-    "brandLogoUrl": "https://logo.clearbit.com/betmgm.com",
+    "brandLogoUrl": "https://www.betmgm.com/favicon.ico",
     "regionTags": ["US"],
     "productTags": ["Sports", "Casino"],
     "bonusHeadline": "$1,500 First Bet Offer",
@@ -35,7 +35,7 @@
   {
     "id": "caesars",
     "name": "Caesars Sportsbook & Casino",
-    "brandLogoUrl": "https://logo.clearbit.com/caesars.com",
+    "brandLogoUrl": "https://www.caesars.com/favicon.ico",
     "regionTags": ["US"],
     "productTags": ["Sports", "Casino"],
     "bonusHeadline": "Get Up to $1,000 Back on Your First Bet",
@@ -46,7 +46,7 @@
   {
     "id": "bet365",
     "name": "bet365",
-    "brandLogoUrl": "https://logo.clearbit.com/bet365.com",
+    "brandLogoUrl": "https://www.bet365.com/favicon.ico",
     "regionTags": ["US", "UK", "Global"],
     "productTags": ["Sports", "Casino"],
     "bonusHeadline": "Bet $1, Get $200 in Bonus Bets",
@@ -57,7 +57,7 @@
   {
     "id": "fanatics",
     "name": "Fanatics Sportsbook",
-    "brandLogoUrl": "https://logo.clearbit.com/fanaticssportsbook.com",
+    "brandLogoUrl": "https://www.fanatics.com/favicon.ico",
     "regionTags": ["US"],
     "productTags": ["Sports"],
     "bonusHeadline": "Get Up to $1,000 in Bonus Bets",
@@ -68,7 +68,7 @@
   {
     "id": "pointsbet",
     "name": "PointsBet",
-    "brandLogoUrl": "https://logo.clearbit.com/pointsbet.com",
+    "brandLogoUrl": "https://www.pointsbet.com/favicon.ico",
     "regionTags": ["US", "Canada"],
     "productTags": ["Sports"],
     "bonusHeadline": "5 x $100 Second Chance Bets",
@@ -79,7 +79,7 @@
   {
     "id": "unibet",
     "name": "Unibet",
-    "brandLogoUrl": "https://logo.clearbit.com/unibet.com",
+    "brandLogoUrl": "https://www.unibet.com/favicon.ico",
     "regionTags": ["US", "UK", "EU"],
     "productTags": ["Sports", "Casino"],
     "bonusHeadline": "$500 Risk-Free Bet",
@@ -90,7 +90,7 @@
   {
     "id": "betway",
     "name": "Betway",
-    "brandLogoUrl": "https://logo.clearbit.com/betway.com",
+    "brandLogoUrl": "https://www.betway.com/favicon.ico",
     "regionTags": ["US", "UK", "Global"],
     "productTags": ["Sports", "Casino"],
     "bonusHeadline": "$250 Deposit Match",
@@ -101,7 +101,7 @@
   {
     "id": "888sport",
     "name": "888sport / 888casino",
-    "brandLogoUrl": "https://logo.clearbit.com/888sport.com",
+    "brandLogoUrl": "https://www.888.com/favicon.ico",
     "regionTags": ["US", "UK", "Global"],
     "productTags": ["Sports", "Casino"],
     "bonusHeadline": "$500 Casino Bonus + $10 Free Bet",
@@ -112,7 +112,7 @@
   {
     "id": "betfair",
     "name": "Betfair",
-    "brandLogoUrl": "https://logo.clearbit.com/betfair.com",
+    "brandLogoUrl": "https://www.betfair.com/favicon.ico",
     "regionTags": ["US", "UK", "Global"],
     "productTags": ["Sports", "Casino"],
     "bonusHeadline": "$1,000 Risk-Free First Bet",
@@ -123,7 +123,7 @@
   {
     "id": "paddypower",
     "name": "Paddy Power",
-    "brandLogoUrl": "https://logo.clearbit.com/paddypower.com",
+    "brandLogoUrl": "https://www.paddypower.com/favicon.ico",
     "regionTags": ["UK", "EU"],
     "productTags": ["Sports", "Casino"],
     "bonusHeadline": "£20 in Free Bets",
@@ -134,7 +134,7 @@
   {
     "id": "williamhill",
     "name": "William Hill",
-    "brandLogoUrl": "https://logo.clearbit.com/williamhill.com",
+    "brandLogoUrl": "https://www.williamhill.com/favicon.ico",
     "regionTags": ["US", "UK", "Global"],
     "productTags": ["Sports", "Casino"],
     "bonusHeadline": "Bet $10, Get $100 in Bonus Bets",
@@ -145,7 +145,7 @@
   {
     "id": "stake",
     "name": "Stake",
-    "brandLogoUrl": "https://logo.clearbit.com/stake.com",
+    "brandLogoUrl": "https://stake.com/favicon.ico",
     "regionTags": ["Global"],
     "productTags": ["Sports", "Casino"],
     "bonusHeadline": "200% Deposit Bonus up to $2,000",
@@ -156,7 +156,7 @@
   {
     "id": "betrivers",
     "name": "BetRivers",
-    "brandLogoUrl": "https://logo.clearbit.com/betrivers.com",
+    "brandLogoUrl": "https://www.betrivers.com/favicon.ico",
     "regionTags": ["US", "Canada"],
     "productTags": ["Sports", "Casino"],
     "bonusHeadline": "$500 Second Chance Bet",
@@ -167,7 +167,7 @@
   {
     "id": "leovegas",
     "name": "LeoVegas",
-    "brandLogoUrl": "https://logo.clearbit.com/leovegas.com",
+    "brandLogoUrl": "https://www.leovegas.com/favicon.ico",
     "regionTags": ["UK", "EU", "Canada"],
     "productTags": ["Casino"],
     "bonusHeadline": "100% up to $1,000 + 200 Free Spins",
@@ -179,7 +179,7 @@
   {
     "id": "betvictor",
     "name": "BetVictor",
-    "brandLogoUrl": "https://logo.clearbit.com/betvictor.com",
+    "brandLogoUrl": "https://www.betvictor.com/favicon.ico",
     "regionTags": ["UK", "EU"],
     "productTags": ["Sports", "Casino"],
     "bonusHeadline": "£25 Welcome Bonus",
@@ -190,7 +190,7 @@
   {
     "id": "ladbrokes",
     "name": "Ladbrokes",
-    "brandLogoUrl": "https://logo.clearbit.com/ladbrokes.com",
+    "brandLogoUrl": "https://www.ladbrokes.com/favicon.ico",
     "regionTags": ["UK", "EU"],
     "productTags": ["Sports", "Casino"],
     "bonusHeadline": "£20 in Free Bets",
@@ -201,7 +201,7 @@
   {
     "id": "wynnbet",
     "name": "WynnBET",
-    "brandLogoUrl": "https://logo.clearbit.com/wynnbet.com",
+    "brandLogoUrl": "https://www.wynnbet.com/favicon.ico",
     "regionTags": ["US"],
     "productTags": ["Sports", "Casino"],
     "bonusHeadline": "$100 in Free Bets",
@@ -212,7 +212,7 @@
   {
     "id": "betfred",
     "name": "Betfred",
-    "brandLogoUrl": "https://logo.clearbit.com/betfred.com",
+    "brandLogoUrl": "https://www.betfred.com/favicon.ico",
     "regionTags": ["US", "UK"],
     "productTags": ["Sports", "Casino"],
     "bonusHeadline": "$200 in Free Bets",
