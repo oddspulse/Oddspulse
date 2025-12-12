@@ -86,7 +86,7 @@ export default function Navigation({ title, subtitle, emoji, currentPage }: Navi
                   <Link
                     key={link.href}
                     href={link.href}
-                    className="px-6 py-3 rounded-full font-heading font-semibold transition-all duration-300 uppercase tracking-wide text-xs bg-gradient-orange text-casinoBlack shadow-glow border border-casinoOrange/50"
+                    className="px-6 py-3 rounded-full font-heading font-semibold transition-all duration-300 uppercase tracking-wide text-xs bg-gradient-green text-white shadow-glow-green border border-casinoGreen animate-pulse"
                   >
                     {link.emoji} {link.label}
                   </Link>
