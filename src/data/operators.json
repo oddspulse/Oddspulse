@@ -2,7 +2,7 @@
   {
     "id": "fanduel",
     "name": "FanDuel",
-    "brandLogoUrl": "https://accounts.sportsbook.fanduel.com/sbk-login/images/fanduel-logo.svg",
+    "brandLogoUrl": "/logos/fanduel.png",
     "regionTags": ["US"],
     "productTags": ["Sports", "Casino"],
     "bonusHeadline": "Bet $5, Get $150 in Bonus Bets",
@@ -15,7 +15,7 @@
   {
     "id": "draftkings",
     "name": "DraftKings",
-    "brandLogoUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/DraftKings_logo.svg/200px-DraftKings_logo.svg.png",
+    "brandLogoUrl": "/logos/draftkings.png",
     "regionTags": ["US"],
     "productTags": ["Sports", "Casino"],
     "bonusHeadline": "Bet $5, Get $200 in Bonus Bets Instantly",
@@ -28,7 +28,7 @@
   {
     "id": "betmgm",
     "name": "BetMGM",
-    "brandLogoUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/09/BetMGM_logo.svg/200px-BetMGM_logo.svg.png",
+    "brandLogoUrl": "/logos/betmgm.png",
     "regionTags": ["US"],
     "productTags": ["Sports", "Casino"],
     "bonusHeadline": "$1,500 First Bet Offer",
@@ -41,7 +41,7 @@
   {
     "id": "caesars",
     "name": "Caesars Sportsbook & Casino",
-    "brandLogoUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/89/Caesars_Sportsbook_%26_Casino_logo.svg/200px-Caesars_Sportsbook_%26_Casino_logo.svg.png",
+    "brandLogoUrl": "/logos/caesars.png",
     "regionTags": ["US"],
     "productTags": ["Sports", "Casino"],
     "bonusHeadline": "Get Up to $1,000 Back on Your First Bet",
@@ -54,7 +54,7 @@
   {
     "id": "bet365",
     "name": "bet365",
-    "brandLogoUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Bet365_logo.svg/200px-Bet365_logo.svg.png",
+    "brandLogoUrl": "/logos/bet365.png",
     "regionTags": ["US", "UK", "Global"],
     "productTags": ["Sports", "Casino"],
     "bonusHeadline": "Bet $1, Get $200 in Bonus Bets",
