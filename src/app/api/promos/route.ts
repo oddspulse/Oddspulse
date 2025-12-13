@@ -56,6 +56,7 @@ export async function GET() {
         id: op.id,
         name: op.name,
         brandLogoUrl: op.brandLogoUrl,
+        logo: op.logo, // Auto-mapped logo from /public/logos/
         regionTags: op.regionTags,
         productTags: op.productTags,
         affiliateUrl: op.affiliateUrl,
