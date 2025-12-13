@@ -143,14 +143,14 @@ export default function SlotCard({ slot, operators }: SlotCardProps) {
           </div>
         )}
 
-        {/* Join Now Button - Professional Style */}
+        {/* Join Now Button - Neon Green */}
         {supportedOperators.length > 0 && (
           <div>
             <a
               href={supportedOperators[0].affiliateUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center w-full px-4 py-3 rounded-lg text-sm font-medium bg-casinoSurfaceAlt text-textPrimary border border-white/10 shadow-soft hover:bg-casinoSurface hover:border-white/20 transition-all duration-200"
+              className="inline-flex items-center justify-center w-full px-4 py-3 rounded-lg text-sm font-medium bg-[#1ED760] text-black hover:bg-[#19C653] shadow-soft transition-all duration-200"
             >
               Join Now
             </a>

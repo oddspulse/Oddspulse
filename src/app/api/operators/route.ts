@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { getAllOperators, createOperator } from '@/lib/db';
+import { getAllOperators, createOperator } from '@/lib/operatorsDb';
 import { Operator } from '@/lib/types';
 
 export async function GET() {

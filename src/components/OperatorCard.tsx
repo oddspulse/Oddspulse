@@ -70,12 +70,20 @@ export default function OperatorCard({ operator }: OperatorCardProps) {
           </div>
         )}
 
-        {/* CTA Button - Professional Style */}
+        {/* Promo Source Badge (if from feed) */}
+        {operator.promoSource && operator.promoSource !== 'manual' && (
+          <div className="mb-4 flex items-center gap-2 text-xs text-textSecondary">
+            <span className="w-2 h-2 bg-casinoGreen rounded-full shadow-glow"></span>
+            <span>Verified offer</span>
+          </div>
+        )}
+
+        {/* CTA Button - Neon Green */}
         <a
           href={operator.affiliateUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center justify-center w-full px-4 py-3 rounded-lg text-sm font-medium bg-casinoSurfaceAlt text-textPrimary border border-white/10 shadow-soft hover:bg-casinoSurface hover:border-white/20 transition-all duration-200"
+          className="inline-flex items-center justify-center w-full px-4 py-3 rounded-lg text-sm font-medium bg-[#1ED760] text-black hover:bg-[#19C653] shadow-soft transition-all duration-200"
         >
           Join Now
         </a>

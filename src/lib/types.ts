@@ -9,6 +9,9 @@ export type Operator = {
   affiliateUrl: string;      // my tracking link
   rtpInfo?: string;          // optional, for slots/casino focus later
   notes?: string;            // free text
+  promoSource?: "affiliate_feed" | "official_api" | "manual"; // where promo data comes from
+  promoLastUpdated?: string; // ISO timestamp of last promo update
+  termsUrl?: string;         // optional link to T&Cs
 };
 
 export type OperatorFilters = {

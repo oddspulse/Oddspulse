@@ -21,6 +21,14 @@ export default function HomePage() {
 
   useEffect(() => {
     fetchOperators();
+
+    // Auto-refresh every 10 minutes (backend cache controls actual external calls)
+    const refreshInterval = setInterval(() => {
+      console.log('[Home] Auto-refreshing operators...');
+      fetchOperators();
+    }, 10 * 60 * 1000); // 10 minutes
+
+    return () => clearInterval(refreshInterval);
   }, []);
 
   useEffect(() => {
@@ -29,10 +37,15 @@ export default function HomePage() {
 
   const fetchOperators = async () => {
     try {
-      const response = await fetch('/api/operators');
+      // Fetch from promos API for auto-updated offers
+      const response = await fetch('/api/promos');
       const data = await response.json();
-      setOperators(data);
-      setFilteredOperators(data);
+
+      if (data.operators) {
+        setOperators(data.operators);
+        setFilteredOperators(data.operators);
+        console.log(`[Home] Loaded ${data.operators.length} operators (${data.fromCache ? 'cached' : 'fresh'} data)`);
+      }
     } catch (error) {
       console.error('Error fetching operators:', error);
     } finally {
