@@ -74,7 +74,7 @@ export default function HomePage() {
     <div className="min-h-screen bg-gradient-casino pb-24">
       {/* Header */}
       <Navigation
-        title="BetRadar"
+        title="Odds Pulse"
         subtitle="Premium Sportsbook & Casino Comparison"
         emoji="🎰"
       />
@@ -169,7 +169,7 @@ export default function HomePage() {
 
             {/* Copyright */}
             <p className="text-textSecondary text-xs">
-              © {new Date().getFullYear()} BetRadar Hub. All rights reserved.
+              © {new Date().getFullYear()} Odds Pulse. All rights reserved.
             </p>
           </div>
         </div>

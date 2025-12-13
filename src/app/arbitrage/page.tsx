@@ -432,7 +432,7 @@ export default function ArbitragePage() {
             </p>
             <div className="w-24 h-0.5 bg-gradient-to-r from-transparent via-casinoGold to-transparent mx-auto"></div>
             <p className="text-textSecondary text-xs">
-              © {new Date().getFullYear()} BetRadar Hub. All rights reserved.
+              © {new Date().getFullYear()} Odds Pulse. All rights reserved.
             </p>
           </div>
         </div>

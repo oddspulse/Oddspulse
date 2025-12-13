@@ -1,4 +1,4 @@
-# BetRadar Hub - Gambling Comparison Dashboard
+# Odds Pulse - Gambling Comparison Dashboard
 
 A comprehensive, casino-themed web application for comparing online sportsbooks and casino operators. Features live odds comparison, slot RTP database, affiliate link tracking, smart filtering, and a simple admin panel.
 
@@ -186,7 +186,7 @@ npm run dev
 
 Navigate to [http://localhost:3000](http://localhost:3000)
 
-You should see the BetRadar Hub homepage with all 20 operators!
+You should see the Odds Pulse homepage with all 20 operators!
 
 **Note**: All operator and slot data is stored in JSON files (`src/data/operators.json`, `src/data/slots.json`) and is ready to use out of the box. No database initialization needed!
 
