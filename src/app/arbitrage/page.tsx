@@ -31,6 +31,7 @@ interface RateLimitedOddsResponse {
 export default function ArbitragePage() {
   const [events, setEvents] = useState<LiveEvent[]>([]);
   const [opportunities, setOpportunities] = useState<ArbitrageOpportunity[]>([]);
+  const [operators, setOperators] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedSport, setSelectedSport] = useState(SPORT_KEYS.NFL);
   const [selectedMarket, setSelectedMarket] = useState<MarketType>('moneyline');
@@ -45,6 +46,12 @@ export default function ArbitragePage() {
 
   // Use the odds status hook for real-time countdown
   const { status, remainingMs, canRefreshNow, refetchStatus } = useOddsStatus(5000);
+
+  // Helper function to get operator logo by ID
+  const getOperatorLogo = (operatorId: string): string | undefined => {
+    const operator = operators.find(op => op.id === operatorId);
+    return operator?.brandLogoUrl;
+  };
 
   // Fetch odds and scan for arbitrage
   const scanForArbitrage = async (forceRefresh = false) => {
@@ -87,6 +94,22 @@ export default function ArbitragePage() {
       setScanning(false);
     }
   };
+
+  // Fetch operators
+  const fetchOperators = async () => {
+    try {
+      const response = await fetch('/api/operators');
+      const data = await response.json();
+      setOperators(data);
+    } catch (err) {
+      console.error('Error fetching operators:', err);
+    }
+  };
+
+  // Initial load
+  useEffect(() => {
+    fetchOperators();
+  }, []);
 
   // Initial scan
   useEffect(() => {
@@ -384,9 +407,19 @@ export default function ArbitragePage() {
                         <div className="space-y-2">
                           <div className="flex justify-between items-center">
                             <span className="text-sm text-textSecondary">Sportsbook:</span>
-                            <span className="text-sm font-semibold text-textPrimary">
-                              {bet.operatorName}
-                            </span>
+                            <div className="flex items-center gap-2">
+                              {/* Operator Logo */}
+                              {getOperatorLogo(bet.operatorId) && (
+                                <img
+                                  src={getOperatorLogo(bet.operatorId)}
+                                  alt={`${bet.operatorName} logo`}
+                                  className="h-8 w-auto object-contain"
+                                />
+                              )}
+                              <span className="text-sm font-semibold text-textPrimary">
+                                {bet.operatorName}
+                              </span>
+                            </div>
                           </div>
                           <div className="flex justify-between items-center">
                             <span className="text-sm text-textSecondary">Odds:</span>

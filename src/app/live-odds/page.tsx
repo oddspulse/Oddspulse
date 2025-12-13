@@ -30,6 +30,7 @@ interface RateLimitedOddsResponse {
 
 export default function LiveOddsPage() {
   const [events, setEvents] = useState<LiveEvent[]>([]);
+  const [operators, setOperators] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const [selectedSport, setSelectedSport] = useState(SPORT_KEYS.NFL);
@@ -81,7 +82,22 @@ export default function LiveOddsPage() {
     }
   };
 
+  // Fetch operators
+  const fetchOperators = async () => {
+    try {
+      const response = await fetch('/api/operators');
+      const data = await response.json();
+      setOperators(data);
+    } catch (err) {
+      console.error('Error fetching operators:', err);
+    }
+  };
+
   // Initial load
+  useEffect(() => {
+    fetchOperators();
+  }, []);
+
   useEffect(() => {
     setLoading(true);
     fetchOdds();
@@ -263,7 +279,7 @@ export default function LiveOddsPage() {
 
         {/* Odds Table */}
         {!loading && !error && (
-          <LiveOddsTable events={events} selectedMarket={selectedMarket} />
+          <LiveOddsTable events={events} selectedMarket={selectedMarket} operators={operators} />
         )}
       </main>
 

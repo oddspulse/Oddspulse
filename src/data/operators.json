@@ -2,7 +2,7 @@
   {
     "id": "fanduel",
     "name": "FanDuel",
-    "brandLogoUrl": "/logos/fanduel.png",
+    "brandLogoUrl": "/operators/fanduel.png",
     "regionTags": ["US"],
     "productTags": ["Sports", "Casino"],
     "bonusHeadline": "Bet $5, Get $150 in Bonus Bets",
@@ -15,7 +15,7 @@
   {
     "id": "draftkings",
     "name": "DraftKings",
-    "brandLogoUrl": "/logos/draftkings.png",
+    "brandLogoUrl": "/operators/draftkings.png",
     "regionTags": ["US"],
     "productTags": ["Sports", "Casino"],
     "bonusHeadline": "Bet $5, Get $200 in Bonus Bets Instantly",
@@ -28,7 +28,7 @@
   {
     "id": "betmgm",
     "name": "BetMGM",
-    "brandLogoUrl": "/logos/betmgm.png",
+    "brandLogoUrl": "/operators/betmgm.png",
     "regionTags": ["US"],
     "productTags": ["Sports", "Casino"],
     "bonusHeadline": "$1,500 First Bet Offer",
@@ -41,7 +41,7 @@
   {
     "id": "caesars",
     "name": "Caesars Sportsbook & Casino",
-    "brandLogoUrl": "/logos/caesars.png",
+    "brandLogoUrl": "/operators/caesars.png",
     "regionTags": ["US"],
     "productTags": ["Sports", "Casino"],
     "bonusHeadline": "Get Up to $1,000 Back on Your First Bet",
@@ -54,7 +54,7 @@
   {
     "id": "bet365",
     "name": "bet365",
-    "brandLogoUrl": "/logos/bet365.png",
+    "brandLogoUrl": "/operators/bet365.png",
     "regionTags": ["US", "UK", "Global"],
     "productTags": ["Sports", "Casino"],
     "bonusHeadline": "Bet $1, Get $200 in Bonus Bets",
@@ -67,7 +67,7 @@
   {
     "id": "fanatics",
     "name": "Fanatics Sportsbook",
-    "brandLogoUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/31/Fanatics_Sportsbook_logo.svg/200px-Fanatics_Sportsbook_logo.svg.png",
+    "brandLogoUrl": "/operators/fanatics.png",
     "regionTags": ["US"],
     "productTags": ["Sports"],
     "bonusHeadline": "Get Up to $1,000 in Bonus Bets",
@@ -80,7 +80,7 @@
   {
     "id": "pointsbet",
     "name": "PointsBet",
-    "brandLogoUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/03/PointsBet_logo.svg/200px-PointsBet_logo.svg.png",
+    "brandLogoUrl": "/operators/pointsbet.png",
     "regionTags": ["US", "Canada"],
     "productTags": ["Sports"],
     "bonusHeadline": "5 x $100 Second Chance Bets",
@@ -93,7 +93,7 @@
   {
     "id": "unibet",
     "name": "Unibet",
-    "brandLogoUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/Unibet_logo.svg/200px-Unibet_logo.svg.png",
+    "brandLogoUrl": "/operators/unibet.png",
     "regionTags": ["US", "UK", "EU"],
     "productTags": ["Sports", "Casino"],
     "bonusHeadline": "$500 Risk-Free Bet",
@@ -106,7 +106,7 @@
   {
     "id": "betway",
     "name": "Betway",
-    "brandLogoUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Betway_logo.svg/200px-Betway_logo.svg.png",
+    "brandLogoUrl": "/operators/betway.png",
     "regionTags": ["US", "UK", "Global"],
     "productTags": ["Sports", "Casino"],
     "bonusHeadline": "$250 Deposit Match",
@@ -119,7 +119,7 @@
   {
     "id": "888sport",
     "name": "888sport / 888casino",
-    "brandLogoUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/888_holdings_logo.svg/200px-888_holdings_logo.svg.png",
+    "brandLogoUrl": "/operators/888casino.png",
     "regionTags": ["US", "UK", "Global"],
     "productTags": ["Sports", "Casino"],
     "bonusHeadline": "$500 Casino Bonus + $10 Free Bet",

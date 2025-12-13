@@ -1,15 +1,22 @@
 'use client';
 
-import { LiveEvent, LiveMarket, MarketOutcome } from '@/lib/types';
+import { LiveEvent, LiveMarket, MarketOutcome, Operator } from '@/lib/types';
 import { formatAmericanOdds, findBestOdds } from '@/lib/oddsService';
 import { format } from 'date-fns';
 
 interface LiveOddsTableProps {
   events: LiveEvent[];
   selectedMarket: string;
+  operators?: Operator[];
 }
 
-export default function LiveOddsTable({ events, selectedMarket }: LiveOddsTableProps) {
+export default function LiveOddsTable({ events, selectedMarket, operators = [] }: LiveOddsTableProps) {
+  // Helper function to get operator logo by ID
+  const getOperatorLogo = (operatorId: string): string | undefined => {
+    const operator = operators.find(op => op.id === operatorId);
+    return operator?.brandLogoUrl;
+  };
+
   if (events.length === 0) {
     return (
       <div className="text-center py-20 bg-gradient-casino-reverse rounded-xl border border-casinoGold/20 p-12">
@@ -111,7 +118,16 @@ export default function LiveOddsTable({ events, selectedMarket }: LiveOddsTableP
                                 }
                               `}
                             >
-                              <div className="flex items-center gap-2">
+                              <div className="flex items-center gap-3">
+                                {/* Operator Logo */}
+                                {getOperatorLogo(outcome.operatorId) && (
+                                  <img
+                                    src={getOperatorLogo(outcome.operatorId)}
+                                    alt={`${outcome.operatorName} logo`}
+                                    className="h-8 w-auto object-contain"
+                                  />
+                                )}
+                                {/* Operator Name */}
                                 <span className={`font-semibold ${isBest ? 'text-casinoGreen' : 'text-textPrimary'}`}>
                                   {outcome.operatorName}
                                 </span>

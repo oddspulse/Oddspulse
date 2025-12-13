@@ -9,22 +9,23 @@ interface OperatorCardProps {
 export default function OperatorCard({ operator }: OperatorCardProps) {
   return (
     <div className="group rounded-xl2 shadow-card-dark hover:shadow-card-hover transition-all duration-300 overflow-hidden border border-white/10 hover:border-white/20 card-3d bg-gradient-to-br from-casinoSurface to-casinoSurfaceAlt relative">
-      {/* Logo Section */}
-      <div className="glass border-b border-white/5 p-6 flex items-center justify-center h-28 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-casinoOrange/5 to-transparent"></div>
-        <img
-          src={operator.brandLogoUrl}
-          alt={`${operator.name} logo`}
-          className="max-h-16 max-w-full object-contain relative z-10 filter drop-shadow-lg"
-        />
-      </div>
-
       {/* Content Section */}
       <div className="p-6">
-        {/* Brand Name */}
-        <h3 className="text-xl font-heading font-bold text-textPrimary mb-3">
-          {operator.name}
-        </h3>
+        {/* Header with Logo and Brand Name */}
+        <div className="flex items-center gap-4 mb-4">
+          {/* Logo - left aligned, vertically centered */}
+          {operator.brandLogoUrl && (
+            <img
+              src={operator.brandLogoUrl}
+              alt={`${operator.name} logo`}
+              className="h-8 w-auto object-contain"
+            />
+          )}
+          {/* Brand Name */}
+          <h3 className="text-xl font-heading font-bold text-textPrimary">
+            {operator.name}
+          </h3>
+        </div>
 
         {/* Tags */}
         <div className="flex flex-wrap gap-2 mb-4">
