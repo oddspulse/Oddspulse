@@ -8,6 +8,7 @@ import { SPORT_KEYS } from '@/lib/oddsService';
 import { findArbitrageOpportunities } from '@/lib/arbitrageService';
 import { format } from 'date-fns';
 import { useOddsStatus, formatCountdown, formatCacheAge } from '@/hooks/useOddsStatus';
+import OperatorLogo from '@/components/OperatorLogo';
 
 interface RateLimitedOddsResponse {
   events: LiveEvent[];
@@ -50,7 +51,7 @@ export default function ArbitragePage() {
   // Helper function to get operator logo by ID
   const getOperatorLogo = (operatorId: string): string | undefined => {
     const operator = operators.find(op => op.id === operatorId);
-    return operator?.brandLogoUrl;
+    return operator?.logo;
   };
 
   // Fetch odds and scan for arbitrage
@@ -410,10 +411,9 @@ export default function ArbitragePage() {
                             <div className="flex items-center gap-2">
                               {/* Operator Logo */}
                               {getOperatorLogo(bet.operatorId) && (
-                                <img
-                                  src={getOperatorLogo(bet.operatorId)}
+                                <OperatorLogo
+                                  src={getOperatorLogo(bet.operatorId)!}
                                   alt={`${bet.operatorName} logo`}
-                                  className="h-8 w-auto object-contain"
                                 />
                               )}
                               <span className="text-sm font-semibold text-textPrimary">

@@ -2,6 +2,7 @@ export type Operator = {
   id: string;
   name: string;
   brandLogoUrl: string;
+  logo?: string;             // auto-mapped logo from /public/logos/
   regionTags: string[];      // e.g. ["US", "Canada"]
   productTags: string[];     // e.g. ["Sports", "Casino"]
   bonusHeadline: string;     // e.g. "Bet $5, Get $150 in Bonus Bets"

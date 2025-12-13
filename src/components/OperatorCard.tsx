@@ -1,6 +1,7 @@
 'use client';
 
 import { Operator } from '@/lib/types';
+import OperatorLogo from '@/components/OperatorLogo';
 
 interface OperatorCardProps {
   operator: Operator;
@@ -14,11 +15,10 @@ export default function OperatorCard({ operator }: OperatorCardProps) {
         {/* Header with Logo and Brand Name */}
         <div className="flex items-center gap-4 mb-4">
           {/* Logo - left aligned, vertically centered */}
-          {operator.brandLogoUrl && (
-            <img
-              src={operator.brandLogoUrl}
+          {operator.logo && (
+            <OperatorLogo
+              src={operator.logo}
               alt={`${operator.name} logo`}
-              className="h-8 w-auto object-contain"
             />
           )}
           {/* Brand Name */}

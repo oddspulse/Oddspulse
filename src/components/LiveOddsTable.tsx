@@ -3,6 +3,7 @@
 import { LiveEvent, LiveMarket, MarketOutcome, Operator } from '@/lib/types';
 import { formatAmericanOdds, findBestOdds } from '@/lib/oddsService';
 import { format } from 'date-fns';
+import OperatorLogo from '@/components/OperatorLogo';
 
 interface LiveOddsTableProps {
   events: LiveEvent[];
@@ -14,7 +15,7 @@ export default function LiveOddsTable({ events, selectedMarket, operators = [] }
   // Helper function to get operator logo by ID
   const getOperatorLogo = (operatorId: string): string | undefined => {
     const operator = operators.find(op => op.id === operatorId);
-    return operator?.brandLogoUrl;
+    return operator?.logo;
   };
 
   if (events.length === 0) {
@@ -121,10 +122,9 @@ export default function LiveOddsTable({ events, selectedMarket, operators = [] }
                               <div className="flex items-center gap-3">
                                 {/* Operator Logo */}
                                 {getOperatorLogo(outcome.operatorId) && (
-                                  <img
-                                    src={getOperatorLogo(outcome.operatorId)}
+                                  <OperatorLogo
+                                    src={getOperatorLogo(outcome.operatorId)!}
                                     alt={`${outcome.operatorName} logo`}
-                                    className="h-8 w-auto object-contain"
                                   />
                                 )}
                                 {/* Operator Name */}
