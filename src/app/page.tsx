@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import Navigation from '@/components/Navigation';
 import { AppNavigation } from '@/components/AppNavigation';
 import { PromoBanner } from '@/components/PromoBanner';
-import { GameGrid } from '@/components/GameGrid';
+import { AdPlaceholder } from '@/components/AdPlaceholder';
 import OperatorCard from '@/components/OperatorCard';
 import FilterBar from '@/components/FilterBar';
 import { Operator } from '@/lib/types';
@@ -97,8 +97,8 @@ export default function HomePage() {
         {/* Promo Banner */}
         <PromoBanner />
 
-        {/* Game Grid */}
-        <GameGrid />
+        {/* Ad Placeholder */}
+        <AdPlaceholder />
 
         {/* Original Operators Section */}
         <div className="mt-8">
