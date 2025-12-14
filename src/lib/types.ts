@@ -94,6 +94,21 @@ export type LiveEvent = {
   startTime: string;  // ISO
   isLive: boolean;
   markets: LiveMarket[];
+  liveScore?: LiveScore; // Optional live score data
+};
+
+export type LiveScore = {
+  eventId: string;
+  sportKey: string;
+  homeTeam: string;
+  awayTeam: string;
+  homeScore: number | null;
+  awayScore: number | null;
+  status: "pre" | "live" | "final";
+  displayClock?: string;    // e.g. "Q3 08:21", "2nd Period 12:10", "Top 7th"
+  periodLabel?: string;     // e.g. "Q3", "2nd Period", "Inning 7"
+  lastUpdated: string;
+  completed: boolean;
 };
 
 export type Sport = {

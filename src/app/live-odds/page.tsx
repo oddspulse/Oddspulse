@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import Navigation from '@/components/Navigation';
 import LiveOddsTable from '@/components/LiveOddsTable';
 import SportSelector from '@/components/SportSelector';
-import { LiveEvent, MarketType } from '@/lib/types';
+import { LiveEvent, LiveScore, MarketType } from '@/lib/types';
 import { SPORT_KEYS } from '@/lib/oddsService';
 import { format } from 'date-fns';
 import { useOddsStatus, formatCountdown, formatCacheAge } from '@/hooks/useOddsStatus';
@@ -63,7 +63,9 @@ export default function LiveOddsPage() {
 
       const data: RateLimitedOddsResponse = await response.json();
 
-      setEvents(data.events);
+      // Fetch scores separately and merge with events
+      await fetchAndMergeScores(data.events);
+
       setFromCache(data.fromCache);
       setCacheAge(data.cacheAge);
       setWarning(data.warning);
@@ -79,6 +81,34 @@ export default function LiveOddsPage() {
     } finally {
       setLoading(false);
       setRefreshing(false);
+    }
+  };
+
+  // Fetch scores and merge with events
+  const fetchAndMergeScores = async (oddsEvents: LiveEvent[]) => {
+    try {
+      const scoresResponse = await fetch(`/api/scores/${selectedSport}`);
+
+      if (!scoresResponse.ok) {
+        // If scores fail, just use events without scores
+        setEvents(oddsEvents);
+        return;
+      }
+
+      const scoresData = await scoresResponse.json();
+      const scoresMap = new Map(scoresData.scores?.map((s: any) => [s.eventId, s]) || []);
+
+      // Merge scores into events
+      const eventsWithScores: LiveEvent[] = oddsEvents.map(event => ({
+        ...event,
+        liveScore: scoresMap.get(event.id) as LiveScore | undefined
+      }));
+
+      setEvents(eventsWithScores);
+    } catch (err) {
+      console.error('Error fetching scores:', err);
+      // If scores fail, just use events without scores
+      setEvents(oddsEvents);
     }
   };
 

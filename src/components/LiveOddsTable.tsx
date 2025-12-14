@@ -4,6 +4,7 @@ import { LiveEvent, LiveMarket, MarketOutcome, Operator } from '@/lib/types';
 import { formatAmericanOdds, findBestOdds } from '@/lib/oddsService';
 import { format } from 'date-fns';
 import OperatorLogo from '@/components/OperatorLogo';
+import LiveScoreBanner from '@/components/LiveScoreBanner';
 
 interface LiveOddsTableProps {
   events: LiveEvent[];
@@ -79,6 +80,13 @@ export default function LiveOddsTable({ events, selectedMarket, operators = [] }
                 </div>
               </div>
             </div>
+
+            {/* Live Score Banner (only shows for live games with scores) */}
+            {event.liveScore && (
+              <div className="px-5 pt-5">
+                <LiveScoreBanner score={event.liveScore} />
+              </div>
+            )}
 
             {/* Odds Grid */}
             <div className="p-5">

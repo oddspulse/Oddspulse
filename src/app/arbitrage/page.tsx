@@ -3,12 +3,13 @@
 import { useEffect, useState } from 'react';
 import Navigation from '@/components/Navigation';
 import SportSelector from '@/components/SportSelector';
-import { ArbitrageOpportunity, LiveEvent, MarketType } from '@/lib/types';
+import { ArbitrageOpportunity, LiveEvent, LiveScore, MarketType } from '@/lib/types';
 import { SPORT_KEYS } from '@/lib/oddsService';
 import { findArbitrageOpportunities } from '@/lib/arbitrageService';
 import { format } from 'date-fns';
 import { useOddsStatus, formatCountdown, formatCacheAge } from '@/hooks/useOddsStatus';
 import OperatorLogo from '@/components/OperatorLogo';
+import LiveScoreBanner from '@/components/LiveScoreBanner';
 
 interface RateLimitedOddsResponse {
   events: LiveEvent[];
@@ -73,13 +74,15 @@ export default function ArbitragePage() {
 
       const data: RateLimitedOddsResponse = await response.json();
 
-      setEvents(data.events);
+      // Fetch scores separately and merge with events
+      await fetchAndMergeScores(data.events);
+
       setFromCache(data.fromCache);
       setCacheAge(data.cacheAge);
       setWarning(data.warning);
 
-      // Find arbitrage opportunities
-      const opps = findArbitrageOpportunities(data.events, minProfit, totalStake);
+      // Find arbitrage opportunities on the merged events
+      const opps = findArbitrageOpportunities(events.length > 0 ? events : data.events, minProfit, totalStake);
       setOpportunities(opps);
       setLastScanned(new Date());
 
@@ -93,6 +96,34 @@ export default function ArbitragePage() {
     } finally {
       setLoading(false);
       setScanning(false);
+    }
+  };
+
+  // Fetch scores and merge with events
+  const fetchAndMergeScores = async (oddsEvents: LiveEvent[]) => {
+    try {
+      const scoresResponse = await fetch(`/api/scores/${selectedSport}`);
+
+      if (!scoresResponse.ok) {
+        // If scores fail, just use events without scores
+        setEvents(oddsEvents);
+        return;
+      }
+
+      const scoresData = await scoresResponse.json();
+      const scoresMap = new Map(scoresData.scores?.map((s: any) => [s.eventId, s]) || []);
+
+      // Merge scores into events
+      const eventsWithScores: LiveEvent[] = oddsEvents.map(event => ({
+        ...event,
+        liveScore: scoresMap.get(event.id) as LiveScore | undefined
+      }));
+
+      setEvents(eventsWithScores);
+    } catch (err) {
+      console.error('Error fetching scores:', err);
+      // If scores fail, just use events without scores
+      setEvents(oddsEvents);
     }
   };
 
@@ -345,13 +376,17 @@ export default function ArbitragePage() {
         {/* Opportunities List */}
         {!loading && opportunities.length > 0 && (
           <div className="space-y-6">
-            {opportunities.map((opp) => (
-              <div
-                key={opp.id}
-                className="bg-gradient-casino-reverse rounded-xl shadow-card-dark border-2 border-casinoGreen/30 overflow-hidden hover:border-casinoGreen/60 transition-all duration-300"
-              >
-                {/* Opportunity Header */}
-                <div className="bg-casinoBlack2 border-b-2 border-casinoGold/10 p-5">
+            {opportunities.map((opp) => {
+              // Find corresponding event for live score
+              const matchingEvent = events.find(e => e.id === opp.id);
+
+              return (
+                <div
+                  key={opp.id}
+                  className="bg-gradient-casino-reverse rounded-xl shadow-card-dark border-2 border-casinoGreen/30 overflow-hidden hover:border-casinoGreen/60 transition-all duration-300"
+                >
+                  {/* Opportunity Header */}
+                  <div className="bg-casinoBlack2 border-b-2 border-casinoGold/10 p-5">
                   <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
                     <div className="flex-1">
                       <h3 className="text-xl font-heading font-bold text-textPrimary mb-2">
@@ -382,6 +417,13 @@ export default function ArbitragePage() {
                     </div>
                   </div>
                 </div>
+
+                {/* Live Score Banner (only shows for live games with scores) */}
+                {matchingEvent?.liveScore && (
+                  <div className="px-5 pt-5">
+                    <LiveScoreBanner score={matchingEvent.liveScore} />
+                  </div>
+                )}
 
                 {/* Bet Instructions */}
                 <div className="p-5">
@@ -445,7 +487,8 @@ export default function ArbitragePage() {
                   </div>
                 </div>
               </div>
-            ))}
+              );
+            })}
           </div>
         )}
       </main>
