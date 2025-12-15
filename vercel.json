@@ -1,0 +1,14 @@
+{
+  "buildCommand": "npm run build",
+  "outputDirectory": ".next",
+  "devCommand": "npm run dev",
+  "installCommand": "npm install",
+  "framework": "nextjs",
+  "regions": ["iad1"],
+  "env": {
+    "ODDS_API_KEY": "@odds_api_key",
+    "ODDS_API_BASE_URL": "@odds_api_base_url",
+    "ODDS_API_REGION": "@odds_api_region",
+    "ODDS_API_FORMAT": "@odds_api_format"
+  }
+}
