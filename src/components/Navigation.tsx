@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useSession } from 'next-auth/react';
 
 interface NavLink {
   href: string;
@@ -58,6 +59,15 @@ interface NavigationProps {
 
 export default function Navigation({ title, subtitle, emoji, currentPage }: NavigationProps) {
   const pathname = usePathname();
+  const { data: session } = useSession();
+
+  // Filter nav links: Show Admin link ONLY if user is admin
+  const visibleLinks = NAV_LINKS.filter((link) => {
+    if (link.href === '/admin') {
+      return session?.user?.isAdmin === true;
+    }
+    return true; // Show all other links
+  });
 
   return (
     <header className="relative glass border-b border-white/5 shadow-card-dark">
@@ -78,7 +88,7 @@ export default function Navigation({ title, subtitle, emoji, currentPage }: Navi
 
           {/* Navigation Links */}
           <nav className="flex flex-wrap gap-3 justify-center">
-            {NAV_LINKS.map((link) => {
+            {visibleLinks.map((link) => {
               const isActive = pathname === link.href;
 
               if (isActive) {

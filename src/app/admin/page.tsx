@@ -1,10 +1,19 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { useSession, signOut } from 'next-auth/react';
 import Navigation from '@/components/Navigation';
 import { Operator } from '@/lib/types';
 
+/**
+ * Admin Page - Operator Management
+ *
+ * SECURITY: This page is protected by middleware.ts
+ * Only authenticated admin users can access this page.
+ * Non-admin requests are redirected server-side before this component loads.
+ */
 export default function AdminPage() {
+  const { data: session } = useSession();
   const [operators, setOperators] = useState<Operator[]>([]);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [formData, setFormData] = useState<Partial<Operator>>({});
@@ -96,6 +105,10 @@ export default function AdminPage() {
     updateFormField(field, tags);
   };
 
+  const handleSignOut = async () => {
+    await signOut({ callbackUrl: '/' });
+  };
+
   return (
     <div className="min-h-screen bg-gradient-casino">
       {/* Header */}
@@ -107,6 +120,25 @@ export default function AdminPage() {
 
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Admin Info Bar */}
+        <div className="mb-6 flex items-center justify-between bg-gradient-casino-reverse shadow-card rounded-xl p-4 border border-casinoGold/20">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 bg-casinoGreen/20 rounded-full flex items-center justify-center">
+              <span className="text-xl">👤</span>
+            </div>
+            <div>
+              <p className="text-xs text-textSecondary uppercase tracking-wide">Signed in as</p>
+              <p className="text-sm font-semibold text-textPrimary">{session?.user?.email}</p>
+            </div>
+          </div>
+          <button
+            onClick={handleSignOut}
+            className="bg-casinoBlack3 border-2 border-casinoRed/30 text-casinoRed font-heading font-bold py-2 px-6 rounded-lg hover:bg-casinoRed/10 transition-all duration-300 uppercase tracking-wide text-xs"
+          >
+            🚪 Sign Out
+          </button>
+        </div>
+
         {/* Create Button */}
         <div className="mb-6">
           <button
