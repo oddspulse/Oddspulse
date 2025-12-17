@@ -8,6 +8,7 @@ const NAV_ITEMS = [
   { href: '/live-odds', label: 'Live Odds', icon: '📊' },
   { href: '/arbitrage', label: 'Arbitrage', icon: '💰' },
   { href: '/rtp-slots', label: 'Slots', icon: '🎰' },
+  { href: '/news', label: 'News', icon: '📰' },
 ];
 
 export function AppNavigation() {
