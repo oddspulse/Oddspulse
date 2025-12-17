@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import Navigation from '@/components/Navigation';
+import { AppNavigation } from '@/components/AppNavigation';
 import { SlotGame, ProviderInfo } from '@/lib/types';
 
 export default function RtpSlotsPage() {
@@ -300,6 +301,9 @@ export default function RtpSlotsPage() {
           </div>
         </div>
       </footer>
+
+      {/* Bottom Navigation */}
+      <AppNavigation />
     </div>
   );
 }

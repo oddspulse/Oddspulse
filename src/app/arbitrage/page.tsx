@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import Navigation from '@/components/Navigation';
+import { AppNavigation } from '@/components/AppNavigation';
 import SportSelector from '@/components/SportSelector';
 import { ArbitrageOpportunity, LiveEvent, LiveScore, MarketType } from '@/lib/types';
 import { SPORT_KEYS } from '@/lib/oddsService';
@@ -513,6 +514,9 @@ export default function ArbitragePage() {
           </div>
         </div>
       </footer>
+
+      {/* Bottom Navigation */}
+      <AppNavigation />
     </div>
   );
 }

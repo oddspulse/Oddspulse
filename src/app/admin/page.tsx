@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useSession, signOut } from 'next-auth/react';
 import Navigation from '@/components/Navigation';
+import { AppNavigation } from '@/components/AppNavigation';
 import { Operator } from '@/lib/types';
 
 /**
@@ -373,6 +374,9 @@ export default function AdminPage() {
           </div>
         </div>
       </main>
+
+      {/* Bottom Navigation */}
+      <AppNavigation />
     </div>
   );
 }

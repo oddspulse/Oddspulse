@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import Navigation from '@/components/Navigation';
+import { AppNavigation } from '@/components/AppNavigation';
 import LiveOddsTable from '@/components/LiveOddsTable';
 import SportSelector from '@/components/SportSelector';
 import { LiveEvent, LiveScore, MarketType } from '@/lib/types';
@@ -333,6 +334,9 @@ export default function LiveOddsPage() {
           </div>
         </div>
       </footer>
+
+      {/* Bottom Navigation */}
+      <AppNavigation />
     </div>
   );
 }
