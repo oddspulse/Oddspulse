@@ -28,6 +28,13 @@ const NAV_LINKS: NavLink[] = [
     hoverColor: 'hover:shadow-glow hover:scale-105',
   },
   {
+    href: '/prediction-markets',
+    label: 'Prediction Markets',
+    emoji: '🔮',
+    color: 'casinoGold',
+    hoverColor: 'hover:shadow-glow-gold hover:scale-105',
+  },
+  {
     href: '/arbitrage',
     label: 'Arbitrage',
     emoji: '💰',
