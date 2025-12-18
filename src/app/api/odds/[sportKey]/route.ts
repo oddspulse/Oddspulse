@@ -1,6 +1,56 @@
 import { NextResponse } from 'next/server';
 import { getRateLimitedLiveOdds } from '@/lib/rateLimitedOddsService';
-import { MarketType } from '@/lib/types';
+import { MarketType, LiveEvent, MarketOutcome } from '@/lib/types';
+import { fetchPolymarketSports, fetchManifoldSports, PredictionMarket } from '@/lib/predictionMarketsService';
+
+/**
+ * Convert prediction market to MarketOutcome format
+ */
+function predictionMarketToOutcome(market: PredictionMarket): MarketOutcome {
+  return {
+    label: `${market.source}: ${market.question.substring(0, 50)}${market.question.length > 50 ? '...' : ''}`,
+    operatorId: market.source.toLowerCase(),
+    operatorName: market.source,
+    odds: market.americanOdds,
+    price: market.probability / 100, // Convert to decimal probability
+    affiliateUrl: market.url,
+  };
+}
+
+/**
+ * Convert prediction markets to a synthetic LiveEvent
+ * This allows them to appear in the existing odds table
+ */
+function predictionMarketsToEvents(markets: PredictionMarket[], sportKey: string): LiveEvent[] {
+  if (markets.length === 0) return [];
+
+  // Group markets by similar questions to create "events"
+  const syntheticEvents: LiveEvent[] = [];
+
+  markets.forEach((market, index) => {
+    // Create a synthetic event for each prediction market
+    const outcomes = [predictionMarketToOutcome(market)];
+
+    syntheticEvents.push({
+      id: `prediction-${market.source.toLowerCase()}-${market.id}`,
+      sport: sportKey,
+      sportKey: sportKey,
+      league: `${market.source} Prediction Markets`,
+      homeTeam: 'Yes',
+      awayTeam: 'No',
+      startTime: market.endDate || new Date().toISOString(),
+      isLive: true, // Prediction markets are always "live"
+      markets: [
+        {
+          type: 'moneyline' as MarketType,
+          outcomes,
+        },
+      ],
+    });
+  });
+
+  return syntheticEvents;
+}
 
 export async function GET(
   request: Request,
@@ -25,7 +75,28 @@ export async function GET(
       forceRefresh,
     });
 
-    return NextResponse.json(result, {
+    // Fetch prediction markets in parallel (sports-only)
+    // These are fetched separately and merged in
+    let predictionMarkets: PredictionMarket[] = [];
+    try {
+      const [polymarketSports, manifoldSports] = await Promise.all([
+        fetchPolymarketSports(),
+        fetchManifoldSports(),
+      ]);
+      predictionMarkets = [...polymarketSports, ...manifoldSports];
+    } catch (error) {
+      console.error('[Odds API] Error fetching prediction markets (non-blocking):', error);
+      // Continue without prediction markets - non-blocking
+    }
+
+    // Convert prediction markets to events and merge
+    const predictionEvents = predictionMarketsToEvents(predictionMarkets, params.sportKey);
+    const combinedEvents = [...result.events, ...predictionEvents];
+
+    return NextResponse.json({
+      ...result,
+      events: combinedEvents,
+    }, {
       headers: {
         // Don't cache at CDN level since we're managing cache internally
         'Cache-Control': 'no-store, must-revalidate',

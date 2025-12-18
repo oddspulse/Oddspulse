@@ -147,7 +147,7 @@ export default function LiveOddsPage() {
     <div className="min-h-screen bg-gradient-casino">
       {/* Header */}
       <Navigation
-        title="Live Odds Comparison"
+        title="Sports Odds Comparison"
         subtitle="Smart quota management • 90-minute refresh intervals"
         emoji="📊"
       />

@@ -5,7 +5,8 @@ import { usePathname } from 'next/navigation';
 
 const NAV_ITEMS = [
   { href: '/', label: 'Casino', icon: '🏠' },
-  { href: '/live-odds', label: 'Live Odds', icon: '📊' },
+  { href: '/live-odds', label: 'Sports Odds', icon: '📊' },
+  { href: '/prediction-markets', label: 'Predictions', icon: '🔮' },
   { href: '/arbitrage', label: 'Arbitrage', icon: '💰' },
   { href: '/rtp-slots', label: 'Slots', icon: '🎰' },
   { href: '/news', label: 'News', icon: '📰' },
