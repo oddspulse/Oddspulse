@@ -8,12 +8,13 @@ import type { NewsArticle } from '@/lib/newsService';
 /**
  * News Page
  *
- * Displays latest sports betting and casino news from GNews API
+ * Displays latest sports betting news from GNews API
+ * Focused on: NFL, NBA, NHL, MLB, UFC betting odds
  * Features:
  * - Client-side search/filter
  * - Loading states
  * - Error handling
- * - Auto-refresh every 10 minutes
+ * - Auto-refresh every 30 minutes
  */
 export default function NewsPage() {
   const [articles, setArticles] = useState<NewsArticle[]>([]);
@@ -25,11 +26,11 @@ export default function NewsPage() {
   useEffect(() => {
     fetchNews();
 
-    // Auto-refresh every 10 minutes
+    // Auto-refresh every 30 minutes for fresh daily betting odds articles
     const refreshInterval = setInterval(() => {
       console.log('[News] Auto-refreshing news...');
       fetchNews();
-    }, 10 * 60 * 1000);
+    }, 30 * 60 * 1000);
 
     return () => clearInterval(refreshInterval);
   }, []);

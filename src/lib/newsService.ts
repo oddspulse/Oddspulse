@@ -18,13 +18,20 @@ export type NewsArticle = {
 const GNEWS_API_KEY = process.env.GNEWS_API_KEY || '';
 const GNEWS_BASE_URL = 'https://gnews.io/api/v4';
 
-// Keywords for sports betting and casino news
+// Keywords for sports betting news - focused on major sports
 const KEYWORDS = [
-  'sports betting',
-  'casino',
-  'sportsbook',
-  'online casino',
-  'betting odds',
+  'NFL betting odds',
+  'NBA betting odds',
+  'NHL betting odds',
+  'MLB betting odds',
+  'UFC betting odds',
+  'football betting',
+  'basketball betting',
+  'hockey betting',
+  'baseball betting',
+  'point spread',
+  'moneyline odds',
+  'over under betting',
 ].join(' OR ');
 
 // In-memory cache
@@ -35,7 +42,7 @@ interface CacheEntry {
 }
 
 let newsCache: CacheEntry | null = null;
-const CACHE_TTL = 10 * 60 * 1000; // 10 minutes
+const CACHE_TTL = 30 * 60 * 1000; // 30 minutes - refresh every half hour for daily updates
 
 /**
  * Check if API key is configured
@@ -85,10 +92,10 @@ export async function fetchNewsArticles(): Promise<NewsArticle[]> {
 
     console.log('[News API] Fetching fresh articles from GNews');
 
-    const url = `${GNEWS_BASE_URL}/search?q=${encodeURIComponent(KEYWORDS)}&lang=en&country=us&max=20&apikey=${GNEWS_API_KEY}`;
+    const url = `${GNEWS_BASE_URL}/search?q=${encodeURIComponent(KEYWORDS)}&lang=en&country=us&max=100&sortby=publishedAt&apikey=${GNEWS_API_KEY}`;
 
     const response = await fetch(url, {
-      next: { revalidate: 600 }, // Revalidate every 10 minutes
+      next: { revalidate: 1800 }, // Revalidate every 30 minutes
     });
 
     if (!response.ok) {
