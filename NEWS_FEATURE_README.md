@@ -2,66 +2,98 @@
 
 ## Overview
 
-The News tab displays the latest sports betting and casino news articles powered by the **GNews API**.
+The News tab displays the latest sports betting news articles aggregated from **multiple sources**:
+- **GNews API** - Up to 100 articles
+- **NewsAPI.org** - Up to 100 articles
+
+Articles are combined, deduplicated, and sorted by publish date for the freshest betting odds content.
 
 ## Features
 
-✅ **Real-time News** - Fetches latest articles about sports betting, casinos, sportsbooks, and betting odds
-✅ **Smart Caching** - 10-minute cache TTL to avoid rate limits and improve performance
+✅ **Multi-Source Aggregation** - Combines articles from GNews + NewsAPI for maximum daily coverage
+✅ **Sports-Focused** - NFL, NBA, NHL, MLB, UFC betting odds and news
+✅ **Smart Caching** - 30-minute cache TTL to avoid rate limits and improve performance
+✅ **Auto-Deduplication** - Removes duplicate articles by URL
 ✅ **Client-Side Search** - Filter articles by title, description, or source
-✅ **Auto-Refresh** - Automatically refreshes news every 10 minutes
-✅ **Error Handling** - Graceful fallback to cached data if API fails
+✅ **Auto-Refresh** - Automatically refreshes news every 30 minutes
+✅ **Error Handling** - Graceful fallback to cached data if APIs fail
 ✅ **Responsive UI** - Clean card-based layout with images and descriptions
 
 ---
 
 ## Setup
 
-### 1. Get GNews API Key
+### 1. Get API Keys
 
+**GNews API:**
 1. Sign up at https://gnews.io
 2. Get your free API key from the dashboard
-3. Free tier includes 100 requests/day
+3. Free tier: 100 requests/day
+
+**NewsAPI.org:**
+1. Sign up at https://newsapi.org
+2. Get your free API key from the dashboard
+3. Free tier: 100 requests/day
 
 ### 2. Add to Environment Variables
 
 Add to `.env.local`:
 
 ```bash
+# GNews API
 GNEWS_API_KEY=your_actual_gnews_api_key_here
+
+# NewsAPI.org
+NEWSAPI_KEY=your_actual_newsapi_key_here
 ```
+
+**Note:** Both APIs are optional. If only one is configured, the system will use just that source.
 
 ### 3. Deploy to Vercel
 
-Add the same variable in Vercel dashboard:
+Add the same variables in Vercel dashboard:
 - Go to Settings → Environment Variables
 - Add `GNEWS_API_KEY` with your key
-- Check Production, Preview, and Development
+- Add `NEWSAPI_KEY` with your key
+- Check Production, Preview, and Development for both
 
 ---
 
 ## Search Keywords
 
-The News API fetches articles matching these keywords (OR logic):
-- "sports betting"
-- "casino"
-- "sportsbook"
-- "online casino"
-- "betting odds"
+### GNews Keywords (OR logic)
+- "NFL betting odds"
+- "NBA betting odds"
+- "NHL betting odds"
+- "MLB betting odds"
+- "UFC betting odds"
+- "football betting"
+- "basketball betting"
+- "hockey betting"
+- "baseball betting"
+- "point spread"
+- "moneyline odds"
+- "over under betting"
+
+### NewsAPI Query
+- `(NFL OR NBA OR NHL OR MLB OR UFC) AND (betting OR odds OR sportsbook)`
 
 ---
 
 ## Caching Strategy
 
 ### In-Memory Cache
-- **TTL**: 10 minutes
-- **Fallback**: Returns stale cache if API fails
-- **Auto-refresh**: Page refreshes news every 10 minutes
+- **TTL**: 30 minutes
+- **Fallback**: Returns stale cache if APIs fail
+- **Auto-refresh**: Page refreshes news every 30 minutes
+- **Deduplication**: Articles with same URL are automatically removed
+- **Sorting**: Newest articles first (by publishedAt date)
 
 ### Why Caching?
-- Avoids hitting GNews API rate limits (100 req/day on free tier)
+- Avoids hitting API rate limits (100 req/day each on free tier)
 - Improves page load performance
-- Provides resilience if API is temporarily unavailable
+- Provides resilience if APIs are temporarily unavailable
+- Reduces bandwidth and server costs
 
 ---
 
