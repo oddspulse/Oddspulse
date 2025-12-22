@@ -11,6 +11,7 @@ import { format } from 'date-fns';
 import { useOddsStatus, formatCountdown, formatCacheAge } from '@/hooks/useOddsStatus';
 import OperatorLogo from '@/components/OperatorLogo';
 import LiveScoreBanner from '@/components/LiveScoreBanner';
+import { DollarIcon } from '@/lib/icons';
 
 interface RateLimitedOddsResponse {
   events: LiveEvent[];
@@ -156,7 +157,7 @@ export default function ArbitragePage() {
       <Navigation
         title="Arbitrage Scanner"
         subtitle="Smart quota management • 90-minute refresh intervals"
-        emoji="💰"
+        icon={DollarIcon}
       />
 
       {/* Main Content */}

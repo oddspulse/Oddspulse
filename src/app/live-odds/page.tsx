@@ -9,6 +9,17 @@ import { LiveEvent, LiveScore, MarketType } from '@/lib/types';
 import { SPORT_KEYS } from '@/lib/oddsService';
 import { format } from 'date-fns';
 import { useOddsStatus, formatCountdown, formatCacheAge } from '@/hooks/useOddsStatus';
+import {
+  ChartIcon,
+  RefreshIcon,
+  HourglassIcon,
+  ClockIcon,
+  WarningIcon,
+  ZapIcon,
+  CalendarIcon,
+  BuildingIcon,
+  LightbulbIcon,
+} from '@/lib/icons';
 
 interface RateLimitedOddsResponse {
   events: LiveEvent[];
@@ -149,7 +160,7 @@ export default function LiveOddsPage() {
       <Navigation
         title="Sports Odds Comparison"
         subtitle="Smart quota management • 90-minute refresh intervals"
-        emoji="📊"
+        icon={ChartIcon}
       />
 
       {/* Main Content */}
@@ -172,10 +183,11 @@ export default function LiveOddsPage() {
                   ? 'bg-casinoRed/10 border-casinoRed'
                   : 'bg-casinoGreen/10 border-casinoGreen'
               }`}>
-                <div className="text-xs uppercase tracking-wide mb-2 font-semibold" style={{
+                <div className="text-xs nav-label mb-2 font-semibold flex items-center gap-2" style={{
                   color: status.isNearLimit ? '#FF314A' : '#0DB15D'
                 }}>
-                  📊 Monthly Quota
+                  <ChartIcon size="xs" className={status.isNearLimit ? 'stroke-casinoRed' : 'stroke-casinoGreen'} />
+                  <span>Monthly Quota</span>
                 </div>
                 <div className="text-2xl font-heading font-bold" style={{
                   color: status.isNearLimit ? '#FF314A' : '#0DB15D'
@@ -186,16 +198,18 @@ export default function LiveOddsPage() {
                   {status.percentUsed.toFixed(1)}% used
                 </div>
                 {status.isNearLimit && (
-                  <div className="text-xs text-casinoRed mt-2 font-semibold">
-                    ⚠️ Approaching limit!
+                  <div className="text-xs text-casinoRed mt-2 font-semibold flex items-center gap-1">
+                    <WarningIcon size="xs" className="stroke-casinoRed" />
+                    <span>Approaching limit!</span>
                   </div>
                 )}
               </div>
 
               {/* Cache Status */}
               <div className="p-4 rounded-lg border-2 bg-casinoBlue/10 border-casinoBlue">
-                <div className="text-xs text-casinoBlue uppercase tracking-wide mb-2 font-semibold">
-                  💾 Data Source
+                <div className="text-xs text-casinoBlue nav-label mb-2 font-semibold flex items-center gap-2">
+                  <ClockIcon size="xs" className="stroke-casinoBlue" />
+                  <span>Data Source</span>
                 </div>
                 <div className="text-2xl font-heading font-bold text-casinoBlue">
                   {fromCache ? 'Cached' : 'Fresh'}
@@ -209,8 +223,9 @@ export default function LiveOddsPage() {
 
               {/* Refresh Status with Live Countdown */}
               <div className="p-4 rounded-lg border-2 bg-casinoGold/10 border-casinoGold">
-                <div className="text-xs text-casinoGold uppercase tracking-wide mb-2 font-semibold">
-                  🔄 Next Refresh
+                <div className="text-xs text-casinoGold nav-label mb-2 font-semibold flex items-center gap-2">
+                  <RefreshIcon size="xs" className="stroke-casinoGold" />
+                  <span>Next Refresh</span>
                 </div>
                 <div className="text-lg font-heading font-bold text-casinoGold mb-2">
                   {formatCountdown(remainingMs)}
@@ -219,13 +234,28 @@ export default function LiveOddsPage() {
                   <button
                     onClick={() => fetchOdds(true)}
                     disabled={refreshing || !canRefreshNow}
-                    className={`w-full px-4 py-2 rounded-lg font-heading font-semibold text-sm uppercase tracking-wide transition-all duration-200 ${
+                    className={`w-full px-4 py-2 rounded-lg font-heading font-semibold text-sm nav-label transition-all duration-200 flex items-center justify-center gap-2 ${
                       canRefreshNow && !refreshing
                         ? 'bg-casinoGold text-casinoBlack hover:shadow-glow-gold cursor-pointer'
                         : 'bg-casinoBlack3 text-textSecondary cursor-not-allowed opacity-50'
                     }`}
                   >
-                    {refreshing ? '⏳ Refreshing...' : canRefreshNow ? '🔄 Refresh Now' : '⏰ Cooldown'}
+                    {refreshing ? (
+                      <>
+                        <HourglassIcon size="xs" />
+                        <span>Refreshing...</span>
+                      </>
+                    ) : canRefreshNow ? (
+                      <>
+                        <RefreshIcon size="xs" />
+                        <span>Refresh Now</span>
+                      </>
+                    ) : (
+                      <>
+                        <ClockIcon size="xs" />
+                        <span>Cooldown</span>
+                      </>
+                    )}
                   </button>
                 </div>
               </div>
@@ -235,7 +265,7 @@ export default function LiveOddsPage() {
             {warning && (
               <div className="mt-4 p-4 bg-casinoRed/10 border-2 border-casinoRed rounded-lg">
                 <div className="flex items-start gap-2">
-                  <span className="text-casinoRed text-lg">⚠️</span>
+                  <WarningIcon size="sm" className="stroke-casinoRed" />
                   <p className="text-casinoRed text-sm font-semibold flex-1">
                     {warning}
                   </p>
@@ -248,32 +278,36 @@ export default function LiveOddsPage() {
         {/* Stats Bar */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4 my-6">
           <div className="bg-gradient-casino-reverse border border-casinoRed/20 rounded-lg p-4">
-            <div className="text-xs text-textSecondary uppercase tracking-wide mb-1">
-              🔴 Live Events
+            <div className="text-xs text-textSecondary nav-label mb-1 flex items-center gap-1">
+              <ZapIcon size="xs" className="stroke-casinoRed" />
+              <span>Live Events</span>
             </div>
             <div className="text-2xl font-heading font-bold text-casinoRed">
               {liveEventsCount}
             </div>
           </div>
           <div className="bg-gradient-casino-reverse border border-casinoBlue/20 rounded-lg p-4">
-            <div className="text-xs text-textSecondary uppercase tracking-wide mb-1">
-              📅 Upcoming
+            <div className="text-xs text-textSecondary nav-label mb-1 flex items-center gap-1">
+              <CalendarIcon size="xs" className="stroke-casinoBlue" />
+              <span>Upcoming</span>
             </div>
             <div className="text-2xl font-heading font-bold text-casinoBlue">
               {upcomingEventsCount}
             </div>
           </div>
           <div className="bg-gradient-casino-reverse border border-casinoGreen/20 rounded-lg p-4">
-            <div className="text-xs text-textSecondary uppercase tracking-wide mb-1">
-              🏢 Sportsbooks
+            <div className="text-xs text-textSecondary nav-label mb-1 flex items-center gap-1">
+              <BuildingIcon size="xs" className="stroke-casinoGreen" />
+              <span>Sportsbooks</span>
             </div>
             <div className="text-2xl font-heading font-bold text-casinoGreen">
               {totalOperators}
             </div>
           </div>
           <div className="bg-gradient-casino-reverse border border-casinoGold/20 rounded-lg p-4">
-            <div className="text-xs text-textSecondary uppercase tracking-wide mb-1">
-              🕐 Last Updated
+            <div className="text-xs text-textSecondary nav-label mb-1 flex items-center gap-1">
+              <ClockIcon size="xs" className="stroke-casinoGold" />
+              <span>Last Updated</span>
             </div>
             <div className="text-lg font-heading font-bold text-casinoGold">
               {lastUpdated ? format(lastUpdated, 'h:mm:ss a') : '—'}
@@ -285,9 +319,9 @@ export default function LiveOddsPage() {
         {error && (
           <div className="bg-casinoRed/10 border-2 border-casinoRed rounded-xl p-6 mb-6">
             <div className="flex items-start gap-3">
-              <span className="text-2xl">⚠️</span>
+              <WarningIcon size="lg" className="stroke-casinoRed" />
               <div>
-                <h3 className="text-casinoRed font-heading font-bold text-lg mb-2">
+                <h3 className="text-casinoRed font-heading font-bold text-lg mb-2 section-title">
                   Error Loading Odds
                 </h3>
                 <p className="text-textSecondary mb-3">{error}</p>
@@ -319,8 +353,8 @@ export default function LiveOddsPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="text-center space-y-4">
             <div className="flex items-center justify-center gap-2 text-casinoGold">
-              <span className="text-xl">💡</span>
-              <p className="text-sm font-semibold uppercase tracking-wide">
+              <LightbulbIcon size="sm" className="stroke-casinoGold" />
+              <p className="text-sm font-semibold nav-label">
                 Smart Quota Management: Data refreshes every 90 minutes
               </p>
             </div>

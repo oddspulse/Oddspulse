@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import Navigation from '@/components/Navigation';
 import { AppNavigation } from '@/components/AppNavigation';
 import { SlotGame, ProviderInfo } from '@/lib/types';
+import { CasinoIcon } from '@/lib/icons';
 
 export default function RtpSlotsPage() {
   const [slots, setSlots] = useState<SlotGame[]>([]);
@@ -80,9 +81,9 @@ export default function RtpSlotsPage() {
     <div className="min-h-screen bg-gradient-casino">
       {/* Header */}
       <Navigation
-        title="RTP Slots Database"
-        subtitle="Top 5 most popular slots per provider with RTP ratings"
-        emoji="🎰"
+        title="RTP Casino Games"
+        subtitle="Top 5 most popular games per provider with RTP ratings"
+        icon={CasinoIcon}
       />
 
       {/* Main Content */}

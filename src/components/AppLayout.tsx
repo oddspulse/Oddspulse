@@ -3,12 +3,17 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { ReactNode } from 'react';
+import {
+  HomeIcon,
+  ChartIcon,
+  DollarIcon,
+  CasinoIcon,
+} from '@/lib/icons';
 
 const TABS = [
-  { href: '/', label: 'Casino', icon: '🏠' },
-  { href: '/live-odds', label: 'Live Odds', icon: '📊' },
-  { href: '/arbitrage', label: 'Arbitrage', icon: '💰' },
-  { href: '/rtp-slots', label: 'Slots', icon: '🎰' },
+  { href: '/', label: 'Casino', icon: HomeIcon },
+  { href: '/live-odds', label: 'Live Odds', icon: ChartIcon },
+  { href: '/arbitrage', label: 'Arbitrage', icon: DollarIcon },
 ];
 
 interface AppLayoutProps {
@@ -28,6 +33,7 @@ export function AppLayout({ children }: AppLayoutProps) {
         <div className="max-w-md mx-auto bg-casinoSurfaceAlt/95 backdrop-blur-xl shadow-card rounded-2xl px-6 py-3 flex justify-between items-center mb-3 mx-4">
           {TABS.map((tab) => {
             const active = pathname === tab.href;
+            const TabIcon = tab.icon;
 
             return (
               <Link
@@ -35,12 +41,14 @@ export function AppLayout({ children }: AppLayoutProps) {
                 href={tab.href}
                 className="flex flex-col items-center text-xs transition-all duration-200"
               >
-                <span className="text-xl mb-1">{tab.icon}</span>
+                <div className="mb-1">
+                  <TabIcon size="md" />
+                </div>
                 <span
                   className={
                     active
-                      ? 'px-3 py-1 rounded-full bg-gradient-to-b from-casinoOrangeLight to-casinoOrange text-black font-semibold shadow-glow text-xs'
-                      : 'text-textSecondary text-xs'
+                      ? 'px-3 py-1 rounded-full bg-gradient-to-b from-casinoOrangeLight to-casinoOrange text-black font-semibold shadow-glow text-xs nav-label'
+                      : 'text-textSecondary text-xs nav-label'
                   }
                 >
                   {tab.label}

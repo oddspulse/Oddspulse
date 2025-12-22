@@ -1,21 +1,23 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Navigation from '@/components/Navigation';
 import { AppNavigation } from '@/components/AppNavigation';
 import { PredictionMarket } from '@/lib/predictionMarketsService';
 import { format } from 'date-fns';
+import { CrystalIcon, Icons } from '@/lib/icons';
+import { TrendingUp, Vote, Trophy, Building2, LineChart } from 'lucide-react';
 
 type CategoryName = 'Crypto' | 'Politics' | 'Sports' | 'Fed Decisions' | 'Stocks';
 
 const CATEGORIES: CategoryName[] = ['Crypto', 'Politics', 'Sports', 'Fed Decisions', 'Stocks'];
 
-const CATEGORY_ICONS: Record<CategoryName, string> = {
-  'Crypto': '₿',
-  'Politics': '🗳️',
-  'Sports': '⚽',
-  'Fed Decisions': '🏛️',
-  'Stocks': '📈',
+const CATEGORY_ICONS: Record<CategoryName, React.ComponentType<any>> = {
+  'Crypto': () => <TrendingUp size={20} className="stroke-[#F2F1ED] opacity-85" strokeWidth={1.5} />,
+  'Politics': () => <Vote size={20} className="stroke-[#F2F1ED] opacity-85" strokeWidth={1.5} />,
+  'Sports': () => <Trophy size={20} className="stroke-[#F2F1ED] opacity-85" strokeWidth={1.5} />,
+  'Fed Decisions': () => <Building2 size={20} className="stroke-[#F2F1ED] opacity-85" strokeWidth={1.5} />,
+  'Stocks': () => <LineChart size={20} className="stroke-[#F2F1ED] opacity-85" strokeWidth={1.5} />,
 };
 
 const CATEGORY_COLORS: Record<CategoryName, string> = {
@@ -70,7 +72,7 @@ export default function PredictionMarketsPage() {
       <Navigation
         title="Prediction Markets"
         subtitle="Manifold vs Polymarket comparison across categories"
-        emoji="🔮"
+        icon={CrystalIcon}
       />
 
       {/* Main Content */}
@@ -92,7 +94,7 @@ export default function PredictionMarketsPage() {
                       : 'bg-gradient-casino-reverse text-textSecondary border-casinoBlack3 hover:border-casinoGold/50'
                   }`}
                 >
-                  <span className="text-xl mr-2">{CATEGORY_ICONS[category]}</span>
+                  <span className="mr-2">{React.createElement(CATEGORY_ICONS[category])}</span>
                   {category}
                   {marketCount > 0 && (
                     <span
@@ -146,8 +148,8 @@ export default function PredictionMarketsPage() {
         {!loading && !error && (
           <>
             <div className="mb-6">
-              <h2 className="text-2xl font-heading font-bold text-textPrimary mb-2">
-                {CATEGORY_ICONS[selectedCategory]} {selectedCategory} Markets
+              <h2 className="text-2xl font-heading font-bold text-textPrimary mb-2 flex items-center gap-2 section-title">
+                {React.createElement(CATEGORY_ICONS[selectedCategory])} {selectedCategory} Markets
               </h2>
               <p className="text-textSecondary">
                 Top {selectedMarkets.length} prediction markets from Manifold and Polymarket

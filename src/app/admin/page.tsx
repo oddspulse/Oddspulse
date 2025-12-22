@@ -5,6 +5,7 @@ import { useSession, signOut } from 'next-auth/react';
 import Navigation from '@/components/Navigation';
 import { AppNavigation } from '@/components/AppNavigation';
 import { Operator } from '@/lib/types';
+import { SettingsIcon } from '@/lib/icons';
 
 /**
  * Admin Page - Operator Management
@@ -116,7 +117,7 @@ export default function AdminPage() {
       <Navigation
         title="Admin Panel"
         subtitle="Manage operators and offers"
-        emoji="⚙️"
+        icon={SettingsIcon}
       />
 
       {/* Main Content */}

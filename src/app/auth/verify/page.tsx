@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import Navigation from '@/components/Navigation';
+import { MailIcon } from '@/lib/icons';
 
 /**
  * Email Verification Page
@@ -15,7 +16,7 @@ export default function VerifyRequestPage() {
       <Navigation
         title="Check Your Email"
         subtitle="Magic link sent"
-        emoji="✉️"
+        icon={MailIcon}
       />
 
       <main className="max-w-md mx-auto px-4 py-12">

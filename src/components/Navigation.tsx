@@ -3,11 +3,20 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useSession } from 'next-auth/react';
+import {
+  HomeIcon,
+  ChartIcon,
+  CrystalIcon,
+  DollarIcon,
+  CasinoIcon,
+  NewsIcon,
+  SettingsIcon,
+} from '@/lib/icons';
 
 interface NavLink {
   href: string;
   label: string;
-  emoji: string;
+  icon: React.ComponentType<any>;
   color: string;
   hoverColor: string;
 }
@@ -15,43 +24,43 @@ interface NavLink {
 const NAV_LINKS: NavLink[] = [
   {
     href: '/',
-    label: 'Casinos',
-    emoji: '🏠',
+    label: 'Casino',
+    icon: HomeIcon,
     color: 'casinoGreen',
     hoverColor: 'hover:shadow-glow-green hover:scale-105',
   },
   {
     href: '/live-odds',
     label: 'Live Odds',
-    emoji: '📊',
+    icon: ChartIcon,
     color: 'casinoBlue',
     hoverColor: 'hover:shadow-glow hover:scale-105',
   },
   {
     href: '/prediction-markets',
     label: 'Prediction Markets',
-    emoji: '🔮',
+    icon: CrystalIcon,
     color: 'casinoGold',
     hoverColor: 'hover:shadow-glow-gold hover:scale-105',
   },
   {
     href: '/arbitrage',
     label: 'Arbitrage',
-    emoji: '💰',
+    icon: DollarIcon,
     color: 'casinoGreen',
     hoverColor: 'hover:shadow-glow-green hover:scale-105',
   },
   {
-    href: '/rtp-slots',
-    label: 'RTP Slots',
-    emoji: '🎰',
-    color: 'casinoGold',
-    hoverColor: 'hover:shadow-glow-gold hover:scale-105',
+    href: '/news',
+    label: 'News',
+    icon: NewsIcon,
+    color: 'casinoOrange',
+    hoverColor: 'hover:shadow-glow-orange hover:scale-105',
   },
   {
     href: '/admin',
     label: 'Admin',
-    emoji: '⚙️',
+    icon: SettingsIcon,
     color: 'casinoRed',
     hoverColor: 'hover:shadow-glow hover:scale-105',
   },
@@ -60,11 +69,11 @@ const NAV_LINKS: NavLink[] = [
 interface NavigationProps {
   title: string;
   subtitle: string;
-  emoji: string;
+  icon?: React.ComponentType<any>;
   currentPage?: string;
 }
 
-export default function Navigation({ title, subtitle, emoji, currentPage }: NavigationProps) {
+export default function Navigation({ title, subtitle, icon: Icon }: NavigationProps) {
   const pathname = usePathname();
   const { data: session } = useSession();
 
@@ -83,8 +92,12 @@ export default function Navigation({ title, subtitle, emoji, currentPage }: Navi
           {/* Title Section */}
           <div className="text-center lg:text-left">
             <div className="flex items-center gap-3 justify-center lg:justify-start">
-              <span className="text-4xl drop-shadow-lg">{emoji}</span>
-              <h1 className="text-3xl md:text-5xl font-heading font-bold gradient-text drop-shadow-lg">
+              {Icon && (
+                <div className="flex items-center justify-center">
+                  <Icon size="xl" />
+                </div>
+              )}
+              <h1 className="text-3xl md:text-5xl font-heading font-bold gradient-text drop-shadow-lg page-title">
                 {title}
               </h1>
             </div>
@@ -97,15 +110,17 @@ export default function Navigation({ title, subtitle, emoji, currentPage }: Navi
           <nav className="flex flex-wrap gap-3 justify-center">
             {visibleLinks.map((link) => {
               const isActive = pathname === link.href;
+              const LinkIcon = link.icon;
 
               if (isActive) {
                 return (
                   <Link
                     key={link.href}
                     href={link.href}
-                    className="px-6 py-3 rounded-full font-heading font-semibold transition-all duration-300 uppercase tracking-wide text-xs bg-gradient-green text-white shadow-glow-green border border-casinoGreen animate-pulse"
+                    className="px-6 py-3 rounded-full font-heading font-semibold transition-all duration-300 nav-label text-xs bg-gradient-green text-white shadow-glow-green border border-casinoGreen animate-pulse flex items-center gap-2"
                   >
-                    {link.emoji} {link.label}
+                    <LinkIcon size="sm" />
+                    <span>{link.label}</span>
                   </Link>
                 );
               }
@@ -114,9 +129,10 @@ export default function Navigation({ title, subtitle, emoji, currentPage }: Navi
                 <Link
                   key={link.href}
                   href={link.href}
-                  className={`px-6 py-3 rounded-full font-heading font-semibold transition-all duration-300 uppercase tracking-wide text-xs glass border border-white/10 text-textSecondary ${link.hoverColor}`}
+                  className={`px-6 py-3 rounded-full font-heading font-semibold transition-all duration-300 nav-label text-xs glass border border-white/10 text-textSecondary ${link.hoverColor} flex items-center gap-2`}
                 >
-                  {link.emoji} {link.label}
+                  <LinkIcon size="sm" />
+                  <span>{link.label}</span>
                 </Link>
               );
             })}

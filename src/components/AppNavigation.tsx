@@ -2,14 +2,21 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import {
+  HomeIcon,
+  ChartIcon,
+  CrystalIcon,
+  DollarIcon,
+  CasinoIcon,
+  NewsIcon,
+} from '@/lib/icons';
 
 const NAV_ITEMS = [
-  { href: '/', label: 'Casino', icon: '🏠' },
-  { href: '/live-odds', label: 'Sports Odds', icon: '📊' },
-  { href: '/prediction-markets', label: 'Predictions', icon: '🔮' },
-  { href: '/arbitrage', label: 'Arbitrage', icon: '💰' },
-  { href: '/rtp-slots', label: 'Slots', icon: '🎰' },
-  { href: '/news', label: 'News', icon: '📰' },
+  { href: '/', label: 'Casino', icon: HomeIcon },
+  { href: '/live-odds', label: 'Sports Odds', icon: ChartIcon },
+  { href: '/prediction-markets', label: 'Predictions', icon: CrystalIcon },
+  { href: '/arbitrage', label: 'Arbitrage', icon: DollarIcon },
+  { href: '/news', label: 'News', icon: NewsIcon },
 ];
 
 export function AppNavigation() {
@@ -22,6 +29,7 @@ export function AppNavigation() {
           <div className="flex justify-between items-center">
             {NAV_ITEMS.map((item) => {
               const active = pathname === item.href;
+              const ItemIcon = item.icon;
 
               return (
                 <Link
@@ -29,12 +37,14 @@ export function AppNavigation() {
                   href={item.href}
                   className="flex flex-col items-center text-xs transition-all duration-200"
                 >
-                  <span className="text-xl mb-1">{item.icon}</span>
+                  <div className="mb-1">
+                    <ItemIcon size="md" />
+                  </div>
                   <span
                     className={
                       active
-                        ? 'px-3 py-1 rounded-full bg-gradient-orange text-casinoBlack font-semibold shadow-glow text-xs'
-                        : 'text-textSecondary text-xs'
+                        ? 'px-3 py-1 rounded-full bg-gradient-orange text-casinoBlack font-semibold shadow-glow text-xs nav-label'
+                        : 'text-textSecondary text-xs nav-label'
                     }
                   >
                     {item.label}

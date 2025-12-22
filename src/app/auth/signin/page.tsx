@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { signIn } from 'next-auth/react';
 import Navigation from '@/components/Navigation';
 import Link from 'next/link';
+import { LockIcon, MailIcon, SettingsIcon } from '@/lib/icons';
 
 /**
  * Sign In Page
@@ -47,7 +48,7 @@ export default function SignInPage() {
       <Navigation
         title="Admin Sign In"
         subtitle="Secure admin access"
-        emoji="🔐"
+        icon={LockIcon}
       />
 
       <main className="max-w-md mx-auto px-4 py-12">

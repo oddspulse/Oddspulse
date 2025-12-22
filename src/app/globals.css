@@ -127,3 +127,29 @@ html {
 .shadow-glow-orange {
   box-shadow: 0 0 25px rgba(255, 159, 28, 0.5);
 }
+
+/* Typography Utilities - ALL CAPS System */
+.heading-caps {
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.page-title {
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.section-title {
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.card-title {
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.nav-label {
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}

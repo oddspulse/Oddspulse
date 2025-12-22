@@ -4,6 +4,13 @@ import { useEffect, useState } from 'react';
 import Navigation from '@/components/Navigation';
 import { AppNavigation } from '@/components/AppNavigation';
 import type { NewsArticle } from '@/lib/newsService';
+import {
+  NewsIcon,
+  SearchIcon,
+  CloseIcon,
+  WarningIcon,
+  InboxIcon,
+} from '@/lib/icons';
 
 /**
  * News Page
@@ -93,7 +100,7 @@ export default function NewsPage() {
       <Navigation
         title="Betting News"
         subtitle="Latest sports betting & casino news"
-        emoji="📰"
+        icon={NewsIcon}
       />
 
       {/* Main Content */}
@@ -109,13 +116,15 @@ export default function NewsPage() {
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="w-full px-4 py-3 pl-12 bg-casinoBlack border-2 border-casinoGold/30 rounded-lg text-textPrimary placeholder-textSecondary/50 focus:ring-2 focus:ring-casinoGold outline-none"
               />
-              <span className="absolute left-4 top-1/2 -translate-y-1/2 text-xl">🔍</span>
+              <div className="absolute left-4 top-1/2 -translate-y-1/2">
+                <SearchIcon size="sm" className="stroke-textSecondary" />
+              </div>
               {searchQuery && (
                 <button
                   onClick={() => setSearchQuery('')}
                   className="absolute right-4 top-1/2 -translate-y-1/2 text-textSecondary hover:text-textPrimary transition-colors"
                 >
-                  ✕
+                  <CloseIcon size="sm" className="stroke-textSecondary hover:stroke-textPrimary" />
                 </button>
               )}
             </div>
@@ -140,8 +149,10 @@ export default function NewsPage() {
         {/* Error State */}
         {error && !loading && (
           <div className="rounded-xl2 bg-casinoRed/10 border border-casinoRed/30 p-8 text-center">
-            <span className="text-6xl mb-4 block">⚠️</span>
-            <h3 className="text-xl font-heading font-bold text-casinoRed mb-2">
+            <div className="flex justify-center mb-4">
+              <WarningIcon size="xl" className="stroke-casinoRed" />
+            </div>
+            <h3 className="text-xl font-heading font-bold text-casinoRed mb-2 section-title">
               News Unavailable
             </h3>
             <p className="text-textSecondary">
@@ -162,8 +173,10 @@ export default function NewsPage() {
         {/* No Articles State */}
         {!loading && !error && filteredArticles.length === 0 && (
           <div className="text-center py-20 rounded-xl2 bg-casinoSurface shadow-card border border-white/5 p-12">
-            <span className="text-6xl mb-4 block">📭</span>
-            <p className="text-textSecondary text-xl font-heading mb-2">
+            <div className="flex justify-center mb-4">
+              <InboxIcon size="xl" className="stroke-textSecondary" />
+            </div>
+            <p className="text-textSecondary text-xl font-heading mb-2 section-title">
               {searchQuery ? 'No articles match your search' : 'No news articles found'}
             </p>
             <p className="text-textSecondary text-sm">

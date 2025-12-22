@@ -4,6 +4,7 @@ import Link from 'next/link';
 import Navigation from '@/components/Navigation';
 import { useSearchParams } from 'next/navigation';
 import { Suspense } from 'react';
+import { WarningIcon, XCircleIcon, TimerResetIcon, SettingsIcon } from '@/lib/icons';
 
 /**
  * Auth Error Page
@@ -40,7 +41,7 @@ function ErrorContent() {
       <Navigation
         title="Authentication Error"
         subtitle="Something went wrong"
-        emoji="⚠️"
+        icon={WarningIcon}
       />
 
       <main className="max-w-md mx-auto px-4 py-12">

@@ -7,6 +7,12 @@ import { AdPlaceholder } from '@/components/AdPlaceholder';
 import OperatorCard from '@/components/OperatorCard';
 import FilterBar from '@/components/FilterBar';
 import { Operator } from '@/lib/types';
+import {
+  HomeIcon,
+  CheckIcon,
+  SearchIcon,
+  WarningIcon,
+} from '@/lib/icons';
 
 export default function HomePage() {
   const [operators, setOperators] = useState<Operator[]>([]);
@@ -88,7 +94,7 @@ export default function HomePage() {
       <Navigation
         title="Odds Pulse"
         subtitle="Premium Sportsbook & Casino Comparison"
-        emoji="🎰"
+        icon={HomeIcon}
       />
 
       {/* Main Content */}
@@ -98,7 +104,7 @@ export default function HomePage() {
 
         {/* Original Operators Section */}
         <div className="mt-8">
-          <h3 className="text-xl font-bold mb-4 font-heading text-textPrimary">
+          <h3 className="text-xl font-bold mb-4 font-heading text-textPrimary section-title">
             All Operators
           </h3>
 
@@ -110,7 +116,7 @@ export default function HomePage() {
           {/* Results Count */}
           <div className="mb-6 flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <span className="text-casinoOrangeLight text-xl">✓</span>
+              <CheckIcon size="sm" className="stroke-casinoOrangeLight" />
               <p className="text-textSecondary">
                 Showing <span className="font-bold gradient-text">{filteredOperators.length}</span> of{' '}
                 <span className="font-bold text-textPrimary">{operators.length}</span> operators
@@ -137,8 +143,10 @@ export default function HomePage() {
           {/* No Results */}
           {!loading && filteredOperators.length === 0 && (
             <div className="text-center py-20 rounded-xl2 bg-casinoSurface shadow-card border border-white/5 p-12">
-              <span className="text-6xl mb-4 block">🔍</span>
-              <p className="text-textSecondary text-xl font-heading mb-2">
+              <div className="flex justify-center mb-4">
+                <SearchIcon size="xl" className="stroke-textSecondary" />
+              </div>
+              <p className="text-textSecondary text-xl font-heading mb-2 section-title">
                 No operators found
               </p>
               <p className="text-textSecondary text-sm">
@@ -162,7 +170,7 @@ export default function HomePage() {
           <div className="text-center space-y-4">
             {/* Warning */}
             <div className="flex items-center justify-center gap-2 text-casinoOrangeLight">
-              <span className="text-xl">⚠️</span>
+              <WarningIcon size="sm" className="stroke-casinoOrangeLight" />
               <p className="text-sm font-semibold uppercase tracking-wide">
                 Gambling can be addictive
               </p>
