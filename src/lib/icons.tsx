@@ -37,6 +37,14 @@ import {
   Lock,
   XCircle,
   TimerReset,
+  CircleDollarSign,
+  Award,
+  // Sport icons
+  Goal,        // Soccer ⚽
+  Trophy,      // Champions League 🏆
+  Dumbbell,    // UFC 🥊
+  Glasses,     // Tennis 🎾
+  Flag,        // Golf ⛳
   type LucideIcon,
 } from 'lucide-react';
 
@@ -112,6 +120,29 @@ export const Icons = {
   mail: createIcon(Mail),                    // Replaces ✉️
   xCircle: createIcon(XCircle),              // Replaces 🚫
   timerReset: createIcon(TimerReset),        // Replaces ⏰
+
+  // Sport icons (generic shapes for NFL/NBA/NHL/MLB/etc)
+  football: createIcon(Target),              // NFL 🏈 (generic)
+  basketball: createIcon(Disc),              // NBA 🏀 (circular)
+  hockey: createIcon(Zap),                   // NHL 🏒 (angular)
+  baseball: createIcon(Disc),                // MLB ⚾ (circular)
+  soccer: createIcon(Goal),                  // EPL/Soccer ⚽
+  championsLeague: createIcon(Trophy),       // UCL 🏆
+  ufc: createIcon(Dumbbell),                 // UFC 🥊
+  tennis: createIcon(Target),                // Tennis 🎾
+  golf: createIcon(Flag),                    // Golf ⛳
+
+  // Market type icons
+  moneyline: createIcon(CircleDollarSign),   // 💰
+  spread: createIcon(TrendingUp),            // 📊 (already exists as chart)
+  total: createIcon(Target),                 // 🎯 (already exists)
+
+  // Section header icons
+  trophyIcon: createIcon(Trophy),            // 🏆
+  chartLineIcon: createIcon(TrendingUp),     // 📈
+  gearIcon: createIcon(Settings),            // ⚙️
+  searchCircleIcon: createIcon(Search),      // 🔍
+  awardIcon: createIcon(Award),              // For achievements/highlights
 };
 
 // Direct icon components for use in JSX
@@ -140,3 +171,26 @@ export const LockIcon = Icons.lock;
 export const MailIcon = Icons.mail;
 export const XCircleIcon = Icons.xCircle;
 export const TimerResetIcon = Icons.timerReset;
+
+// Sport icons
+export const FootballIcon = Icons.football;
+export const BasketballIcon = Icons.basketball;
+export const HockeyIcon = Icons.hockey;
+export const BaseballIcon = Icons.baseball;
+export const SoccerIcon = Icons.soccer;
+export const ChampionsLeagueIcon = Icons.championsLeague;
+export const UfcIcon = Icons.ufc;
+export const TennisIcon = Icons.tennis;
+export const GolfIcon = Icons.golf;
+
+// Market type icons
+export const MoneylineIcon = Icons.moneyline;
+export const SpreadIcon = Icons.spread;
+export const TotalIcon = Icons.total;
+
+// Section icons
+export const TrophyIconExport = Icons.trophyIcon;
+export const ChartLineIcon = Icons.chartLineIcon;
+export const GearIcon = Icons.gearIcon;
+export const SearchCircleIcon = Icons.searchCircleIcon;
+export const AwardIcon = Icons.awardIcon;

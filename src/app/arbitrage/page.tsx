@@ -11,7 +11,22 @@ import { format } from 'date-fns';
 import { useOddsStatus, formatCountdown, formatCacheAge } from '@/hooks/useOddsStatus';
 import OperatorLogo from '@/components/OperatorLogo';
 import LiveScoreBanner from '@/components/LiveScoreBanner';
-import { DollarIcon } from '@/lib/icons';
+import {
+  DollarIcon,
+  ChartIcon,
+  ClockIcon,
+  WarningIcon,
+  RefreshIcon,
+  HourglassIcon,
+  GearIcon,
+  SearchCircleIcon,
+  CheckIcon,
+  AwardIcon,
+  ChevronRightIcon,
+  ChartLineIcon,
+  TargetIcon,
+  CalendarIcon,
+} from '@/lib/icons';
 
 interface RateLimitedOddsResponse {
   events: LiveEvent[];
@@ -180,10 +195,11 @@ export default function ArbitragePage() {
                   ? 'bg-casinoRed/10 border-casinoRed'
                   : 'bg-casinoGreen/10 border-casinoGreen'
               }`}>
-                <div className="text-xs uppercase tracking-wide mb-2 font-semibold" style={{
+                <div className="text-xs nav-label mb-2 font-semibold flex items-center gap-2" style={{
                   color: status.isNearLimit ? '#FF314A' : '#0DB15D'
                 }}>
-                  📊 Monthly Quota
+                  <ChartIcon size="xs" className={status.isNearLimit ? 'stroke-casinoRed' : 'stroke-casinoGreen'} />
+                  <span>Monthly Quota</span>
                 </div>
                 <div className="text-2xl font-heading font-bold" style={{
                   color: status.isNearLimit ? '#FF314A' : '#0DB15D'
@@ -194,16 +210,18 @@ export default function ArbitragePage() {
                   {status.percentUsed.toFixed(1)}% used
                 </div>
                 {status.isNearLimit && (
-                  <div className="text-xs text-casinoRed mt-2 font-semibold">
-                    ⚠️ Approaching limit!
+                  <div className="text-xs text-casinoRed mt-2 font-semibold flex items-center gap-1">
+                    <WarningIcon size="xs" className="stroke-casinoRed" />
+                    <span>Approaching limit!</span>
                   </div>
                 )}
               </div>
 
               {/* Cache Status */}
               <div className="p-4 rounded-lg border-2 bg-casinoBlue/10 border-casinoBlue">
-                <div className="text-xs text-casinoBlue uppercase tracking-wide mb-2 font-semibold">
-                  💾 Data Source
+                <div className="text-xs text-casinoBlue nav-label mb-2 font-semibold flex items-center gap-2">
+                  <ClockIcon size="xs" className="stroke-casinoBlue" />
+                  <span>Data Source</span>
                 </div>
                 <div className="text-2xl font-heading font-bold text-casinoBlue">
                   {fromCache ? 'Cached' : 'Fresh'}
@@ -217,8 +235,9 @@ export default function ArbitragePage() {
 
               {/* Refresh Status with Live Countdown */}
               <div className="p-4 rounded-lg border-2 bg-casinoGold/10 border-casinoGold">
-                <div className="text-xs text-casinoGold uppercase tracking-wide mb-2 font-semibold">
-                  🔄 Next Refresh
+                <div className="text-xs text-casinoGold nav-label mb-2 font-semibold flex items-center gap-2">
+                  <RefreshIcon size="xs" className="stroke-casinoGold" />
+                  <span>Next Refresh</span>
                 </div>
                 <div className="text-lg font-heading font-bold text-casinoGold">
                   {formatCountdown(remainingMs)}
@@ -230,7 +249,7 @@ export default function ArbitragePage() {
             {warning && (
               <div className="mt-4 p-4 bg-casinoRed/10 border-2 border-casinoRed rounded-lg">
                 <div className="flex items-start gap-2">
-                  <span className="text-casinoRed text-lg">⚠️</span>
+                  <WarningIcon size="sm" className="stroke-casinoRed" />
                   <p className="text-casinoRed text-sm font-semibold flex-1">
                     {warning}
                   </p>
@@ -243,8 +262,8 @@ export default function ArbitragePage() {
         {/* Settings */}
         <div className="bg-gradient-casino-reverse rounded-xl shadow-card-dark p-6 border border-casinoGold/20 my-6">
           <div className="flex items-center gap-2 mb-4">
-            <span className="text-casinoGold text-xl">⚙️</span>
-            <h2 className="text-lg font-heading font-bold text-casinoGold uppercase tracking-wide">
+            <GearIcon size="sm" className="stroke-casinoGold" />
+            <h2 className="text-lg font-heading font-bold text-casinoGold section-title">
               Scanner Settings
             </h2>
           </div>
@@ -286,13 +305,28 @@ export default function ArbitragePage() {
             <button
               onClick={() => scanForArbitrage(true)}
               disabled={scanning || !canRefreshNow}
-              className={`font-heading font-bold py-3 px-8 rounded-lg transition-all duration-300 uppercase tracking-wide text-sm ${
+              className={`font-heading font-bold py-3 px-8 rounded-lg transition-all duration-300 nav-label text-sm flex items-center gap-2 ${
                 canRefreshNow && !scanning
                   ? 'bg-gradient-green hover:shadow-glow-green text-white cursor-pointer'
                   : 'bg-casinoBlack3 text-textSecondary cursor-not-allowed opacity-50'
               }`}
             >
-              {scanning ? '🔄 Scanning...' : canRefreshNow ? '🔍 Scan Now' : '⏰ Cooldown'}
+              {scanning ? (
+                <>
+                  <RefreshIcon size="xs" />
+                  <span>Scanning...</span>
+                </>
+              ) : canRefreshNow ? (
+                <>
+                  <SearchCircleIcon size="xs" />
+                  <span>Scan Now</span>
+                </>
+              ) : (
+                <>
+                  <HourglassIcon size="xs" />
+                  <span>Cooldown</span>
+                </>
+              )}
             </button>
             {lastScanned && (
               <span className="text-textSecondary text-sm">
@@ -310,24 +344,27 @@ export default function ArbitragePage() {
         {/* Stats */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
           <div className="bg-gradient-casino-reverse border border-casinoGreen/20 rounded-lg p-4">
-            <div className="text-xs text-textSecondary uppercase tracking-wide mb-1">
-              📈 Opportunities Found
+            <div className="text-xs text-textSecondary nav-label mb-1 flex items-center gap-1">
+              <ChartLineIcon size="xs" className="stroke-casinoGreen" />
+              <span>Opportunities Found</span>
             </div>
             <div className="text-2xl font-heading font-bold text-casinoGreen">
               {opportunities.length}
             </div>
           </div>
           <div className="bg-gradient-casino-reverse border border-casinoGold/20 rounded-lg p-4">
-            <div className="text-xs text-textSecondary uppercase tracking-wide mb-1">
-              🎯 Best Profit
+            <div className="text-xs text-textSecondary nav-label mb-1 flex items-center gap-1">
+              <TargetIcon size="xs" className="stroke-casinoGold" />
+              <span>Best Profit</span>
             </div>
             <div className="text-2xl font-heading font-bold text-casinoGold">
               {opportunities.length > 0 ? `${opportunities[0].profit.toFixed(2)}%` : '—'}
             </div>
           </div>
           <div className="bg-gradient-casino-reverse border border-casinoBlue/20 rounded-lg p-4">
-            <div className="text-xs text-textSecondary uppercase tracking-wide mb-1">
-              🏟️ Games Scanned
+            <div className="text-xs text-textSecondary nav-label mb-1 flex items-center gap-1">
+              <CalendarIcon size="xs" className="stroke-casinoBlue" />
+              <span>Games Scanned</span>
             </div>
             <div className="text-2xl font-heading font-bold text-casinoBlue">
               {events.length}
@@ -339,9 +376,9 @@ export default function ArbitragePage() {
         {error && (
           <div className="bg-casinoRed/10 border-2 border-casinoRed rounded-xl p-6 mb-6">
             <div className="flex items-start gap-3">
-              <span className="text-2xl">⚠️</span>
+              <WarningIcon size="lg" className="stroke-casinoRed" />
               <div>
-                <h3 className="text-casinoRed font-heading font-bold text-lg mb-2">
+                <h3 className="text-casinoRed font-heading font-bold text-lg mb-2 section-title">
                   Scanner Error
                 </h3>
                 <p className="text-textSecondary">{error}</p>
@@ -365,8 +402,10 @@ export default function ArbitragePage() {
         {/* No Opportunities */}
         {!loading && !error && opportunities.length === 0 && (
           <div className="text-center py-20 bg-gradient-casino-reverse rounded-xl border border-casinoGold/20 p-12">
-            <span className="text-6xl mb-4 block">🔍</span>
-            <p className="text-textSecondary text-xl font-heading mb-2">
+            <div className="flex justify-center mb-4">
+              <SearchCircleIcon size="xl" className="stroke-textSecondary" />
+            </div>
+            <p className="text-textSecondary text-xl font-heading mb-2 section-title">
               No arbitrage opportunities found
             </p>
             <p className="text-textSecondary text-sm">
@@ -500,8 +539,8 @@ export default function ArbitragePage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="text-center space-y-4">
             <div className="flex items-center justify-center gap-2 text-casinoRed">
-              <span className="text-xl">⚠️</span>
-              <p className="text-sm font-semibold uppercase tracking-wide">
+              <WarningIcon size="sm" className="stroke-casinoRed" />
+              <p className="text-sm font-semibold nav-label">
                 Arbitrage betting may violate sportsbook terms of service
               </p>
             </div>
