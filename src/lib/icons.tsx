@@ -127,8 +127,12 @@ const HockeyStickSVG = ({ size = 'md', className, 'aria-hidden': ariaHidden = tr
     className={getIconClassName(className)}
     aria-hidden={ariaHidden}
   >
-    <path d="M4 4 L14 14 L14 19 L11 19 L11 16 L6 16 L6 19 L14 19" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
-    <circle cx="19" cy="19" r="2" stroke="currentColor" strokeWidth="1.5"/>
+    {/* Stick shaft */}
+    <line x1="4" y1="4" x2="13" y2="17" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+    {/* Stick blade */}
+    <path d="M13 17 L13 21 L18 21" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+    {/* Puck */}
+    <ellipse cx="19.5" cy="8" rx="2.5" ry="1.5" stroke="currentColor" strokeWidth="1.5"/>
   </svg>
 );
 
@@ -161,9 +165,14 @@ const SoccerBallSVG = ({ size = 'md', className, 'aria-hidden': ariaHidden = tru
     aria-hidden={ariaHidden}
   >
     <circle cx="12" cy="12" r="9" stroke="currentColor" strokeWidth="1.5"/>
-    <path d="M12 3.5 L14.5 8.5 L12 10 L9.5 8.5 Z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" fill="none"/>
-    <line x1="14.5" y1="8.5" x2="19" y2="7.5" stroke="currentColor" strokeWidth="1.5"/>
-    <line x1="9.5" y1="8.5" x2="5" y2="7.5" stroke="currentColor" strokeWidth="1.5"/>
+    {/* Center pentagon */}
+    <path d="M12 7 L14.5 9.5 L13.5 12.5 L10.5 12.5 L9.5 9.5 Z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round"/>
+    {/* Pentagon connecting lines */}
+    <line x1="12" y1="7" x2="12" y2="3.5" stroke="currentColor" strokeWidth="1.5"/>
+    <line x1="14.5" y1="9.5" x2="18.5" y2="7.5" stroke="currentColor" strokeWidth="1.5"/>
+    <line x1="13.5" y1="12.5" x2="16" y2="16" stroke="currentColor" strokeWidth="1.5"/>
+    <line x1="10.5" y1="12.5" x2="8" y2="16" stroke="currentColor" strokeWidth="1.5"/>
+    <line x1="9.5" y1="9.5" x2="5.5" y2="7.5" stroke="currentColor" strokeWidth="1.5"/>
   </svg>
 );
 
@@ -193,9 +202,13 @@ const FightingGloveSVG = ({ size = 'md', className, 'aria-hidden': ariaHidden = 
     className={getIconClassName(className)}
     aria-hidden={ariaHidden}
   >
-    <path d="M8 14 L8 11 C8 9, 9 8, 10 8 L14 8 C15 8, 16 9, 16 11 L16 14" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
-    <path d="M6 14 L18 14 L18 18 C18 19, 17 20, 16 20 L8 20 C7 20, 6 19, 6 18 Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
-    <circle cx="12" cy="5" r="1.5" stroke="currentColor" strokeWidth="1.5"/>
+    {/* Glove main body */}
+    <path d="M8 10 C8 8, 9 6, 11 6 L13 6 C15 6, 16 8, 16 10 L16 13 C16 15, 15 16, 13 16 L11 16 C9 16, 8 15, 8 13 Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+    {/* Thumb */}
+    <path d="M8 11 L6 10 C5 10, 4.5 10.5, 4.5 11.5 C4.5 12.5, 5 13, 6 13 L8 12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+    {/* Wrist strap */}
+    <path d="M9 16 L9 19 L15 19 L15 16" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+    <line x1="9" y1="17.5" x2="15" y2="17.5" stroke="currentColor" strokeWidth="1.5"/>
   </svg>
 );
 
