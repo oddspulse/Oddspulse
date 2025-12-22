@@ -25,8 +25,8 @@ export function AppNavigation() {
   return (
     <nav className="fixed bottom-0 left-0 right-0 z-50 pb-safe">
       <div className="max-w-md mx-auto px-4 pb-4">
-        <div className="glass rounded-3xl shadow-card-dark border border-white/5 px-6 py-3">
-          <div className="flex justify-between items-center">
+        <div className="glass rounded-3xl shadow-card-dark border border-white/5 px-4 py-4">
+          <div className="flex justify-between items-center gap-2">
             {NAV_ITEMS.map((item) => {
               const active = pathname === item.href;
               const ItemIcon = item.icon;
@@ -35,15 +35,18 @@ export function AppNavigation() {
                 <Link
                   key={item.href}
                   href={item.href}
-                  className="flex flex-col items-center text-xs transition-all duration-200"
+                  className="flex flex-col items-center text-xs transition-all duration-200 min-w-[60px]"
                 >
-                  <div className="mb-1">
-                    <ItemIcon size="md" />
+                  <div className="mb-1.5">
+                    <ItemIcon
+                      size="md"
+                      className={active ? 'stroke-casinoGold' : 'stroke-textSecondary'}
+                    />
                   </div>
                   <span
                     className={
                       active
-                        ? 'px-3 py-1 rounded-full bg-gradient-orange text-casinoBlack font-semibold shadow-glow text-xs nav-label'
+                        ? 'px-3 py-1.5 rounded-full bg-gradient-orange text-white font-bold shadow-glow text-xs nav-label'
                         : 'text-textSecondary text-xs nav-label'
                     }
                   >
