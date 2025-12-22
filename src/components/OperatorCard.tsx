@@ -2,6 +2,7 @@
 
 import { Operator } from '@/lib/types';
 import OperatorLogo from '@/components/OperatorLogo';
+import { DollarIcon, CasinoIcon, ZapIcon } from '@/lib/icons';
 
 interface OperatorCardProps {
   operator: Operator;
@@ -50,7 +51,7 @@ export default function OperatorCard({ operator }: OperatorCardProps) {
         {/* Bonus Headline */}
         <div className="mb-5">
           <div className="flex items-start gap-2 mb-2">
-            <span className="text-casinoOrange text-lg mt-0.5">💰</span>
+            <DollarIcon size="md" className="stroke-casinoOrange mt-0.5" />
             <p className="text-lg font-heading font-bold gradient-text leading-tight">
               {operator.bonusHeadline}
             </p>
@@ -65,8 +66,9 @@ export default function OperatorCard({ operator }: OperatorCardProps) {
         {/* RTP Info (if casino) */}
         {operator.rtpInfo && (
           <div className="mb-4 p-3 glass rounded-lg border border-casinoGreen/20">
-            <p className="text-sm text-casinoGreen">
-              <span className="font-semibold">🎰 RTP:</span> {operator.rtpInfo}
+            <p className="text-sm text-casinoGreen flex items-center gap-1">
+              <CasinoIcon size="xs" className="stroke-casinoGreen" />
+              <span className="font-semibold">RTP:</span> {operator.rtpInfo}
             </p>
           </div>
         )}
@@ -96,8 +98,9 @@ export default function OperatorCard({ operator }: OperatorCardProps) {
 
         {/* Optional: "Hot Offer" badge for featured operators */}
         {operator.notes?.toLowerCase().includes('leading') && (
-          <div className="absolute top-4 right-4 bg-gradient-to-r from-casinoRed to-casinoOrange text-white text-xs font-bold px-3 py-1.5 rounded-full uppercase tracking-wide shadow-glow">
-            🔥 Hot
+          <div className="absolute top-4 right-4 bg-gradient-to-r from-casinoRed to-casinoOrange text-white text-xs font-bold px-3 py-1.5 rounded-full nav-label shadow-glow flex items-center gap-1">
+            <ZapIcon size="xs" className="stroke-white" />
+            <span>Hot</span>
           </div>
         )}
       </div>

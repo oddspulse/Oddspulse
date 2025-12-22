@@ -5,6 +5,7 @@ import { formatAmericanOdds, findBestOdds } from '@/lib/oddsService';
 import { format } from 'date-fns';
 import OperatorLogo from '@/components/OperatorLogo';
 import LiveScoreBanner from '@/components/LiveScoreBanner';
+import { ChartIcon, TrophyIconExport, ClockIcon } from '@/lib/icons';
 
 interface LiveOddsTableProps {
   events: LiveEvent[];
@@ -22,7 +23,9 @@ export default function LiveOddsTable({ events, selectedMarket, operators = [] }
   if (events.length === 0) {
     return (
       <div className="text-center py-20 bg-gradient-casino-reverse rounded-xl border border-casinoGold/20 p-12">
-        <span className="text-6xl mb-4 block">📊</span>
+        <div className="flex justify-center mb-4">
+          <ChartIcon size="xl" className="stroke-textSecondary" />
+        </div>
         <p className="text-textSecondary text-xl font-heading mb-2">
           No live events available
         </p>
@@ -58,17 +61,19 @@ export default function LiveOddsTable({ events, selectedMarket, operators = [] }
                       {event.awayTeam} @ {event.homeTeam}
                     </h3>
                     {event.isLive && (
-                      <span className="px-3 py-1 bg-casinoRed/20 border border-casinoRed text-casinoRed text-xs font-bold uppercase tracking-wide rounded-full animate-pulse">
-                        🔴 Live
+                      <span className="px-3 py-1 bg-casinoRed/20 border border-casinoRed text-casinoRed text-xs font-bold nav-label rounded-full animate-pulse">
+                        Live
                       </span>
                     )}
                   </div>
                   <div className="flex items-center gap-4 text-sm text-textSecondary">
                     <span className="flex items-center gap-1">
-                      🏆 {event.league}
+                      <TrophyIconExport size="xs" className="stroke-textSecondary" />
+                      {event.league}
                     </span>
                     <span className="flex items-center gap-1">
-                      🕐 {format(new Date(event.startTime), 'MMM d, h:mm a')}
+                      <ClockIcon size="xs" className="stroke-textSecondary" />
+                      {format(new Date(event.startTime), 'MMM d, h:mm a')}
                     </span>
                   </div>
                 </div>

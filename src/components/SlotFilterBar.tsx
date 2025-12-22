@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import providersData from '@/data/providers.json';
+import { CasinoIcon, SearchIcon, BuildingIcon, TargetIcon, ZapIcon, DollarIcon } from '@/lib/icons';
 
 interface SlotFilterBarProps {
   onFilterChange: (filters: {
@@ -43,9 +44,9 @@ export default function SlotFilterBar({ onFilterChange }: SlotFilterBarProps) {
     <div className="bg-gradient-casino-reverse rounded-xl shadow-card-dark p-6 mb-8 border border-casinoGold/20">
       {/* Title */}
       <div className="flex items-center gap-2 mb-6">
-        <span className="text-casinoGold text-xl">🎰</span>
-        <h2 className="text-lg font-heading font-bold text-casinoGold uppercase tracking-wide">
-          Find High-RTP Slots
+        <CasinoIcon size="md" className="stroke-casinoGold" />
+        <h2 className="text-lg font-heading font-bold text-casinoGold section-title">
+          Find High-RTP Casino Games
         </h2>
       </div>
 
@@ -55,9 +56,10 @@ export default function SlotFilterBar({ onFilterChange }: SlotFilterBarProps) {
         <div className="lg:col-span-2">
           <label
             htmlFor="search"
-            className="block text-sm font-semibold text-textSecondary mb-2 uppercase tracking-wide"
+            className="block text-sm font-semibold text-textSecondary mb-2 nav-label flex items-center gap-1"
           >
-            🔍 Search Game
+            <SearchIcon size="xs" className="stroke-textSecondary" />
+            <span>Search Game</span>
           </label>
           <input
             type="text"
@@ -76,9 +78,10 @@ export default function SlotFilterBar({ onFilterChange }: SlotFilterBarProps) {
         <div className="lg:col-span-2">
           <label
             htmlFor="provider"
-            className="block text-sm font-semibold text-textSecondary mb-2 uppercase tracking-wide"
+            className="block text-sm font-semibold text-textSecondary mb-2 nav-label flex items-center gap-1"
           >
-            🏢 Provider
+            <BuildingIcon size="xs" className="stroke-textSecondary" />
+            <span>Provider</span>
           </label>
           <select
             id="provider"
@@ -102,9 +105,10 @@ export default function SlotFilterBar({ onFilterChange }: SlotFilterBarProps) {
         <div>
           <label
             htmlFor="minRtp"
-            className="block text-sm font-semibold text-textSecondary mb-2 uppercase tracking-wide"
+            className="block text-sm font-semibold text-textSecondary mb-2 nav-label flex items-center gap-1"
           >
-            💎 Min RTP
+            <TargetIcon size="xs" className="stroke-textSecondary" />
+            <span>Min RTP</span>
           </label>
           <select
             id="minRtp"
@@ -128,9 +132,10 @@ export default function SlotFilterBar({ onFilterChange }: SlotFilterBarProps) {
         <div>
           <label
             htmlFor="volatility"
-            className="block text-sm font-semibold text-textSecondary mb-2 uppercase tracking-wide"
+            className="block text-sm font-semibold text-textSecondary mb-2 nav-label flex items-center gap-1"
           >
-            ⚡ Volatility
+            <ZapIcon size="xs" className="stroke-textSecondary" />
+            <span>Volatility</span>
           </label>
           <select
             id="volatility"
@@ -153,9 +158,10 @@ export default function SlotFilterBar({ onFilterChange }: SlotFilterBarProps) {
         <div>
           <label
             htmlFor="bonusBuy"
-            className="block text-sm font-semibold text-textSecondary mb-2 uppercase tracking-wide"
+            className="block text-sm font-semibold text-textSecondary mb-2 nav-label flex items-center gap-1"
           >
-            💰 Bonus Buy
+            <DollarIcon size="xs" className="stroke-textSecondary" />
+            <span>Bonus Buy</span>
           </label>
           <select
             id="bonusBuy"
@@ -176,9 +182,9 @@ export default function SlotFilterBar({ onFilterChange }: SlotFilterBarProps) {
         <div>
           <label
             htmlFor="maxWin"
-            className="block text-sm font-semibold text-textSecondary mb-2 uppercase tracking-wide"
+            className="block text-sm font-semibold text-textSecondary mb-2 nav-label"
           >
-            🚀 Min Max Win
+            Min Max Win
           </label>
           <select
             id="maxWin"
@@ -203,9 +209,9 @@ export default function SlotFilterBar({ onFilterChange }: SlotFilterBarProps) {
         <div>
           <label
             htmlFor="mechanic"
-            className="block text-sm font-semibold text-textSecondary mb-2 uppercase tracking-wide"
+            className="block text-sm font-semibold text-textSecondary mb-2 nav-label"
           >
-            🎮 Mechanic
+            Mechanic
           </label>
           <select
             id="mechanic"

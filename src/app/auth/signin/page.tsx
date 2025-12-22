@@ -56,7 +56,7 @@ export default function SignInPage() {
           {sent ? (
             <div className="text-center">
               <div className="w-16 h-16 bg-casinoGreen/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                <span className="text-4xl">✉️</span>
+                <MailIcon size="xl" className="stroke-casinoGreen" />
               </div>
               <h2 className="text-2xl font-heading font-bold text-casinoGreen mb-4">
                 Check your email
@@ -79,7 +79,7 @@ export default function SignInPage() {
             <>
               <div className="text-center mb-6">
                 <div className="w-16 h-16 bg-casinoGold/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <span className="text-4xl">⚙️</span>
+                  <SettingsIcon size="xl" className="stroke-casinoGold" />
                 </div>
                 <h2 className="text-2xl font-heading font-bold text-textPrimary mb-2">
                   Admin Access
@@ -130,8 +130,9 @@ export default function SignInPage() {
               </div>
 
               <div className="mt-8 pt-6 border-t border-casinoGold/10">
-                <p className="text-xs text-textSecondary/70 text-center">
-                  🔒 This is a secure admin area. Only authorized emails can sign in.
+                <p className="text-xs text-textSecondary/70 text-center flex items-center justify-center gap-2">
+                  <LockIcon size="xs" className="stroke-textSecondary" />
+                  <span>This is a secure admin area. Only authorized emails can sign in.</span>
                 </p>
               </div>
             </>

@@ -2,6 +2,7 @@
 
 import { SlotGame, Operator } from '@/lib/types';
 import providersData from '@/data/providers.json';
+import { DollarIcon } from '@/lib/icons';
 
 interface SlotCardProps {
   slot: SlotGame;
@@ -108,8 +109,9 @@ export default function SlotCard({ slot, operators }: SlotCardProps) {
                 </span>
               ))}
               {slot.hasBonusBuy && (
-                <span className="px-2 py-1 bg-casinoRed/20 text-casinoRed border border-casinoRed/30 text-xs font-semibold rounded uppercase tracking-wide">
-                  💰 Bonus Buy
+                <span className="px-2 py-1 bg-casinoRed/20 text-casinoRed border border-casinoRed/30 text-xs font-semibold rounded nav-label flex items-center gap-1">
+                  <DollarIcon size="xs" className="stroke-casinoRed" />
+                  <span>Bonus Buy</span>
                 </span>
               )}
             </div>

@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import Navigation from '@/components/Navigation';
-import { MailIcon } from '@/lib/icons';
+import { MailIcon, InboxIcon } from '@/lib/icons';
 
 /**
  * Email Verification Page
@@ -23,7 +23,7 @@ export default function VerifyRequestPage() {
         <div className="bg-gradient-casino-reverse shadow-card-dark rounded-xl p-8 border border-casinoGold/20">
           <div className="text-center">
             <div className="w-16 h-16 bg-casinoGreen/20 rounded-full flex items-center justify-center mx-auto mb-4 animate-pulse">
-              <span className="text-4xl">✉️</span>
+              <MailIcon size="xl" className="stroke-casinoGreen" />
             </div>
 
             <h2 className="text-2xl font-heading font-bold text-casinoGreen mb-4">
@@ -35,8 +35,9 @@ export default function VerifyRequestPage() {
             </p>
 
             <div className="bg-casinoGold/10 border border-casinoGold/30 rounded-lg p-4 mb-6">
-              <p className="text-sm text-textPrimary">
-                <strong className="text-casinoGold">📬 Didn't receive the email?</strong>
+              <p className="text-sm text-textPrimary flex items-center gap-2">
+                <InboxIcon size="sm" className="stroke-casinoGold" />
+                <strong className="text-casinoGold">Didn't receive the email?</strong>
               </p>
               <ul className="text-xs text-textSecondary mt-2 space-y-1 text-left">
                 <li>• Check your spam or junk folder</li>

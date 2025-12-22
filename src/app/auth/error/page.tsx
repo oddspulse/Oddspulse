@@ -16,20 +16,20 @@ function ErrorContent() {
   const error = searchParams.get('error');
 
   let errorMessage = 'An authentication error occurred.';
-  let errorIcon = '⚠️';
+  let ErrorIconComponent = WarningIcon;
 
   switch (error) {
     case 'AccessDenied':
       errorMessage = 'Access denied. Your email is not authorized to access the admin panel.';
-      errorIcon = '🚫';
+      ErrorIconComponent = XCircleIcon;
       break;
     case 'Verification':
       errorMessage = 'The verification link is invalid or has expired. Please try signing in again.';
-      errorIcon = '⏰';
+      ErrorIconComponent = TimerResetIcon;
       break;
     case 'Configuration':
       errorMessage = 'There is a problem with the server configuration. Please contact support.';
-      errorIcon = '⚙️';
+      ErrorIconComponent = SettingsIcon;
       break;
     default:
       errorMessage = error || 'An unknown error occurred during authentication.';
@@ -48,7 +48,7 @@ function ErrorContent() {
         <div className="bg-gradient-casino-reverse shadow-card-dark rounded-xl p-8 border border-casinoRed/20">
           <div className="text-center">
             <div className="w-16 h-16 bg-casinoRed/20 rounded-full flex items-center justify-center mx-auto mb-4">
-              <span className="text-4xl">{errorIcon}</span>
+              <ErrorIconComponent size="xl" className="stroke-casinoRed" />
             </div>
 
             <h2 className="text-2xl font-heading font-bold text-casinoRed mb-4">
