@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import Navigation from '@/components/Navigation';
 import { AppNavigation } from '@/components/AppNavigation';
 import { AdPlaceholder } from '@/components/AdPlaceholder';
+import BannerHero from '@/components/BannerHero';
 import OperatorCard from '@/components/OperatorCard';
 import FilterBar from '@/components/FilterBar';
 import { Operator } from '@/lib/types';
@@ -96,6 +97,9 @@ export default function HomePage() {
         subtitle="Premium Sportsbook & Casino Comparison"
         icon={HomeIcon}
       />
+
+      {/* Hero Banner */}
+      <BannerHero />
 
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
