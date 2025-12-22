@@ -5,7 +5,7 @@ import Navigation from '@/components/Navigation';
 import { AppNavigation } from '@/components/AppNavigation';
 import { PredictionMarket } from '@/lib/predictionMarketsService';
 import { format } from 'date-fns';
-import { CrystalIcon, Icons } from '@/lib/icons';
+import { CrystalIcon, Icons, WarningIcon } from '@/lib/icons';
 import { TrendingUp, Vote, Trophy, Building2, LineChart } from 'lucide-react';
 
 type CategoryName = 'Crypto' | 'Politics' | 'Sports' | 'Fed Decisions' | 'Stocks';
@@ -127,7 +127,7 @@ export default function PredictionMarketsPage() {
         {error && !loading && (
           <div className="bg-casinoRed/10 border-2 border-casinoRed rounded-xl p-6 mb-6">
             <div className="flex items-start gap-3">
-              <span className="text-2xl">⚠️</span>
+              <WarningIcon size="lg" className="stroke-casinoRed" />
               <div>
                 <h3 className="text-casinoRed font-heading font-bold text-lg mb-2">
                   Error Loading Prediction Markets

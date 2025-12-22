@@ -154,8 +154,7 @@ export default function AdminPage() {
         {/* Edit/Create Form */}
         {(editingId || isCreating) && (
           <div className="bg-gradient-casino-reverse shadow-card-dark rounded-xl p-6 mb-8 border-2 border-casinoGold/30">
-            <h2 className="text-2xl font-heading font-bold mb-6 text-casinoGold flex items-center gap-2">
-              <span>{isCreating ? '✨' : '✏️'}</span>
+            <h2 className="text-2xl font-heading font-bold mb-6 text-casinoGold section-title">
               {isCreating ? 'Create New Operator' : 'Edit Operator'}
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -357,15 +356,15 @@ export default function AdminPage() {
                     <td className="px-6 py-4 whitespace-nowrap text-sm">
                       <button
                         onClick={() => handleEdit(operator)}
-                        className="text-casinoBlue hover:text-blue-300 font-semibold mr-4 transition-colors"
+                        className="text-casinoBlue hover:text-blue-300 font-semibold mr-4 transition-colors nav-label"
                       >
-                        ✏️ Edit
+                        Edit
                       </button>
                       <button
                         onClick={() => handleDelete(operator.id)}
-                        className="text-casinoRed hover:text-red-400 font-semibold transition-colors"
+                        className="text-casinoRed hover:text-red-400 font-semibold transition-colors nav-label"
                       >
-                        🗑️ Delete
+                        Delete
                       </button>
                     </td>
                   </tr>

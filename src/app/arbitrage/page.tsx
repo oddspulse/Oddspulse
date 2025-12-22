@@ -26,6 +26,7 @@ import {
   ChartLineIcon,
   TargetIcon,
   CalendarIcon,
+  TrophyIconExport,
 } from '@/lib/icons';
 
 interface RateLimitedOddsResponse {
@@ -435,13 +436,16 @@ export default function ArbitragePage() {
                       </h3>
                       <div className="flex flex-wrap items-center gap-4 text-sm text-textSecondary">
                         <span className="flex items-center gap-1">
-                          🏆 {opp.league}
+                          <TrophyIconExport size="xs" className="stroke-textSecondary" />
+                          {opp.league}
                         </span>
                         <span className="flex items-center gap-1">
-                          🕐 {format(new Date(opp.startTime), 'MMM d, h:mm a')}
+                          <ClockIcon size="xs" className="stroke-textSecondary" />
+                          {format(new Date(opp.startTime), 'MMM d, h:mm a')}
                         </span>
                         <span className="flex items-center gap-1 capitalize">
-                          📊 {opp.marketType}
+                          <ChartIcon size="xs" className="stroke-textSecondary" />
+                          {opp.marketType}
                         </span>
                       </div>
                     </div>

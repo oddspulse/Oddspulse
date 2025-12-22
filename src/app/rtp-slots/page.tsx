@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import Navigation from '@/components/Navigation';
 import { AppNavigation } from '@/components/AppNavigation';
 import { SlotGame, ProviderInfo } from '@/lib/types';
-import { CasinoIcon } from '@/lib/icons';
+import { CasinoIcon, WarningIcon } from '@/lib/icons';
 
 export default function RtpSlotsPage() {
   const [slots, setSlots] = useState<SlotGame[]>([]);
@@ -271,12 +271,14 @@ export default function RtpSlotsPage() {
         {/* No Results */}
         {!loading && Object.keys(groupedSlots).length === 0 && (
           <div className="text-center py-20 glass rounded-xl2 border border-casinoGold/20 p-12">
-            <span className="text-6xl mb-4 block">🎰</span>
+            <div className="flex justify-center mb-4">
+              <CasinoIcon size="xl" className="stroke-textSecondary" />
+            </div>
             <p className="text-textSecondary text-xl font-heading mb-2">
-              No slot data available
+              No casino game data available
             </p>
             <p className="text-textSecondary text-sm">
-              Check back soon for popular slot rankings
+              Check back soon for popular game rankings
             </p>
           </div>
         )}
@@ -287,8 +289,8 @@ export default function RtpSlotsPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="text-center space-y-4">
             <div className="flex items-center justify-center gap-2 text-casinoRed">
-              <span className="text-xl">⚠️</span>
-              <p className="text-sm font-semibold uppercase tracking-wide">
+              <WarningIcon size="md" className="stroke-casinoRed" />
+              <p className="text-sm font-semibold nav-label">
                 RTP values are theoretical and may vary by casino
               </p>
             </div>
