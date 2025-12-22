@@ -185,11 +185,18 @@ const TennisRacketSVG = ({ size = 'md', className, 'aria-hidden': ariaHidden = t
     className={getIconClassName(className)}
     aria-hidden={ariaHidden}
   >
-    <ellipse cx="10" cy="8" rx="5" ry="6" stroke="currentColor" strokeWidth="1.5" transform="rotate(-20 10 8)"/>
-    <line x1="9" y1="13" x2="12" y2="16" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-    <line x1="12" y1="16" x2="14" y2="18" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-    <line x1="12" y1="16" x2="16" y2="20" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-    <line x1="7" y1="6" x2="13" y2="10" stroke="currentColor" strokeWidth="1.5" opacity="0.5"/>
+    {/* Racket head (circular) */}
+    <circle cx="12" cy="9" r="6" stroke="currentColor" strokeWidth="1.5"/>
+    {/* String pattern (cross-hatch) */}
+    <line x1="12" y1="3.5" x2="12" y2="14.5" stroke="currentColor" strokeWidth="1" opacity="0.6"/>
+    <line x1="7" y1="9" x2="17" y2="9" stroke="currentColor" strokeWidth="1" opacity="0.6"/>
+    <line x1="9.5" y1="4.5" x2="9.5" y2="13.5" stroke="currentColor" strokeWidth="1" opacity="0.4"/>
+    <line x1="14.5" y1="4.5" x2="14.5" y2="13.5" stroke="currentColor" strokeWidth="1" opacity="0.4"/>
+    {/* Handle */}
+    <path d="M12 15 L12 21" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+    {/* Tennis ball */}
+    <circle cx="19" cy="6" r="2" stroke="currentColor" strokeWidth="1.5"/>
+    <path d="M17.5 5.5 Q19 6 20.5 5.5" stroke="currentColor" strokeWidth="1" fill="none"/>
   </svg>
 );
 
